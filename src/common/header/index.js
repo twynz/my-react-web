@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Link} from "react-router-dom";
+import {Link,withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {
     HeaderWrapper,
@@ -15,7 +15,10 @@ import {
 import axios from 'axios';
 
 
+
 class Header extends Component {
+
+
 
     constructor(props) {
         super(props);
@@ -29,15 +32,14 @@ class Header extends Component {
 
         let focused = this.props.focused;
         let list = this.props.list;
-        console.log('!!!!!'+this.props.list.size);
-        if(list.size === 0) {
+        console.log('!!!!!' + this.props.list.size);
+        if (list.size === 0) {
             getSearchList();
         }
-        console.log('this list is '+list);
+        console.log('this list is ' + list);
 
 
-
-        for(let i = 0;i<list.length;i++) {
+        for (let i = 0; i < list.length; i++) {
             pageList.push(
                 <SearchInfoItem key={list[i]}>
                     {list[i]}
@@ -72,10 +74,14 @@ class Header extends Component {
         this.props.changeFocusedState(false);
     }
 
-    render() {
-        const { focused }= this.props;
-        console.log('render called focused is'+focused);
+    redirectToLogin(LOGIN_URL) {
+        console.log("redirect to login page");
+        this.props.history.push(LOGIN_URL);
+    }
 
+    render() {
+        const {focused} = this.props;
+        const LOGIN_URL = '/Login';
         return (
 
             <HeaderWrapper>
@@ -85,7 +91,7 @@ class Header extends Component {
                 <Nav>
                     <NavItem className='left'>首页</NavItem>
                     <NavItem className='left'>下载App</NavItem>
-                    <NavItem className='right'>登陆</NavItem>
+                    <NavItem className='right' onClick={this.redirectToLogin.bind(this,LOGIN_URL)}>登陆</NavItem>
                     <NavItem className='right'>
                         <i className="iconfont">&#xe636;</i>
                     </NavItem>
@@ -99,7 +105,7 @@ class Header extends Component {
                         &#xe614;
                     </i>
 
-                    {focused?this.getSearchInfo():null}
+                    {focused ? this.getSearchInfo() : null}
 
                 </SearchWrapper>
             </HeaderWrapper>
@@ -109,12 +115,11 @@ class Header extends Component {
 }
 
 
-
 const mapStateToProps = (state) => {
     console.log('mapToState called');
     return {
         focused: state.getIn(['header', 'focused']),
-        list: state.getIn(['header','list'])
+        list: state.getIn(['header', 'list'])
     }
 }
 
@@ -126,16 +131,16 @@ const mapDispatchToProps = (dispatch) => {
                 let originAxiosRes = res.data.data;
                 let result = [];
 
-                for(let i=0;i<5;i++) {
+                for (let i = 0; i < 5; i++) {
                     result.push(originAxiosRes[i]);
                 }
-                const getInfoListAction =  {
+                const getInfoListAction = {
                     type: 'getSearchInfoList',
                     data: result
                 };
                 dispatch(getInfoListAction);
             }).catch((e) => {
-                console.log('error'+e);
+                console.log('error' + e);
             });
         },
         changeFocusedState(focused) {
@@ -145,4 +150,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

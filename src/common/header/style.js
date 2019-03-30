@@ -4,6 +4,8 @@ import logoPic from '../../statics/logo.png';
 export const HeaderWrapper = styled.div`
     height: 56px;
     border-bottom: solid 1px gray;
+    margin: 0px;
+    
 `;
 
 export const Logo = styled.div`
@@ -40,6 +42,7 @@ export const NavItem = styled.div`
 export const SearchWrapper = styled.div`
   position: relative;
   float: left;
+  z-index:1;
 `;
 
 export const Navsearch = styled.input.attrs({placeholder: 'search'})`
@@ -65,7 +68,7 @@ export const SearchInfo = styled.div`
 `;
 
 export const SearchInfoList = styled.div`
-  width:160px;
+  width:180px;
   height:60px;
 `;
 
@@ -73,8 +76,10 @@ export const SearchInfoItem = styled.div`
   float: left;
   border: 1px solid;
   color: #787878;
-  margin-right: 10px;
-  margin-left:10px;
+  margin-right: 8px;
+  margin-left:8px;
   margin-bottom: 15px;
   border-radius: 3px;
+  font-size: 12px;
+  ling-height: 13px;
 `;
