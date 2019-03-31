@@ -7,24 +7,56 @@ import {
     Button
 } from './style';
 import axios from "axios";
+import {withRouter} from "react-router";
 
 
 class Login extends Component {
 
-    render() {
-        console.log('render login component');
-        let username ;
-        let password;
-        return (
-            <LoginWrapper>
-                <LoginBox>
-                    <Input placeholder='账号' type='text' className='username' innerRef={(input) => {this.username = input}}/>
-                    <Input placeholder='密码' type='password' className='passwd'innerRef={(input) => {this.password = input}}/>
-                    <Button onClick={this.props.userLogin(this,username,password)}>提交</Button>
-                </LoginBox>
-            </LoginWrapper>
 
-        );
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //     username: '',
+        //     password: ''
+        // }
+    }
+
+    //todo: will implement forward to page that view previously before login,
+    //current direct to home page
+    redirectToHome(HOME_URL) {
+        console.log("redirect to home page");
+        this.props.history.push(HOME_URL);
+    }
+
+    render() {
+
+        const HOME_URL = '/';
+        const {isLogined} = this.props;
+
+        if (!isLogined) {
+            console.log('>>>>'+isLogined);
+            return (
+
+
+                <LoginWrapper>
+                    <LoginBox>
+                        <Input placeholder='账号' type='text' className='username' innerRef={(input) => {
+                            this.account = input
+                        }}/>
+                        <Input placeholder='密码' type='password' className='passwd' innerRef={(input) => {
+                            this.password = input
+                        }}/>
+                        <Button
+                            onClick={() => this.props.userLogin(this.account, this.password)}>提交</Button>
+                    </LoginBox>
+                </LoginWrapper>
+
+            );
+        }else {
+            console.log('>>>>'+isLogined);
+            this.redirectToHome.bind(this,HOME_URL);
+            return null;
+        }
     }
 
 
@@ -41,34 +73,36 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         userLogin(username, password) {
+            console.log('!!!!!' + username.value + '!!!' + password.value);
+
             let keyUsername = 'username';
             let keyPassword = 'password';
-            let params = {};
 
-            params[keyUsername]=username;
-            params[keyPassword]=password;
+            const formData = new FormData();
+            formData.set(keyUsername, username.value);
+            formData.set(keyPassword, password.value);
             console.log('axios called!');
-            axios.post("/api/userLogin",params).then((res) => {
-                let originAxiosRes = res.data.data;
-                let result = [];
+            axios({
+                method: 'post',
+                url: '/api/userLogin',
+                data: formData,
+                config: {headers: {'Content-Type': 'multipart/form-data'}}
+            }).then((res) => {
+                let originAxiosRes = res.data;
 
-                for (let i = 0; i < 5; i++) {
-                    result.push(originAxiosRes[i]);
-                }
-                const getInfoListAction = {
-                    type: 'getSearchInfoList',
-                    data: result
+                const userLoginAction = {
+                    type: 'userLoginAction',
+                    username: originAxiosRes.username,
+                    isLogined: originAxiosRes.isLogined,
+                    data: originAxiosRes
                 };
-                dispatch(getInfoListAction);
+                console.log('dispatch user login action');
+                dispatch(userLoginAction);
             }).catch((e) => {
                 console.log('error' + e);
             });
-        },
-        changeFocusedState(focused) {
-            const changeFocused = {type: 'changeFocusedAction', focused: focused};
-            dispatch(changeFocused);
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

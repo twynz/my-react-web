@@ -11,13 +11,14 @@ const s = fromJS({
 
 export default (state = s , action) => {
 
-    if (action === 'changeLoginSuccessfulAction') {
-        console.log('changeLoginSuccessfulAction called');
-        let cloneState = JSON.parse(JSON.stringify(state));
-        cloneState.set('username',action.username);
-        cloneState.set('isLogined',action.isLogined);
-        cloneState.set('authorities',action.authorities);
-        return state.set(cloneState);
+    if (action.type === 'userLoginAction') {
+        console.log('userLoginAction called');
+        console.log(action.username+'sd'+action.isLogined+'asd'+action.data.authorities);
+        return state.merge({
+            isLogined: action.isLogined,
+            username: action.username,
+            authorities: action.data.authorities
+        });
     }
 
     return state;
