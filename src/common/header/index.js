@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Link,withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import {
     HeaderWrapper,
@@ -10,14 +10,19 @@ import {
     Navsearch,
     SearchInfo,
     SearchInfoItem,
-    SearchInfoList
+    SearchInfoList,
+    Button
 } from "./style";
 import axios from 'axios';
 
-
+let homeMouseHover = false;
+let downloadMouseHover = false;
+let loginMouseHover = false;
+let characterMouseHover = false;
+let logoutMouseHover = false;
+const HOME_URL = '/';
 
 class Header extends Component {
-
 
 
     constructor(props) {
@@ -79,8 +84,80 @@ class Header extends Component {
         this.props.history.push(LOGIN_URL);
     }
 
+    getLoginState(username, LOGIN_URL) {
+        console.log('username is ' + username);
+        if (username === null) {
+            return (
+                <NavItem className={loginMouseHover ? 'hover right' : 'right'}
+                         onClick={this.redirectToLogin.bind(this, LOGIN_URL)} onMouseEnter={() => {
+                    this.handleMouserIn('login');
+                    this.forceUpdate();
+                }} onMouseLeave={() => {
+                    this.handleMouserOut('login');
+                    this.forceUpdate();
+                }}>登陆</NavItem>);
+        } else {
+            //todo creat list contains logout
+            return (<NavItem className={logoutMouseHover ? 'login right' : 'right'} onClick={() => {
+                this.props.logoutAction();
+                this.redirectToHome(HOME_URL);
+            }} onMouseEnter={() => {
+                this.handleMouserIn('logout');
+                this.forceUpdate();
+            }} onMouseLeave={() => {
+                this.handleMouserOut('logout');
+                this.forceUpdate();
+            }}>Welcome {username}, click here to logout</NavItem>);
+        }
+    }
+
+
+    redirectToHome(HOME_URL) {
+        console.log("redirect to home page");
+        this.props.history.push(HOME_URL);
+    }
+
+    handleMouserIn(item) {
+        if (item === 'home') {
+            homeMouseHover = true;
+        }
+        if (item === 'login') {
+            loginMouseHover = true;
+        }
+        if (item === 'download') {
+            downloadMouseHover = true;
+        }
+        if (item === 'character') {
+            characterMouseHover = true;
+        }
+        if (item === 'logout') {
+            logoutMouseHover = true;
+        }
+
+    }
+
+    handleMouserOut(item) {
+        if (item === 'home') {
+            homeMouseHover = false;
+        }
+        if (item === 'login') {
+            loginMouseHover = false;
+        }
+        if (item === 'download') {
+            downloadMouseHover = false;
+        }
+        if (item === 'character') {
+            characterMouseHover = false;
+        }
+        if (item === 'logout') {
+            logoutMouseHover = false;
+        }
+    }
+
+    //todo will add register function
     render() {
-        const {focused} = this.props;
+        const {focused, username} = this.props;
+        console.log('username is from props ' + username);
         const LOGIN_URL = '/Login';
         return (
 
@@ -89,13 +166,40 @@ class Header extends Component {
                     <Logo/>
                 </Link>
                 <Nav>
-                    <NavItem className='left'>首页</NavItem>
-                    <NavItem className='left'>下载App</NavItem>
-                    <NavItem className='right' onClick={this.redirectToLogin.bind(this,LOGIN_URL)}>登陆</NavItem>
-                    <NavItem className='right'>
+                    <NavItem className={homeMouseHover ? 'hover left' : 'left'} onMouseEnter={() => {
+                        this.handleMouserIn('home');
+                        this.forceUpdate();
+                    }} onMouseLeave={() => {
+                        this.handleMouserOut('home');
+                        this.forceUpdate();
+                    }}>首页</NavItem>
+                    <NavItem className={downloadMouseHover ? 'hover left' : 'left'} onMouseEnter={() => {
+                        this.handleMouserIn("download");
+                        this.forceUpdate();
+                    }} onMouseLeave={() => {
+                        this.handleMouserOut("download");
+                        this.forceUpdate();
+                    }}>下载App</NavItem>
+                    {this.getLoginState(username, LOGIN_URL)}
+
+                    <NavItem className={characterMouseHover ? 'hover right' : 'right'} onMouseEnter={() => {
+                        this.handleMouserIn('character');
+                        this.forceUpdate();
+                    }} onMouseLeave={() => {
+                        this.handleMouserOut('character');
+                        this.forceUpdate();
+                    }}>
                         <i className="iconfont">&#xe636;</i>
                     </NavItem>
+                    <NavItem className='right hover'/>
                 </Nav>
+                <Link to='/write'>
+                    <Button className='writting'>
+                        <i className="iconfont">&#xe615;</i>
+                        写文章
+                    </Button>
+                </Link>
+
                 <SearchWrapper>
                     <Navsearch className={focused ? 'expand' : 'default'}
                                onClick={this.searchInfoHandleClick.bind(this)}
@@ -110,16 +214,17 @@ class Header extends Component {
                 </SearchWrapper>
             </HeaderWrapper>
         );
+
     }
 
 }
-
 
 const mapStateToProps = (state) => {
     console.log('mapToState called');
     return {
         focused: state.getIn(['header', 'focused']),
-        list: state.getIn(['header', 'list'])
+        list: state.getIn(['header', 'list']),
+        username: state.getIn(['login', 'username'])
     }
 }
 
@@ -146,6 +251,10 @@ const mapDispatchToProps = (dispatch) => {
         changeFocusedState(focused) {
             const changeFocused = {type: 'changeFocusedAction', focused: focused};
             dispatch(changeFocused);
+        },
+        logoutAction() {
+            const logout = {type: 'logoutAction'};
+            dispatch(logout);
         }
     }
 }

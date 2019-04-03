@@ -5,6 +5,7 @@ import store from './store';
 import {BrowserRouter, Route} from 'react-router-dom';
 import './statics/iconfont/iconfont';
 import Login from './common/login';
+import Write from './write';
 
 class App extends Component {
     render() {
@@ -14,7 +15,7 @@ class App extends Component {
                     <Header />
                         <Route path='/'></Route>
                         <Route path='/Login' exact component={Login}></Route>
-
+                        <Route path='/write' exact component={Write}></Route>
                 </BrowserRouter>
             </Provider>
         );

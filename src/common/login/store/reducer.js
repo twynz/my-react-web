@@ -21,5 +21,14 @@ export default (state = s , action) => {
         });
     }
 
+    if( action.type === 'logoutAction') {
+        console.log('logout action triggered!');
+        return state.merge({
+            isLogined: false,
+            username: null,
+            authorities: ['visitor']
+        });
+    }
+
     return state;
 }

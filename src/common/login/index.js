@@ -7,6 +7,7 @@ import {
     Button
 } from './style';
 import axios from "axios";
+
 import {withRouter} from "react-router";
 
 
@@ -15,10 +16,10 @@ class Login extends Component {
 
     constructor(props) {
         super(props);
-        // this.state = {
-        //     username: '',
-        //     password: ''
-        // }
+        this.state = {
+            username: '',
+            password: ''
+        }
     }
 
     //todo: will implement forward to page that view previously before login,

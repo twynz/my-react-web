@@ -24,6 +24,7 @@ export const Nav = styled.div`
     width: 960px;
     margin-left:100px;
     box-sizing: border-box;
+    
 `;
 
 export const NavItem = styled.div`
@@ -31,11 +32,19 @@ export const NavItem = styled.div`
   padding: 0px 15px;
   line-height: 56px;
   color: #333;
+  cursor: pointer;
   &.right{
   float: right;
   }
   &.left{
   float: left;
+  }
+  &.hover{
+  background-color:gray;
+  }
+  &.login {
+  font-weight: bold;
+  color:red;
   }
 `;
 
@@ -82,4 +91,19 @@ export const SearchInfoItem = styled.div`
   border-radius: 3px;
   font-size: 12px;
   ling-height: 13px;
+`;
+
+export const Button = styled.button`
+  float: right;
+  margin-top: 9px;
+  margin-right: 20px;
+  padding: 0 20px;
+  line-height: 38px;
+  border-radius: 19px;
+  border: 1px solid #ec6149;
+  font-size: 14px;
+  &.writting {
+	color: #fff;
+	background: #ec6149;
+  }
 `;
