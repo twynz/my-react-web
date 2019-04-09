@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const EditorWrapper = styled.div`
-	height: 300px;
+	height: 700px;
 	border: none;
 	margin: 0px;
 	padding: 0px;

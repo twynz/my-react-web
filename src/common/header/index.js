@@ -166,13 +166,13 @@ class Header extends Component {
                     <Logo/>
                 </Link>
                 <Nav>
-                    <NavItem className={homeMouseHover ? 'hover left' : 'left'} onMouseEnter={() => {
+                    <Link to='/'> <NavItem className={homeMouseHover ? 'hover left' : 'left'} onMouseEnter={() => {
                         this.handleMouserIn('home');
                         this.forceUpdate();
                     }} onMouseLeave={() => {
                         this.handleMouserOut('home');
                         this.forceUpdate();
-                    }}>首页</NavItem>
+                    }}>首页</NavItem></Link>
                     <NavItem className={downloadMouseHover ? 'hover left' : 'left'} onMouseEnter={() => {
                         this.handleMouserIn("download");
                         this.forceUpdate();

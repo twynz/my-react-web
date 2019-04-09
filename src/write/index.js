@@ -67,14 +67,14 @@ class Write extends Component {
                         Submit
                     </Button>
                 </EditorWrapper>
-
-
             );
         } else {
+            if(this.props.redirectPath !== '/write'){
+                this.props.setCurrentPathToLoginModule();
+            }
             return <Redirect to='/Login'/>
         }
     }
-
 }
 
 Write.modules = {
@@ -100,26 +100,32 @@ Write.formats = [
     'link', 'image', 'video'
 ]
 
-// Write.propTypes = {
-//     placeholder: PropTypes.string,
-// }
-
 const MyReactQuill = styled(ReactQuill)`
 &.ql-editor{
     min-height: 100px !important;
-    max-height: 300px;
-    //overflow: hidden;
-    //overflow-y: scroll;
+    max-height: 500px;
 }`;
-
 
 const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
+        redirectPath: state.getIn(['login','previousPath'])
         //authorities: state.getIn(['login', 'authorities'])
     }
-}
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCurrentPathToLoginModule() {
+            const setCurrentPathToLogin = {
+                type: 'recordPreviousPathAction',
+                redirectPath: '/write'
+            };
+            dispatch(setCurrentPathToLogin);
+        }
+    }
+};
 
 
-export default withRouter(connect(mapStateToProps, null)(Write));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Write));
