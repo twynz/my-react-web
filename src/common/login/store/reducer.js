@@ -3,7 +3,8 @@ import {fromJS} from "immutable";
 const s = fromJS({
     isLogined: false,
     username: null,
-    authorities: ['visitor']
+    authorities: ['visitor'],
+    previousPath: null
     //will integrated with OAuth2 futher
     // token: null,
     // refreshToken:null
@@ -28,6 +29,11 @@ export default (state = s , action) => {
             username: null,
             authorities: ['visitor']
         });
+    }
+
+    if(action.type === 'recordPreviousPathAction') {
+        console.log('receive auto redirect path');
+        return state.set('previousPath',action.redirectPath);
     }
 
     return state;

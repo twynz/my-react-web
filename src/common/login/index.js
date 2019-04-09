@@ -55,7 +55,7 @@ class Login extends Component {
             );
         }else {
             console.log('>>>>'+isLogined);
-            this.redirectToHome.bind(this,HOME_URL);
+            this.redirectToHome(this.props.redirectPath);
             return null;
         }
     }
@@ -67,7 +67,8 @@ const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
-        authorities: state.getIn(['login', 'authorities'])
+        authorities: state.getIn(['login', 'authorities']),
+        redirectPath: state.getIn(['login','previousPath'])
     }
 }
 
