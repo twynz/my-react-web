@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {ListItem, ListInfo, LoadMoreButton} from './style';
+import {ListItem, ListInfo, LoadMoreButton,BackTop} from './style';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
@@ -8,18 +8,37 @@ class List extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            customerScroll: false
+        };
+        this.whetherCustomerScroll = this.whetherCustomerScroll.bind(this);
+    }
+
+    whetherCustomerScroll(){
+        if (document.documentElement.scrollTop > 100) {
+           this.setState({customerScroll: true});
+        }else {
+            this.setState({customerScroll: false});
+        }
+    }
+
+    bindEvents() {
+        window.addEventListener('scroll', this.whetherCustomerScroll);
+    }
+
+
+    returnToTop(){
+        window.scrollTo(0, 0);
     }
 
     componentDidMount() {
         console.log("called in component did mount");
+        this.bindEvents();
         this.props.getArticleBriefListByPage(0, 3);
     }
 
-
-
-    loadMoreData() {
-        const endNum = this.props.endNum;
-        this.getArticleBriefListByPage(endNum + 1, endNum + 5);
+    componentWillUnmount() {
+        window.removeEventListener('scroll',this.whetherCustomerScroll);
     }
 
 
@@ -42,6 +61,7 @@ class List extends Component {
                         );
                     })
                 }
+                { this.state.customerScroll ? <BackTop onClick={this.returnToTop}>顶部</BackTop> : null}
                 <LoadMoreButton onClick={() => {
                     this.props.getArticleBriefListByPage(endNum + 1, endNum + 4);
                 }}>More Content</LoadMoreButton>

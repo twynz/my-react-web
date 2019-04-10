@@ -2,23 +2,57 @@ import React, {Component} from 'react';
 import Header from './common/header';
 import {Provider} from 'react-redux';
 import store from './store';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import './statics/iconfont/iconfont';
 import Login from './common/login';
 import Write from './write';
 import Home from './home';
 import Detail from './detail/Detail';
 
+const allowedPath = ['/Login', 'write', '/', /^\/detail\/[0-9]+/];
+
+
 class App extends Component {
+
+    // checkIsMatchedPath() {
+    //     console.log('!!!!!!!!!!!');
+    //     let currentPath = window.location.pathname;
+    //     console.log('enter into switch, cuurent path is ' + currentPath);
+    //     let result = allowedPath.filter(obj => {
+    //         console.log('current constructor name is' + obj.constructor.name);
+    //         if (obj.constructor.name === 'String') {
+    //             console.log('is match string' + (obj === currentPath));
+    //             return obj === currentPath;
+    //         } else {
+    //             console.log('is match regex' + obj.test(currentPath));
+    //             return obj.test(currentPath);
+    //         }
+    //     });
+    //     if (result.size > 0) {
+    //         return true;
+    //     } else {
+    //         return false;
+    //     }
+    //
+    // }
+    //
+    // defaultRedirectToHome() {
+    //     console.log('redirect to home called');
+    //     return <Redirect to='/'/>
+    // }
+
     render() {
         return (
             <Provider store={store}>
                 <BrowserRouter>
                     <Header/>
-                    <Route path='/' exact component={Home}></Route>
-                    <Route path='/Login' exact component={Login}></Route>
-                    <Route path='/write' exact component={Write}></Route>
-                    <Route path='/detail/:id' exact component={Detail}></Route>
+                    <Switch>
+                        <Route path='/' exact component={Home}></Route>
+                        <Route path='/Login' exact component={Login}></Route>
+                        <Route path='/write' exact component={Write}></Route>
+                        <Route path='/detail/:id' exact component={Detail}></Route>
+                        <Redirect to="/" />
+                    </Switch>
                 </BrowserRouter>
             </Provider>
         );
