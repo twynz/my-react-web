@@ -122,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
                 type: 'recordPreviousPathAction',
                 redirectPath: '/write'
             };
+            sessionStorage.setItem('redirectPath','/write');
             dispatch(setCurrentPathToLogin);
         }
     }

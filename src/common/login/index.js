@@ -63,6 +63,11 @@ class Login extends Component {
 
 }
 
+
+function setValueByKeyToSessionStorage(key,value) {
+    sessionStorage.setItem(key,value);
+}
+
 const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
@@ -98,6 +103,11 @@ const mapDispatchToProps = (dispatch) => {
                     isLogined: originAxiosRes.isLogined,
                     data: originAxiosRes
                 };
+
+                setValueByKeyToSessionStorage('username',originAxiosRes.username);
+                setValueByKeyToSessionStorage('isLogined',originAxiosRes.isLogined);
+                setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
+
                 console.log('dispatch user login action');
                 dispatch(userLoginAction);
             }).catch((e) => {

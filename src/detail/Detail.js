@@ -101,6 +101,7 @@ const mapDispatchToProps = (dispatch) => ({
             type: 'recordPreviousPathAction',
             redirectPath: path
         };
+        sessionStorage.setItem('redirectPath', path);
         dispatch(setCurrentPathToLogin);
     }
 
