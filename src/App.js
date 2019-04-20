@@ -8,6 +8,10 @@ import Login from './common/login';
 import Write from './write';
 import Home from './home';
 import Detail from './detail/Detail';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 const allowedPath = ['/Login', 'write', '/', /^\/detail\/[0-9]+/];
 

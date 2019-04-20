@@ -2,7 +2,8 @@ import {fromJS} from "immutable";
 
 const s = fromJS({
     articleList: [],
-    endNum: 3
+    endNum: 3,
+    frontEndArticleNames: []
 });
 
 

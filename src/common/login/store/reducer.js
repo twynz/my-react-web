@@ -13,7 +13,6 @@ const s = fromJS({
 function checkLoginFieldByKey(key){
     console.log('session storage is '+sessionStorage);
     let field  = sessionStorage.getItem(key);
-    console.log('field is '+field+'constru name'+field.constructor.name);
     if(field) {
         return field;
     } else{
