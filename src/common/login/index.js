@@ -33,8 +33,8 @@ class Login extends Component {
 
         const HOME_URL = '/';
         const {isLogined} = this.props;
-
-        if (!isLogined) {
+        console.log("is logined "+!isLogined);
+        if (isLogined === "false") {
             console.log('>>>>'+isLogined);
             return (
 
@@ -54,7 +54,7 @@ class Login extends Component {
 
             );
         }else {
-            console.log('>>>>'+isLogined);
+            console.log('>>>>'+isLogined+"called!");
             this.redirectToHome(this.props.redirectPath);
             return null;
         }

@@ -5,6 +5,8 @@ import axios from 'axios';
 import './styled.css';
 import {Navbar, DropdownButton, NavDropdown, Dropdown, Nav,Button,ButtonGroup} from "react-bootstrap";
 import {ListInfo, ListItem} from "../../home/style";
+import iconSet from '../../statics/selection.json';
+import IcomoonReact, {iconList} from 'icomoon-react';
 
 
 let homeMouseHover = false;
@@ -77,29 +79,31 @@ class Header extends Component {
     }
 
     getLoginState(username, LOGIN_URL) {
-        console.log('username is ' + username);
-        if (username === null) {
+        console.log('getLogin status username is ' + username+(username != null));
+        if(username === null && typeof username === "object") {
             return (
-                <Button onClick={this.redirectToLogin.bind(this, LOGIN_URL)}>
+                <Button className="mr-auto" onClick={this.redirectToLogin.bind(this, LOGIN_URL)}>
                     Sign In
                 </Button>);
         } else {
             return (
-            <Dropdown as={ButtonGroup}>
-                <Button variant="outline-danger" >
-                    <link rel="icon" href="../../../public/download_kQp_1.ico" />
-                    Welcome, {username}
-                </Button>
-                <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-primary"/>
-                <Dropdown.Menu  className="super-colors" >
+            <div>
+                <Dropdown  as={ButtonGroup}>
+                    <Button  variant="outline-warning" >
+                        <link rel="icon" href="../../../public/download_kQp_1.ico" />
+                        Welcome, {username}
+                    </Button>
+                <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-warning"/>
+                    <Dropdown.Menu  className="super-colors" >
                     <Dropdown.Divider />
                     <Dropdown.Item onClick={() => {
                         this.props.logoutAction();
                         this.redirectToHome(HOME_URL);
                     }}>Sign Out
                     </Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>);
+                     </Dropdown.Menu>
+                </Dropdown>
+            </div>);
         }
     }
 
@@ -108,44 +112,6 @@ class Header extends Component {
         console.log("redirect to home page");
         this.props.history.push(HOME_URL);
     }
-
-    handleMouserIn(item) {
-        if (item === 'home') {
-            homeMouseHover = true;
-        }
-        if (item === 'login') {
-            loginMouseHover = true;
-        }
-        if (item === 'download') {
-            downloadMouseHover = true;
-        }
-        if (item === 'character') {
-            characterMouseHover = true;
-        }
-        if (item === 'logout') {
-            logoutMouseHover = true;
-        }
-
-    }
-
-    handleMouserOut(item) {
-        if (item === 'home') {
-            homeMouseHover = false;
-        }
-        if (item === 'login') {
-            loginMouseHover = false;
-        }
-        if (item === 'download') {
-            downloadMouseHover = false;
-        }
-        if (item === 'character') {
-            characterMouseHover = false;
-        }
-        if (item === 'logout') {
-            logoutMouseHover = false;
-        }
-    }
-
 
     displayArticleNamesByCategory(category) {
         if(category === 'frontEnd') {
@@ -164,44 +130,46 @@ class Header extends Component {
     //todo will add register function
     render() {
         const {focused, username, frontEndArticleNames} = this.props;
-        console.log('username is from props ' + username);
+        console.log('username is from props ' + username+"  "+username==="null");
         const LOGIN_URL = '/Login';
         return (
 
             <div>
                 <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top">
                     <Navbar.Brand href="#">Wenyu In NZ</Navbar.Brand>
-                    <Nav className="mr-auto">
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="#pricing">My Resume</Nav.Link>
-
-                        <Dropdown as={ButtonGroup}>
-                            <Button variant="outline-primary" >Technical Details</Button>
-                            <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-primary"/>
-                            <Dropdown.Menu  className="super-colors" >
-                                <Dropdown.Item eventKey="1">Instruction</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item>
-                                    Front End
-                                </Dropdown.Item>
-                                <Dropdown.Item eventKey="3">
-                                    Back End
-                                </Dropdown.Item>
-                                <Dropdown.Item eventKey="4">Dev Ops</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-
-                        <Link to="/write">
-                            <Button className="writting" variant="danger">
-                                <i className="iconfont">&#xe615;</i>
-                                Write Article
-                            </Button>
-                        </Link>
-                        {this.getLoginState()}
+                    <Nav>
+                        <Nav.Link href="/">
+                            <IcomoonReact iconSet={iconSet}  size={20} color="#f4f142" icon="home" />
+                            Home
+                        </Nav.Link>
+                        <Nav.Link href="#pricing">
+                            <IcomoonReact iconSet={iconSet}  size={20} color="white" icon="user" />
+                            About Me
+                        </Nav.Link>
+                        <Nav.Link href="#pricing">
+                            <IcomoonReact iconSet={iconSet}  size={20} color="#424ef4" icon="linkedin" />
+                            My Resume
+                        </Nav.Link>
+                        <DropdownButton
+                            title="Tech Details"
+                            variant="outline-secondary"
+                            className="drop-down-button"
+                        >
+                            <NavDropdown.Item href="#action/3.4">Introduction</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="#action/3.1">Front End</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">Back End</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">DevOps</NavDropdown.Item>
+                        </DropdownButton>
                     </Nav>
+                    <Nav className="ml-auto">
 
-
+                        <Button href="/write" variant="danger" className="write-button">
+                            <i className="iconfont">&#xe615;</i>
+                            Write Article
+                        </Button>
+                        {this.getLoginState(username,LOGIN_URL)}
+                    </Nav>
                 </Navbar>
             </div>
         );

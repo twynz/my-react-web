@@ -2,7 +2,7 @@ import {fromJS} from "immutable";
 
 const s = fromJS({
     isLogined: checkLoginFieldByKey('isLogined'),
-    username: checkLoginFieldByKey('username'),
+    username: null,
     authorities: checkLoginFieldByKey('authorities'),
     previousPath: checkLoginFieldByKey('previousPath')
     //will integrated with OAuth2 futher
@@ -20,9 +20,6 @@ function checkLoginFieldByKey(key){
             case 'isLogined':
                 sessionStorage.setItem('isLogined',false);
                 return false;
-            case 'username':
-                sessionStorage.setItem('username',null);
-                return null;
             case 'authorities':
                 let authorities = JSON.stringify(["visitor"]);
                 sessionStorage.setItem('authorities',authorities);
