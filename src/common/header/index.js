@@ -8,12 +8,6 @@ import {ListInfo, ListItem} from "../../home/style";
 import iconSet from '../../statics/selection.json';
 import IcomoonReact, {iconList} from 'icomoon-react';
 
-
-let homeMouseHover = false;
-let downloadMouseHover = false;
-let loginMouseHover = false;
-let characterMouseHover = false;
-let logoutMouseHover = false;
 const HOME_URL = '/';
 
 class Header extends Component {
@@ -135,23 +129,29 @@ class Header extends Component {
         return (
 
             <div>
-                <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top">
-                    <Navbar.Brand href="#">Wenyu In NZ</Navbar.Brand>
+                <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top" className="nav-bar-customize">
+                    <Navbar.Brand href="#" className="navbrand">Wenyu In NZ</Navbar.Brand>
                     <Nav>
                         <Nav.Link href="/">
-                            <IcomoonReact iconSet={iconSet}  size={20} color="#f4f142" icon="home" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#f4f142" icon="home" />
                             Home
                         </Nav.Link>
                         <Nav.Link href="#pricing">
-                            <IcomoonReact iconSet={iconSet}  size={20} color="white" icon="user" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="white" icon="user" />
                             About Me
                         </Nav.Link>
                         <Nav.Link href="#pricing">
-                            <IcomoonReact iconSet={iconSet}  size={20} color="#424ef4" icon="linkedin" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#424ef4" icon="linkedin" />
                             My Resume
                         </Nav.Link>
+
                         <DropdownButton
-                            title="Tech Details"
+                            title={
+                                <span className="dropdowndiv">
+                                   <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#7e968e" icon="list" />
+                                    <b>Tech Details</b>
+                                </span>
+                            }
                             variant="outline-secondary"
                             className="drop-down-button"
                         >

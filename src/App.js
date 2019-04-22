@@ -12,6 +12,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
+import './style.css';
+import Footer from "./common/footer";
 
 const allowedPath = ['/Login', 'write', '/', /^\/detail\/[0-9]+/];
 
@@ -49,14 +51,20 @@ class App extends Component {
         return (
             <Provider store={store}>
                 <BrowserRouter>
-                    <Header/>
-                    <Switch>
-                        <Route path='/' exact component={Home}></Route>
-                        <Route path='/Login' exact component={Login}></Route>
-                        <Route path='/write' exact component={Write}></Route>
-                        <Route path='/detail/:id' exact component={Detail}></Route>
-                        <Redirect to="/" />
-                    </Switch>
+
+                    <div className="bgImage">
+                        <Header/>
+                        <Switch>
+                            <Route path='/' exact component={Home}></Route>
+                            <Route path='/Login' exact component={Login}></Route>
+                            <Route path='/write' exact component={Write}></Route>
+                            <Route path='/detail/:id' exact component={Detail}></Route>
+                            <Redirect to="/"/>
+                        </Switch>
+                        <Footer />
+                    </div>
+
+
                 </BrowserRouter>
             </Provider>
         );
