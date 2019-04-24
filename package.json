@@ -22,7 +22,8 @@
     "redux-immutable": "^4.0.0",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^3.3.2"
+    "styled-components": "^3.3.2",
+    "ts-md5": "^1.2.4"
   },
   "scripts": {
     "start": "react-scripts start",

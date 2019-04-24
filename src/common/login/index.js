@@ -1,25 +1,34 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import {
-    LoginWrapper,
-    LoginBox,
-    Input,
-    Button
-} from './style';
 import axios from "axios";
-
+import {Alert, Button, Modal, Form, FormGroup, FormControl} from 'react-bootstrap';
 import {withRouter} from "react-router";
+import './style.css';
+import {Md5} from 'ts-md5';
 
+
+const HOME_URL = '/';
 
 class Login extends Component {
 
+    isShowModal = true;
 
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            isShowModal: true,
         }
+
+
+        this.hideModal = () => {
+            this.setState({isShowModal: false});
+            this.redirectToHome(HOME_URL);
+        }
+
+        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangePassword = this.onChangePassword.bind(this);
     }
 
     //todo: will implement forward to page that view previously before login,
@@ -29,43 +38,96 @@ class Login extends Component {
         this.props.history.push(HOME_URL);
     }
 
+    isShowAlert() {
+        let errorMsg = this.props.errorMsg;
+        if (errorMsg === null) {
+            return null;
+        } else {
+            return (
+                <Alert variant="danger">
+                    {errorMsg}
+                </Alert>);
+        }
+    }
+
+    onChangeUsername(event) {
+        this.setState({username: event.target.value});
+    }
+
+    onChangePassword(event) {
+        const md5 = new Md5();
+        let encryptPassword = md5.appendStr(event.target.value).end();
+        console.log("Encrypt md5 value"+encryptPassword);
+        this.setState({password: encryptPassword});
+    }
+
     render() {
 
-        const HOME_URL = '/';
         const {isLogined} = this.props;
-        console.log("is logined "+!isLogined);
+        console.log("is logined " + !isLogined);
+
         if (isLogined === "false") {
-            console.log('>>>>'+isLogined);
+            const {inputRef, ...others} = this.props;
+            console.log('>>>>' + isLogined);
             return (
-
-
-                <LoginWrapper>
-                    <LoginBox>
-                        <Input placeholder='账号' type='text' className='username' innerRef={(input) => {
-                            this.account = input
-                        }}/>
-                        <Input placeholder='密码' type='password' className='passwd' innerRef={(input) => {
-                            this.password = input
-                        }}/>
+                <Modal
+                    show={this.state.isShowModal}
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    onHide={this.hideModal}
+                >
+                    <Modal.Header
+                        closeButton
+                        className="login-moda"
+                    >
+                        <Modal.Title
+                            className="login-moda-title"
+                        >
+                            Login
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body
+                        className="login-moda-body"
+                    >
+                        {this.isShowAlert()}
+                        <form>
+                            <FormGroup controlId="form-username">
+                                <Form.Label>Username</Form.Label>
+                                <FormControl
+                                     type="username" placeholder="Enter Username" onChange={this.onChangeUsername}/>
+                            </FormGroup>
+                            <FormGroup  controlId="form-password">
+                                <Form.Label>Password</Form.Label>
+                                <FormControl type="password" placeholder="Enter Password" onChange={this.onChangePassword}/>
+                            </FormGroup>
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer
+                        className="login-moda-footer"
+                    >
                         <Button
-                            onClick={() => this.props.userLogin(this.account, this.password)}>提交</Button>
-                    </LoginBox>
-                </LoginWrapper>
-
+                            type="submit" variant="outline-primary" onClick={() => this.props.userLogin(this.state.username,this.state.password)}
+                            className="ml-auto sign-in-button">
+                            Sign In
+                        </Button>
+                        <Button variant="outline-danger" onClick={() => this.hideModal()}
+                                className="mr-auto sign-out-button">
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             );
-        }else {
-            console.log('>>>>'+isLogined+"called!");
+        } else {
+            console.log('>>>>' + isLogined + "called!");
             this.redirectToHome(this.props.redirectPath);
             return null;
         }
     }
-
-
 }
 
 
-function setValueByKeyToSessionStorage(key,value) {
-    sessionStorage.setItem(key,value);
+function setValueByKeyToSessionStorage(key, value) {
+    sessionStorage.setItem(key, value);
 }
 
 const mapStateToProps = (state) => {
@@ -73,14 +135,16 @@ const mapStateToProps = (state) => {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
         authorities: state.getIn(['login', 'authorities']),
-        redirectPath: state.getIn(['login','previousPath'])
+        redirectPath: state.getIn(['login', 'previousPath']),
+        errorMsg: state.getIn(['login','errorMsg'])
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         userLogin(username, password) {
-            console.log('!!!!!' + username.value + '!!!' + password.value);
+            console.log('!!!!!' + username + '!!!' + password);
+
 
             let keyUsername = 'username';
             let keyPassword = 'password';
@@ -104,14 +168,15 @@ const mapDispatchToProps = (dispatch) => {
                     data: originAxiosRes
                 };
 
-                setValueByKeyToSessionStorage('username',originAxiosRes.username);
-                setValueByKeyToSessionStorage('isLogined',originAxiosRes.isLogined);
+                setValueByKeyToSessionStorage('username', originAxiosRes.username);
+                setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
                 setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
 
                 console.log('dispatch user login action');
                 dispatch(userLoginAction);
             }).catch((e) => {
-                console.log('error' + e);
+                console.log(e);
+                // this.props.errorMsg = e.toString();
             });
         }
     }

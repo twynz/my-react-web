@@ -9,8 +9,6 @@ import Write from './write';
 import Home from './home';
 import Detail from './detail/Detail';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import $ from 'jquery';
-import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './style.css';
 import Footer from "./common/footer";
@@ -63,7 +61,6 @@ class App extends Component {
                         </Switch>
                         <Footer />
                     </div>
-
 
                 </BrowserRouter>
             </Provider>

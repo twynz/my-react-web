@@ -107,19 +107,6 @@ class Header extends Component {
         this.props.history.push(HOME_URL);
     }
 
-    displayArticleNamesByCategory(category) {
-        if(category === 'frontEnd') {
-            let { frontEndArticleNames } = this.props;
-            if(frontEndArticleNames.size !== 0) {
-                frontEndArticleNames.map((item, index) => {
-                    return (
-                        <NavDropdown.Item href={"/article/"+item}>item</NavDropdown.Item>
-                    );
-                })
-            }
-        }
-        return null;
-    }
 
     //todo will add register function
     render() {

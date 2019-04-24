@@ -4,7 +4,8 @@ const s = fromJS({
     isLogined: checkLoginFieldByKey('isLogined'),
     username: null,
     authorities: checkLoginFieldByKey('authorities'),
-    previousPath: checkLoginFieldByKey('previousPath')
+    previousPath: checkLoginFieldByKey('previousPath'),
+    errorMsg: null
     //will integrated with OAuth2 futher
     // token: null,
     // refreshToken:null
