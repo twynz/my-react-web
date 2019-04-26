@@ -3,7 +3,7 @@ import {Link, withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import axios from 'axios';
 import './styled.css';
-import {Navbar, DropdownButton, NavDropdown, Dropdown, Nav,Button,ButtonGroup} from "react-bootstrap";
+import {Navbar, DropdownButton, NavDropdown, Dropdown, Nav, Button, ButtonGroup} from "react-bootstrap";
 import {ListInfo, ListItem} from "../../home/style";
 import iconSet from '../../statics/selection.json';
 import IcomoonReact, {iconList} from 'icomoon-react';
@@ -73,31 +73,31 @@ class Header extends Component {
     }
 
     getLoginState(username, LOGIN_URL) {
-        console.log('getLogin status username is ' + username+(username != null));
-        if(username === null && typeof username === "object") {
+        console.log('getLogin status username is ' + username + (username != null));
+        if (username === null && typeof username === "object") {
             return (
                 <Button className="mr-auto" onClick={this.redirectToLogin.bind(this, LOGIN_URL)}>
                     Sign In
                 </Button>);
         } else {
             return (
-            <div>
-                <Dropdown  as={ButtonGroup}>
-                    <Button  variant="outline-warning" >
-                        <link rel="icon" href="../../../public/download_kQp_1.ico" />
-                        Welcome, {username}
-                    </Button>
-                <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-warning"/>
-                    <Dropdown.Menu  className="super-colors" >
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={() => {
-                        this.props.logoutAction();
-                        this.redirectToHome(HOME_URL);
-                    }}>Sign Out
-                    </Dropdown.Item>
-                     </Dropdown.Menu>
-                </Dropdown>
-            </div>);
+                <div>
+                    <Dropdown as={ButtonGroup}>
+                        <Button variant="outline-warning">
+                            <link rel="icon" href="../../../public/download_kQp_1.ico"/>
+                            Welcome, {username}
+                        </Button>
+                        <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-warning"/>
+                        <Dropdown.Menu className="super-colors">
+                            <Dropdown.Divider/>
+                            <Dropdown.Item onClick={() => {
+                                this.props.logoutAction();
+                                this.redirectToHome(HOME_URL);
+                            }}>Sign Out
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>);
         }
     }
 
@@ -111,42 +111,63 @@ class Header extends Component {
     //todo will add register function
     render() {
         const {focused, username, frontEndArticleNames} = this.props;
-        console.log('username is from props ' + username+"  "+username==="null");
+        console.log('username is from props ' + username + "  " + username === "null");
         const LOGIN_URL = '/Login';
         return (
 
-            <div>
+            <div className="div-header">
                 <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top" className="nav-bar-customize">
                     <Navbar.Brand href="#" className="navbrand">Wenyu In NZ</Navbar.Brand>
                     <Nav>
                         <Nav.Link href="/">
-                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#f4f142" icon="home" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#f4f142"
+                                          icon="home"/>
                             Home
                         </Nav.Link>
                         <Nav.Link href="#pricing">
-                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="white" icon="user" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="white" icon="user"/>
                             About Me
                         </Nav.Link>
                         <Nav.Link href="#pricing">
-                            <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#424ef4" icon="linkedin" />
+                            <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#424ef4"
+                                          icon="linkedin"/>
                             My Resume
                         </Nav.Link>
 
                         <DropdownButton
                             title={
                                 <span className="dropdowndiv">
-                                   <IcomoonReact className="icon-cust" iconSet={iconSet}  size={20} color="#7e968e" icon="list" />
+                                   <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#7e968e"
+                                                 icon="list"/>
                                     <b>Tech Details</b>
                                 </span>
                             }
                             variant="outline-secondary"
                             className="drop-down-button"
                         >
-                            <NavDropdown.Item href="#action/3.4">Introduction</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.1">Front End</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Back End</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">DevOps</NavDropdown.Item>
+
+                            <NavDropdown.Item>
+                                <Link to={'/content/' + 'architecture'}>
+                                    Architecture
+                                </Link>
+                            </NavDropdown.Item>
+
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item>
+                                <Link to={'/content/' + 'frontEnd'}>
+                                    Front End
+                                </Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item>
+                                <Link to={'/content/' + 'backEnd'}>
+                                    Back End
+                                </Link>
+                            </NavDropdown.Item>
+                            <NavDropdown.Item>
+                                <Link to={'/content/' + 'devops'}>
+                                    DevOps
+                                </Link>
+                            </NavDropdown.Item>
                         </DropdownButton>
                     </Nav>
                     <Nav className="ml-auto">
@@ -155,7 +176,7 @@ class Header extends Component {
                             <i className="iconfont">&#xe615;</i>
                             Write Article
                         </Button>
-                        {this.getLoginState(username,LOGIN_URL)}
+                        {this.getLoginState(username, LOGIN_URL)}
                     </Nav>
                 </Navbar>
             </div>
@@ -179,7 +200,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getArticleNames(category) {
             console.log('axios called!');
-            axios.get("/api/getArticleNames",{params:{type : category}}).then((res) => {
+            axios.get("/api/getArticleNames", {params: {type: category}}).then((res) => {
                 let originAxiosRes = res.data.data;
                 let result = [];
                 let names = originAxiosRes.names;
