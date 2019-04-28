@@ -1,70 +1,18 @@
 import React, {Component} from "react";
-import {Link, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
 import axios from 'axios';
 import './styled.css';
 import {Navbar, DropdownButton, NavDropdown, Dropdown, Nav, Button, ButtonGroup} from "react-bootstrap";
-import {ListInfo, ListItem} from "../../home/style";
 import iconSet from '../../statics/selection.json';
-import IcomoonReact, {iconList} from 'icomoon-react';
+import IcomoonReact from 'icomoon-react';
 
 const HOME_URL = '/';
 
 class Header extends Component {
 
-
     constructor(props) {
         super(props);
-    }
-
-
-    // getSearchInfo() {
-    //     console.log('get search info called!');
-    //     const getSearchList = this.props.getSearchInfoListAction;
-    //     const pageList = [];
-    //
-    //     let focused = this.props.focused;
-    //     let list = this.props.list;
-    //     console.log('!!!!!' + this.props.list.size);
-    //     if (list.size === 0) {
-    //         getSearchList();
-    //     }
-    //     console.log('this list is ' + list);
-    //
-    //
-    //     for (let i = 0; i < list.length; i++) {
-    //         pageList.push(
-    //             <SearchInfoItem key={list[i]}>
-    //                 {list[i]}
-    //             </SearchInfoItem>
-    //         );
-    //     }
-    //
-    //
-    //     console.log("list length" + pageList.length);
-    //     if (focused) {
-    //         return (
-    //             <SearchInfo>
-    //                 推荐列表：
-    //                 <SearchInfoList>
-    //                     {pageList}
-    //                 </SearchInfoList>
-    //             </SearchInfo>
-    //         );
-    //     } else {
-    //         return null;
-    //     }
-    // }
-
-    searchInfoHandleClick() {
-
-        console.log("search method called!");
-        this.props.changeFocusedState(true);
-    }
-
-    searchInfoHandleBlur() {
-        console.log("search method blur called!");
-        this.props.changeFocusedState(false);
     }
 
     redirectToLogin(LOGIN_URL) {
@@ -84,7 +32,7 @@ class Header extends Component {
                 <div>
                     <Dropdown as={ButtonGroup}>
                         <Button variant="outline-warning">
-                            <link rel="icon" href="../../../public/download_kQp_1.ico"/>
+                            <link rel="icon" href="../../../public/favicon.ico"/>
                             Welcome, {username}
                         </Button>
                         <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-warning"/>
@@ -101,12 +49,10 @@ class Header extends Component {
         }
     }
 
-
     redirectToHome(HOME_URL) {
         console.log("redirect to home page");
         this.props.history.push(HOME_URL);
     }
-
 
     //todo will add register function
     render() {
@@ -114,7 +60,6 @@ class Header extends Component {
         console.log('username is from props ' + username + "  " + username === "null");
         const LOGIN_URL = '/Login';
         return (
-
             <div className="div-header">
                 <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top" className="nav-bar-customize">
                     <Navbar.Brand href="#" className="navbrand">Wenyu In NZ</Navbar.Brand>
@@ -146,27 +91,19 @@ class Header extends Component {
                             className="drop-down-button"
                         >
 
-                            <NavDropdown.Item>
-                                <Link to={'/content/' + 'architecture'}>
+                            <NavDropdown.Item href={'/content/' + 'architecture'}>
                                     Architecture
-                                </Link>
                             </NavDropdown.Item>
 
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item>
-                                <Link to={'/content/' + 'frontEnd'}>
+                            <NavDropdown.Item href={'/content/' + 'frontEnd'}>
                                     Front End
-                                </Link>
                             </NavDropdown.Item>
-                            <NavDropdown.Item>
-                                <Link to={'/content/' + 'backEnd'}>
+                            <NavDropdown.Item href={'/content/' + 'backEnd'}>
                                     Back End
-                                </Link>
                             </NavDropdown.Item>
-                            <NavDropdown.Item>
-                                <Link to={'/content/' + 'devops'}>
+                            <NavDropdown.Item href={'/content/' + 'devops'}>
                                     DevOps
-                                </Link>
                             </NavDropdown.Item>
                         </DropdownButton>
                     </Nav>
@@ -181,9 +118,7 @@ class Header extends Component {
                 </Navbar>
             </div>
         );
-
     }
-
 }
 
 const mapStateToProps = (state) => {
@@ -244,6 +179,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(logout);
         }
     }
-}
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

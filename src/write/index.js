@@ -3,27 +3,53 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router";
 import {Redirect} from 'react-router-dom';
 import ReactQuill, {Quill} from 'react-quill';
-import {
-    EditorWrapper,
-    ThemeSelection,
-    Button
-} from './style';
-import styled from 'styled-components';
+import {Modal, Button} from 'react-bootstrap';
+import './style.css';
 
 const LOGIN_URL = '/Login';
+const HOME_URL = '/';
+
+function loadDarftContent(){
+    let content = sessionStorage.getItem("draftContent");
+    if(content!=null) {
+        return content;
+    }
+    return '';
+}
 
 //todo use react lifecycle function to check login state and do redirect
 class Write extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {editorHtml: '', theme: 'snow', placeholder: 'Never be afraid of your enemy and have a nice day!'};
+
+        this.state = {
+            editorHtml:loadDarftContent(),
+            theme: 'snow',
+            placeholder: 'Never be afraid of your enemy and have a nice day!',
+            isShowModal: true,
+            type: null
+        };
+        this.hideModal = () => {
+            this.setState({isShowModal: false});
+            this.redirectToHome(HOME_URL);
+        };
+        this.redirectToHome = () => {
+            this.props.history.push(HOME_URL);
+        };
+
+
 
     }
 
     handleThemeChange(item) {
         console.log('set theme to ' + item);
         this.setState({theme: item});
+    }
+
+    handleTypeChange(item) {
+        console.log('set type to ' + item);
+        this.setState({type: item});
     }
 
     handleEditorChange(value) {
@@ -36,40 +62,76 @@ class Write extends Component {
             alert("Empty content not allowed!");
             return;
         }
-
         console.log("内容是" + content);
-
     }
 
+    handleSave() {
+        let content = this.state.editorHtml;
+        if (content === '' || content === null) {
+            alert("Empty content not allowed!");
+            return;
+        }
+        sessionStorage.setItem('draftContent',content);
+    }
 
     render() {
         const {isLogined} = this.props;
+        console.log('is loginin is'+isLogined);
         if (isLogined) {
             return (
-                <EditorWrapper>
-                    <MyReactQuill theme={this.state.theme}
-                                  modules={Write.modules}
-                                  formats={Write.formats}
-                                  placeholder={this.state.placeholder}
-                                  className={'ql-editor'}
-                                  value={this.state.editorHtml}
-                                  onChange={this.handleEditorChange.bind(this)}
-                    />
-                    <ThemeSelection className="themeChanger">
-                        <label>Change a theme </label>
-                        <select onChange={(e) =>
-                            this.handleThemeChange(e.target.value)}>
-                            <option value="snow">Snow</option>
-                            <option value="bubble">Bubble</option>
-                        </select>
-                    </ThemeSelection>
-                    <Button onClick={this.handleSubmit.bind(this)}>
-                        Submit
-                    </Button>
-                </EditorWrapper>
+                <Modal
+                    size={"lg"}
+                    show={this.state.isShowModal}
+                    centered
+                    onHide={this.hideModal}
+                >
+                    <Modal.Header
+                        closeButton
+                    >
+                        <div className={"modalHeader"}>
+                         Don't forget to select tech type.
+                        </div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ReactQuill theme={this.state.theme}
+                                      modules={Write.modules}
+                                      formats={Write.formats}
+                                      placeholder={this.state.placeholder}
+                                      className={'ql-editor'}
+                                      value={this.state.editorHtml}
+                                      onChange={this.handleEditorChange.bind(this)}
+                        />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <div className="themeChanger">
+                            <label>Change a theme </label>
+                            <select onChange={(e) =>
+                                this.handleThemeChange(e.target.value)}>
+                                <option value="snow">Snow</option>
+                                <option value="bubble">Bubble</option>
+                            </select>
+                        </div>
+                        <div className="typeSelect">
+                            <label>Select Tech Type</label>
+                            <select onChange={(e) =>
+                                this.handleTypeChange(e.target.value)}>
+                                <option value="frontend">frontend</option>
+                                <option value="backend">backend</option>
+                                <option value="devops">devops</option>
+                                <option value="architecture">architecture</option>
+                            </select>
+                        </div>
+                        <Button onClick={this.handleSave.bind(this)}>
+                            Save To Session
+                        </Button>
+                        <Button onClick={this.handleSubmit.bind(this)}>
+                            Submit
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             );
         } else {
-            if(this.props.redirectPath !== '/write'){
+            if (this.props.redirectPath !== '/write') {
                 this.props.setCurrentPathToLoginModule();
             }
             return <Redirect to='/Login'/>
@@ -98,20 +160,13 @@ Write.formats = [
     'bold', 'italic', 'underline', 'strike', 'blockquote',
     'list', 'bullet', 'indent',
     'link', 'image', 'video'
-]
-
-const MyReactQuill = styled(ReactQuill)`
-&.ql-editor{
-    min-height: 100px !important;
-    max-height: 500px;
-}`;
+];
 
 const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
-        redirectPath: state.getIn(['login','previousPath'])
-        //authorities: state.getIn(['login', 'authorities'])
+        redirectPath: state.getIn(['login', 'previousPath'])
     }
 };
 
@@ -122,7 +177,7 @@ const mapDispatchToProps = (dispatch) => {
                 type: 'recordPreviousPathAction',
                 redirectPath: '/write'
             };
-            sessionStorage.setItem('redirectPath','/write');
+            sessionStorage.setItem('redirectPath', '/write');
             dispatch(setCurrentPathToLogin);
         }
     }

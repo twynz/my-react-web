@@ -11,7 +11,6 @@ const HOME_URL = '/';
 
 class Login extends Component {
 
-    isShowModal = true;
 
     constructor(props) {
         super(props);
@@ -29,6 +28,8 @@ class Login extends Component {
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.redirectToHome = this.redirectToHome.bind(this);
+        this.isShowAlert = this.isShowAlert.bind(this);
     }
 
     //todo: will implement forward to page that view previously before login,
@@ -66,13 +67,11 @@ class Login extends Component {
         const {isLogined} = this.props;
         console.log("is logined " + !isLogined);
 
-        if (isLogined === "false") {
-            const {inputRef, ...others} = this.props;
+        if (!isLogined) {
             console.log('>>>>' + isLogined);
             return (
                 <Modal
                     show={this.state.isShowModal}
-                    aria-labelledby="contained-modal-title-vcenter"
                     centered
                     onHide={this.hideModal}
                 >

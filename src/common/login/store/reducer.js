@@ -2,7 +2,7 @@ import {fromJS} from "immutable";
 
 const s = fromJS({
     isLogined: checkLoginFieldByKey('isLogined'),
-    username: null,
+    username: checkLoginFieldByKey('username'),
     authorities: checkLoginFieldByKey('authorities'),
     previousPath: checkLoginFieldByKey('previousPath'),
     errorMsg: null
@@ -11,56 +11,77 @@ const s = fromJS({
     // refreshToken:null
 });
 
-function checkLoginFieldByKey(key){
-    console.log('session storage is '+sessionStorage);
-    let field  = sessionStorage.getItem(key);
-    if(field) {
-        return field;
-    } else{
+function checkLoginFieldByKey(key) {
+    console.log('session storage is ' + sessionStorage);
+    let field = sessionStorage.getItem(key);
+
+    if (field) {
         switch (key) {
             case 'isLogined':
-                sessionStorage.setItem('isLogined',false);
+                return (field == 'true');
+            case 'authorities':
+                return JSON.parse(field);
+            case 'previousPath':
+                return field;
+            case 'username':
+                return field;
+            default:
+                return field;
+        }
+    } else {
+        switch (key) {
+            case 'isLogined':
                 return false;
             case 'authorities':
-                let authorities = JSON.stringify(["visitor"]);
-                sessionStorage.setItem('authorities',authorities);
-                return authorities;
+                return ['visitor'];
             case 'previousPath':
-                sessionStorage.setItem('previousPath',null);
                 return null;
-            return null;
+            case 'username':
+                return null;
+            default:
+                return null;
         }
     }
 }
 
 
-export default (state = s , action) => {
+    export default (state = s, action) => {
 
-    if (action.type === 'userLoginAction') {
-        console.log('userLoginAction called');
-        console.log(action.username+'sd'+action.isLogined+'asd'+action.data.authorities);
-        return state.merge({
-            isLogined: action.isLogined,
-            username: action.username,
-            authorities: action.data.authorities
-        });
+        if (action.type === 'userLoginAction') {
+            console.log('userLoginAction called');
+            console.log(action.username + 'sd' + action.isLogined + 'asd' + action.data.authorities);
+            sessionStorage.setItem('isLogined', action.isLogined);
+            sessionStorage.setItem('username', action.username);
+            sessionStorage.setItem('authorities', JSON.stringify(action.data.authorities));
+
+            return state.merge({
+                isLogined: action.isLogined,
+                username: action.username,
+                authorities: action.data.authorities
+            });
+        }
+
+        if (action.type === 'logoutAction') {
+            console.log('logout action triggered!');
+
+            sessionStorage.removeItem('isLogined');
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('authorities');
+            sessionStorage.removeItem('previousPath');
+
+            return state.merge({
+                isLogined: false,
+                username: null,
+                authorities: ['visitor'],
+                previousPath: null
+            });
+        }
+
+        if (action.type === 'recordPreviousPathAction') {
+            console.log('receive auto redirect path');
+            sessionStorage.setItem('previousPath', action.redirectPath);
+            return state.set('previousPath', action.redirectPath);
+        }
+
+        return state;
     }
-
-    if( action.type === 'logoutAction') {
-        console.log('logout action triggered!');
-        return state.merge({
-            isLogined: false,
-            username: null,
-            authorities: ['visitor'],
-            previousPath: null
-        });
-    }
-
-    if(action.type === 'recordPreviousPathAction') {
-        console.log('receive auto redirect path');
-        sessionStorage.setItem('previousPath',action.redirectPath);
-        return state.set('previousPath',action.redirectPath);
-    }
-
-    return state;
-}

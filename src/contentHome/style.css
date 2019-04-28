@@ -1,0 +1,80 @@
+.contentDiv {
+    padding: 10px;
+    overflow: auto;
+    margin: 0px;
+    borderRadius: 5px;
+    border: 1px solid #cad8c5;
+    color: #7daded;
+}
+
+.contentDiv:hover {
+    background: #adbfea;
+    cursor: pointer;
+    border: #5e83db;
+    text-decoration:none;
+}
+
+
+
+.pic{
+    float: left;
+    width:  120px;
+    height: 120px;
+    margin-right: 5px;
+}
+
+.articleTitleDiv {
+    float:left !important;
+    width: 20% !important;
+}
+
+.title-item {
+    border: 1px groove #ecefea;
+    font-size: 15px !important;
+    margin-right: 10px;
+    font-family: Bradley Hand;
+    color:#b1b5e2;
+}
+
+.articleContentDiv {
+    float:left !important;
+    width: 80%;
+    height: 600px;
+    overflow-y: scroll;
+    border-left: 1px solid gray;
+    padding-left: 5px;
+    color: #cdcdd3;
+}
+
+.copyRight {
+    font-family: Snell Roundhand;
+    color: white;
+}
+
+.articleModal {
+    background-image: url('../statics/blog-background.jpg') !important;
+}
+
+.contentModalTitle {
+    font-family: Chalkduster;
+    color:#eddf44;
+    font-size: 14px;
+}
+
+.desc {
+    font: 200 12px/1.5 Georgia, Times New Roman, serif;
+    color: #d6e8ce;
+}
+
+.title {
+    font-family: Optima;
+    font-size: 20px;
+    color:whitesmoke;
+}
+
+.articleTitle {
+    font-size: 13px;
+    color: #eddf44;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    margin-bottom: 10px;
+}
