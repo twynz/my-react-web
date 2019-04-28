@@ -1,0 +1,44 @@
+.footer-cust {
+    height: 10px;
+}
+
+.copyright {
+    font-family: Snell Roundhand;
+    color: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.customize-li {
+    color: #f4eded;
+    font-family: Andale Mono;
+}
+
+a.linkedin-href:hover {
+    color: #41f449;
+}
+
+.h4titile {
+    font-family: Comic Sans MS;
+    font-size: 10;
+    color: #d6d2db;
+    text-shadow:5px 2px 6px #000;
+}
+
+.aboutp {
+    font-family: Apple Chancery;
+    font-size: 8;
+    color: #d6d2db;
+    text-shadow:5px 2px 6px #000;
+}
+
+.footer {
+    position: fixed;
+    bottom: 1px;
+}
+
+.footer-in-document-flow {
+    bottom: 1px;
+}

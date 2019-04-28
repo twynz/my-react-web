@@ -1,0 +1,42 @@
+.my-nav-header {
+    margin-right: 15px;
+}
+
+.nav-dropdown{
+    font-weight: bold;
+}
+
+.write-button{
+    margin-right:10px;
+}
+
+/*.nav-bar-customize{*/
+    /*transition: background .5s ease-in-out,padding .5s ease-in-out;*/
+/*}*/
+
+.icon-cust {
+    margin-right: 3px;
+}
+
+.drop-down-button {
+    margin-left: 15px;
+    /*font-family: "Fira Sans"*/;
+}
+
+.navbrand {
+    font-family: Trattatello;
+}
+
+.dropdowndiv{
+    color:#e5e4da;
+    font-family: Jazz LET, fantasy;
+}
+
+.div-header {
+    margin-bottom: 0px;
+}
+
+.title {
+    font-family: cursive;
+    color: #66b740;
+}

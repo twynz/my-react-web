@@ -1,40 +1,87 @@
 import {fromJS} from "immutable";
 
 const s = fromJS({
-    isLogined: false,
-    username: null,
-    authorities: ['visitor'],
-    previousPath: null
+    isLogined: checkLoginFieldByKey('isLogined'),
+    username: checkLoginFieldByKey('username'),
+    authorities: checkLoginFieldByKey('authorities'),
+    previousPath: checkLoginFieldByKey('previousPath'),
+    errorMsg: null
     //will integrated with OAuth2 futher
     // token: null,
     // refreshToken:null
 });
 
-export default (state = s , action) => {
+function checkLoginFieldByKey(key) {
+    console.log('session storage is ' + sessionStorage);
+    let field = sessionStorage.getItem(key);
 
-    if (action.type === 'userLoginAction') {
-        console.log('userLoginAction called');
-        console.log(action.username+'sd'+action.isLogined+'asd'+action.data.authorities);
-        return state.merge({
-            isLogined: action.isLogined,
-            username: action.username,
-            authorities: action.data.authorities
-        });
+    if (field) {
+        switch (key) {
+            case 'isLogined':
+                return (field == 'true');
+            case 'authorities':
+                return JSON.parse(field);
+            case 'previousPath':
+                return field;
+            case 'username':
+                return field;
+            default:
+                return field;
+        }
+    } else {
+        switch (key) {
+            case 'isLogined':
+                return false;
+            case 'authorities':
+                return ['visitor'];
+            case 'previousPath':
+                return null;
+            case 'username':
+                return null;
+            default:
+                return null;
+        }
     }
-
-    if( action.type === 'logoutAction') {
-        console.log('logout action triggered!');
-        return state.merge({
-            isLogined: false,
-            username: null,
-            authorities: ['visitor']
-        });
-    }
-
-    if(action.type === 'recordPreviousPathAction') {
-        console.log('receive auto redirect path');
-        return state.set('previousPath',action.redirectPath);
-    }
-
-    return state;
 }
+
+
+    export default (state = s, action) => {
+
+        if (action.type === 'userLoginAction') {
+            console.log('userLoginAction called');
+            console.log(action.username + 'sd' + action.isLogined + 'asd' + action.data.authorities);
+            sessionStorage.setItem('isLogined', action.isLogined);
+            sessionStorage.setItem('username', action.username);
+            sessionStorage.setItem('authorities', JSON.stringify(action.data.authorities));
+
+            return state.merge({
+                isLogined: action.isLogined,
+                username: action.username,
+                authorities: action.data.authorities
+            });
+        }
+
+        if (action.type === 'logoutAction') {
+            console.log('logout action triggered!');
+
+            sessionStorage.removeItem('isLogined');
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('authorities');
+            sessionStorage.removeItem('previousPath');
+
+            return state.merge({
+                isLogined: false,
+                username: null,
+                authorities: ['visitor'],
+                previousPath: null
+            });
+        }
+
+        if (action.type === 'recordPreviousPathAction') {
+            console.log('receive auto redirect path');
+            sessionStorage.setItem('previousPath', action.redirectPath);
+            return state.set('previousPath', action.redirectPath);
+        }
+
+        return state;
+    }
