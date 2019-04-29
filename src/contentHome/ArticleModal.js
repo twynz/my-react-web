@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Modal,Button} from 'react-bootstrap';
+import {Modal,Button,ListGroup,ListGroupItem} from 'react-bootstrap';
 
 
 const HOME_URL = '/';
@@ -43,11 +43,9 @@ class ArticleModal extends Component {
                         <Link to={'/content/' + parentPath + '/article/' + item.id}
                               style={{textDecoration: 'none'}}
                         >
-                            <div className="title-item">
-                                <div>
-                                    <div>{item.title}</div>
-                                </div>
-                            </div>
+                            <ListGroupItem className="title-item">
+                                    {item.title}
+                            </ListGroupItem>
                         </Link>)
                  })
             }
@@ -58,9 +56,9 @@ class ArticleModal extends Component {
                         <Link to={'/content/' + parentPath + '/article/' + item.get('id')}
                               style={{textDecoration: 'none'}}
                         >
-                            <div className="title-item">
-                                <div>{item.get('title')}</div>
-                            </div>
+                            <ListGroupItem className="title-item">
+                                {item.get('title')}
+                            </ListGroupItem>
                         </Link>)
                 })
             }
@@ -82,18 +80,18 @@ class ArticleModal extends Component {
                     onHide={this.hideModal}
                 >
                     <Modal.Header className={'articleModal'} closeButton>
-                        <div className='m-auto'>
-
+                        <div className='ml-auto articleModalTitle'>
+                            {this.props.currentArticleTitle}
                         </div>
                     </Modal.Header>
                     <Modal.Body className={'articleModal'}>
                         <div>
-                            <div className="articleTitleDiv mr-auto">
+                            <ListGroup className="articleTitleDiv mr-auto">
                                 <div className={"articleTitle"}>
                                     {parentPath.toUpperCase() +" ARTICLE:"}
                                 </div>
                                 {this.renderTitleList(result)}
-                            </div>
+                            </ListGroup>
                             <div className="articleContentDiv mr-auto"
                                  dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
                             </div>

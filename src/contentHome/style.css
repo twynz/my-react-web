@@ -14,8 +14,6 @@
     text-decoration:none;
 }
 
-
-
 .pic{
     float: left;
     width:  120px;
@@ -33,7 +31,8 @@
     font-size: 15px !important;
     margin-right: 10px;
     font-family: Bradley Hand;
-    color:#b1b5e2;
+    color: #363838;
+    background: #d4d6d6;
 }
 
 .articleContentDiv {
@@ -77,4 +76,15 @@
     color: #eddf44;
     font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
     margin-bottom: 10px;
+}
+
+.modalHeaderTitle {
+    color: whitesmoke;
+    font-family:Trebuchet MS;
+}
+
+.articleModalTitle {
+    font-size: 18px;
+    font-family: Optima;
+    color: #c0d6cc;
 }

@@ -35,7 +35,7 @@ function checkLoginFieldByKey(key) {
             case 'authorities':
                 return ['visitor'];
             case 'previousPath':
-                return null;
+                return '/';
             case 'username':
                 return null;
             default:
