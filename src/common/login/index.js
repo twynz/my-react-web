@@ -6,9 +6,6 @@ import {withRouter} from "react-router";
 import './style.css';
 import {Md5} from 'ts-md5';
 
-
-const HOME_URL = '/';
-
 class Login extends Component {
 
 
@@ -18,24 +15,25 @@ class Login extends Component {
             username: '',
             password: '',
             isShowModal: true,
-        }
-
-
-        this.hideModal = () => {
-            this.setState({isShowModal: false});
-            this.redirectToHome(HOME_URL);
-        }
+        };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.redirectToHome = this.redirectToHome.bind(this);
         this.isShowAlert = this.isShowAlert.bind(this);
+        this.hideModal = this.hideModal.bind(this);
+    }
+
+    hideModal() {
+        let HOME_URL = '/';
+        this.setState({isShowModal: false});
+        this.redirectToHome(HOME_URL);
     }
 
     //todo: will implement forward to page that view previously before login,
     //current direct to home page
     redirectToHome(HOME_URL) {
-        console.log("redirect to home page");
+        console.log('home url is' + HOME_URL);
         this.props.history.push(HOME_URL);
     }
 
@@ -58,7 +56,7 @@ class Login extends Component {
     onChangePassword(event) {
         const md5 = new Md5();
         let encryptPassword = md5.appendStr(event.target.value).end();
-        console.log("Encrypt md5 value"+encryptPassword);
+        console.log("Encrypt md5 value" + encryptPassword);
         this.setState({password: encryptPassword});
     }
 
@@ -93,11 +91,12 @@ class Login extends Component {
                             <FormGroup controlId="form-username">
                                 <Form.Label>Username</Form.Label>
                                 <FormControl
-                                     type="username" placeholder="Enter Username" onChange={this.onChangeUsername}/>
+                                    type="username" placeholder="Enter Username" onChange={this.onChangeUsername}/>
                             </FormGroup>
-                            <FormGroup  controlId="form-password">
+                            <FormGroup controlId="form-password">
                                 <Form.Label>Password</Form.Label>
-                                <FormControl type="password" placeholder="Enter Password" onChange={this.onChangePassword}/>
+                                <FormControl type="password" placeholder="Enter Password"
+                                             onChange={this.onChangePassword}/>
                             </FormGroup>
                         </form>
                     </Modal.Body>
@@ -105,7 +104,8 @@ class Login extends Component {
                         className="login-moda-footer"
                     >
                         <Button
-                            type="submit" variant="outline-primary" onClick={() => this.props.userLogin(this.state.username,this.state.password)}
+                            type="submit" variant="outline-primary"
+                            onClick={() => this.props.userLogin(this.state.username, this.state.password)}
                             className="ml-auto sign-in-button">
                             Sign In
                         </Button>
@@ -135,7 +135,7 @@ const mapStateToProps = (state) => {
         username: state.getIn(['login', 'username']),
         authorities: state.getIn(['login', 'authorities']),
         redirectPath: state.getIn(['login', 'previousPath']),
-        errorMsg: state.getIn(['login','errorMsg'])
+        errorMsg: state.getIn(['login', 'errorMsg'])
     }
 }
 
