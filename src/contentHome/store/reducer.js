@@ -5,7 +5,7 @@ const s = fromJS({
     currentContentType:checkContentFieldByKey('currentContentType'),
     currentArticleTitle:checkContentFieldByKey('currentArticleTitle'),
     currentArticleContent:checkContentFieldByKey('currentArticleContent'),
-    loadResume: "false"
+    noFooter: "false"
 });
 
 function checkContentFieldByKey(key){
@@ -66,10 +66,10 @@ export default (state = s , action) => {
         });
     }
 
-    if(action.type === 'setResume') {
-        console.log('set resume status is '+action.loadResume);
+    if(action.type === 'setNoFooter') {
+        console.log('set nofooter status is '+action.noFooter);
         return state.merge({
-            loadResume: action.loadResume
+            noFooter: action.noFooter
         });
     }
     return state;

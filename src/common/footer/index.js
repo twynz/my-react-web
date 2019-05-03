@@ -9,8 +9,8 @@ import "./style.css";
 class Footer extends Component {
 
     render() {
-     console.log('in footer load resume is'+this.props.loadResume);
-        if (this.props.loadResume === 'true') {
+     console.log('in footer load resume is'+this.props.noFooter);
+        if (this.props.noFooter === 'true') {
             return null;
         } else {
             console.log("step in footer");
@@ -67,7 +67,7 @@ class Footer extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    loadResume: state.getIn(['content', 'loadResume'])
+    noFooter: state.getIn(['content', 'noFooter'])
 });
 
 

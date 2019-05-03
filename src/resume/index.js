@@ -6,11 +6,11 @@ import './style.css';
 class Resume extends Component {
 
     componentDidMount() {
-        this.props.setLoadResume("true");
+        this.props.setNoResume("true");
     }
 
     componentWillUnmount() {
-        this.props.setLoadResume("false");
+        this.props.setNoResume("false");
     }
 
     render() {
@@ -169,7 +169,7 @@ class Resume extends Component {
                         <dd className="clear"/>
 
                         <dt>Recommend Letters </dt>
-                        <dd><a href="https://www.linkedin.com/in/wenyu-tang-827854126/">View my linked in recommendations.</a></dd>
+                        <dd><a href="https://www.linkedin.com/in/wenyu-tang-827854126/">View my linkedin recommendations.</a></dd>
 
                         <dd className="clear"/>
                     </dl>
@@ -183,19 +183,19 @@ class Resume extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    loadResume: state.getIn(['content', 'loadResume'])
+    noFooter: state.getIn(['content', 'noFooter'])
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setLoadResume(loadResume) {
+    setNoResume(noFooter) {
         console.log('axios called in article!');
 
-        const setResumeAction = {
-            type: 'setResume',
-            loadResume: loadResume
+        const setNoFooterAction = {
+            type: 'setNoFooter',
+            noFooter: noFooter
         };
-        sessionStorage.setItem("loadResume", loadResume);
-        dispatch(setResumeAction);
+        sessionStorage.setItem("noFooter", noFooter);
+        dispatch(setNoFooterAction);
 
     }
 

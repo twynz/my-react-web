@@ -2,9 +2,26 @@
     min-height: 300px !important;
     max-height: 700px;
     width: 80%;
-    margin-left:10%;
+    margin-left: 10%;
 }
 
-.modalHeader {
+.editorCSS {
+}
 
+.writeArticleDiv {
+    background-image: url('../statics/noise.jpg') !important;
+
+}
+
+.typeSelect {
+    margin-left:20px;
+}
+
+.editorButton1 {
+    margin-left: 35%;
+    margin-right: 20px;
+}
+
+.editorButton2 {
+    margin-right: 40%;
 }

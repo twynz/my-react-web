@@ -61,7 +61,7 @@ class Header extends Component {
         const LOGIN_URL = '/Login';
         return (
             <div className="div-header">
-                <Navbar collapseOnSelect bg="dark" variant="dark" fixed="top" className="nav-bar-customize">
+                <Navbar collapseOnSelect bg="dark" variant="dark" className="nav-bar-customize">
                     <Navbar.Brand href="#" className="navbrand">Wenyu In NZ</Navbar.Brand>
                     <Nav>
                         <Nav.Link href="/">
