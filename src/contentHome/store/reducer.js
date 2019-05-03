@@ -4,7 +4,8 @@ const s = fromJS({
     result: checkContentFieldByKey('result'),
     currentContentType:checkContentFieldByKey('currentContentType'),
     currentArticleTitle:checkContentFieldByKey('currentArticleTitle'),
-    currentArticleContent:checkContentFieldByKey('currentArticleContent')
+    currentArticleContent:checkContentFieldByKey('currentArticleContent'),
+    loadResume: "false"
 });
 
 function checkContentFieldByKey(key){
@@ -31,6 +32,7 @@ function checkContentFieldByKey(key){
             console.log('resultlist now is '+resultList);
             return resultList;
         }
+
         return field;
     }
     else {
@@ -61,6 +63,13 @@ export default (state = s , action) => {
         return state.merge({
             currentArticleTitle: action.title,
             currentArticleContent: action.content
+        });
+    }
+
+    if(action.type === 'setResume') {
+        console.log('set resume status is '+action.loadResume);
+        return state.merge({
+            loadResume: action.loadResume
         });
     }
     return state;

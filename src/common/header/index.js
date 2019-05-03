@@ -73,9 +73,9 @@ class Header extends Component {
                             <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="white" icon="user"/>
                             About Me
                         </Nav.Link>
-                        <Nav.Link href="#pricing">
-                            <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#424ef4"
-                                          icon="linkedin"/>
+                        <Nav.Link href="/resume">
+                            <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#a5c1ef"
+                                          icon="profile"/>
                             My Resume
                         </Nav.Link>
 

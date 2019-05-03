@@ -4,10 +4,12 @@ import {withRouter} from "react-router";
 import {Redirect} from 'react-router-dom';
 import ReactQuill, {Quill} from 'react-quill';
 import {Modal, Button} from 'react-bootstrap';
+import { ImageResize } from 'quill-image-resize-module';
 import './style.css';
 
-const LOGIN_URL = '/Login';
 const HOME_URL = '/';
+
+Quill.register('modules/imageResize', ImageResize);
 
 function loadDarftContent(){
     let content = sessionStorage.getItem("draftContent");
@@ -28,7 +30,8 @@ class Write extends Component {
             theme: 'snow',
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
-            type: null
+            type: null,
+            articleType: null
         };
         this.hideModal = () => {
             this.setState({isShowModal: false});
@@ -37,9 +40,6 @@ class Write extends Component {
         this.redirectToHome = () => {
             this.props.history.push(HOME_URL);
         };
-
-
-
     }
 
     handleThemeChange(item) {
@@ -50,6 +50,11 @@ class Write extends Component {
     handleTypeChange(item) {
         console.log('set type to ' + item);
         this.setState({type: item});
+    }
+
+    handleArticleTypeChange(item) {
+        console.log('set type to ' + item);
+        this.setState({articleType: item});
     }
 
     handleEditorChange(value) {
@@ -73,6 +78,8 @@ class Write extends Component {
         }
         sessionStorage.setItem('draftContent',content);
     }
+
+
 
     render() {
         const {isLogined} = this.props;
@@ -100,6 +107,7 @@ class Write extends Component {
                                       className={'ql-editor'}
                                       value={this.state.editorHtml}
                                       onChange={this.handleEditorChange.bind(this)}
+
                         />
                     </Modal.Body>
                     <Modal.Footer>
@@ -109,6 +117,15 @@ class Write extends Component {
                                 this.handleThemeChange(e.target.value)}>
                                 <option value="snow">Snow</option>
                                 <option value="bubble">Bubble</option>
+                            </select>
+                        </div>
+
+                        <div className="breifOrDetail">
+                            <label>Select Article Type</label>
+                            <select onChange={(e) =>
+                                this.handleArticleTypeChange(e.target.value)}>
+                                <option value="brief">brief</option>
+                                <option value="detail">detail</option>
                             </select>
                         </div>
                         <div className="typeSelect">
@@ -152,8 +169,9 @@ Write.modules = {
     clipboard: {
         // toggle to add extra line breaks when pasting HTML:
         matchVisual: false,
-    }
-}
+    },
+    imageResize: true
+};
 
 Write.formats = [
     'header', 'font', 'size',

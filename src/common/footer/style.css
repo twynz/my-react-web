@@ -42,3 +42,7 @@ a.linkedin-href:hover {
 .footer-in-document-flow {
     bottom: 1px;
 }
+
+a.github-href:hover {
+    color: #e2d62d;
+}
