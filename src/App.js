@@ -17,7 +17,7 @@ import Wwrite from "./resume/index.js";
 class App extends Component {
 
     // whetherRenderFooter() {
-    //     if(this.props.loadResume === 'false') {
+    //     if(this.props.NoResume === 'false') {
     //         return <Footer/>
     //     }
     //     return  null;

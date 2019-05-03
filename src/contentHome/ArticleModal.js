@@ -2,8 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Modal,Button,ListGroup,ListGroupItem} from 'react-bootstrap';
-
+import {Modal, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 const HOME_URL = '/';
 
@@ -15,7 +14,7 @@ class ArticleModal extends Component {
         this.renderTitleList = this.renderTitleList.bind(this);
         this.hideModal = () => {
             console.log("hideMoadl called!");
-            this.redirectToParent('/content/'+this.props.match.params.type);
+            this.redirectToParent('/content/' + this.props.match.params.type);
         };
         this.redirectToParent = (URL) => {
             console.log("redirect to parent called!");
@@ -26,7 +25,13 @@ class ArticleModal extends Component {
     componentDidMount() {
         let currentArticleId = this.props.match.params.id;
         this.props.loadArticleById(currentArticleId);
+        this.props.setNoFooter("true");
     }
+
+    componentWillUnmount() {
+        this.props.setNoFooter("false");
+    }
+
 
     //todo need to figure out sessionstorage value store array
     renderTitleList(result) {
@@ -36,20 +41,18 @@ class ArticleModal extends Component {
 
         if (result !== null) {
 
-            if(result.constructor.name === 'Array')
-            {
+            if (result.constructor.name === 'Array') {
                 result.map((item, index) => {
                     titleList.push(
                         <Link to={'/content/' + parentPath + '/article/' + item.id}
                               style={{textDecoration: 'none'}}
                         >
                             <ListGroupItem className="title-item">
-                                    {item.title}
+                                {item.title}
                             </ListGroupItem>
                         </Link>)
-                 })
-            }
-            else {
+                })
+            } else {
                 result.map((item) => {
                     console.log('now item is' + item.get('id'));
                     titleList.push(
@@ -62,7 +65,8 @@ class ArticleModal extends Component {
                         </Link>)
                 })
             }
-        };
+        }
+        ;
         return titleList;
     }
 
@@ -70,50 +74,39 @@ class ArticleModal extends Component {
     render() {
         const {result} = this.props;
         let parentPath = this.props.match.params.type;
-        console.log('result in detail is'+result+ result.constructor.name);
-        console.log('rsult is '+result);
+        console.log('result in detail is' + result + result.constructor.name);
+        console.log('rsult is ' + result);
         return (
-            <Fragment>
-                <Modal
-                    show={true}
-                    size={"lg"}
-                    onHide={this.hideModal}
-                >
-                    <Modal.Header className={'articleModal'} closeButton>
-                        <div className='ml-auto articleModalTitle'>
-                            {this.props.currentArticleTitle}
+            <div className="detailDiv">
+                <div className='ml-auto articleModalTitle'>
+                    <h1 className="articleHeader">{this.props.currentArticleTitle}</h1>
+                </div>
+                <div>
+                    <ListGroup className="articleTitleDiv mr-auto">
+                        <div className="articleTitle">
+                            <h3>{parentPath.toUpperCase() + " ARTICLE:"}</h3>
                         </div>
-                    </Modal.Header>
-                    <Modal.Body className={'articleModal'}>
-                        <div>
-                            <ListGroup className="articleTitleDiv mr-auto">
-                                <div className={"articleTitle"}>
-                                    {parentPath.toUpperCase() +" ARTICLE:"}
-                                </div>
-                                {this.renderTitleList(result)}
-                            </ListGroup>
-                            <div className="articleContentDiv mr-auto"
-                                 dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer style={{backgroundColor:"black"}}>
-                        <div className='mr-auto copyRight'>
-                        {'@Copyright:WenyuInNZ' }
-                        </div>
-                        <Link to={parentPath}>
-                            <Button
-                                className={'mr-auto'}
-                                variant={"outline-primary"}
-                                onClick={()=>this.redirectToParent('/content/'+parentPath)}
-                            >
-                                Back To Previous
-                            </Button>
-                        </Link>
-                    </Modal.Footer>
-                </Modal>
-
-            </Fragment>
+                        {this.renderTitleList(result)}
+                    </ListGroup>
+                    <div className="articleContentDiv mr-auto"
+                         dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
+                    </div>
+                </div>
+                <div className='copyRight'>
+                    {'@Copyright:WenyuInNZ'}
+                </div>
+                <div className="goPreviousButton">
+                    <Link to={parentPath}>
+                        <Button
+                            size={"lg"}
+                            variant={"primary mr-auto"}
+                            onClick={() => this.redirectToParent('/content/' + parentPath)}
+                        >
+                            Back To Previous
+                        </Button>
+                    </Link>
+                </div>
+            </div>
 
         );
     }
@@ -122,7 +115,8 @@ class ArticleModal extends Component {
 const mapStateToProps = (state) => ({
     currentArticleTitle: state.getIn(['content', 'currentArticleTitle']),
     currentArticleContent: state.getIn(['content', 'currentArticleContent']),
-    result: state.getIn(['content', 'result'])
+    result: state.getIn(['content', 'result']),
+    noFooter: state.getIn(['content', 'noFooter'])
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -141,6 +135,17 @@ const mapDispatchToProps = (dispatch) => ({
             }).catch((e) => {
             console.log('error' + e);
         });
+    },
+    setNoFooter(noFooter) {
+        console.log('axios called in article!');
+
+        const setNoFooterAction = {
+            type: 'setNoFooter',
+            noFooter: noFooter
+        };
+        sessionStorage.setItem("noFooter", noFooter);
+        dispatch(setNoFooterAction);
+
     }
 });
 

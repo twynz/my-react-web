@@ -4,16 +4,16 @@ import {withRouter} from "react-router";
 import {Redirect} from 'react-router-dom';
 import ReactQuill, {Quill} from 'react-quill';
 import {Modal, Button} from 'react-bootstrap';
-import { ImageResize } from 'quill-image-resize-module';
+import {ImageResize} from 'quill-image-resize-module';
 import './style.css';
 
 const HOME_URL = '/';
 
 Quill.register('modules/imageResize', ImageResize);
 
-function loadDarftContent(){
+function loadDarftContent() {
     let content = sessionStorage.getItem("draftContent");
-    if(content!=null) {
+    if (content != null) {
         return content;
     }
     return '';
@@ -26,7 +26,7 @@ class Write extends Component {
         super(props);
 
         this.state = {
-            editorHtml:loadDarftContent(),
+            editorHtml: loadDarftContent(),
             theme: 'snow',
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
@@ -76,51 +76,45 @@ class Write extends Component {
             alert("Empty content not allowed!");
             return;
         }
-        sessionStorage.setItem('draftContent',content);
+        sessionStorage.setItem('draftContent', content);
     }
 
+    componentDidMount() {
+        this.props.setNoFooter("true");
+    }
 
+    componentWillUnmount() {
+        this.props.setNoFooter("false");
+    }
 
     render() {
         const {isLogined} = this.props;
-        console.log('is loginin is'+isLogined);
+        console.log('is loginin is' + isLogined);
         if (isLogined) {
             return (
-                <Modal
-                    size={"lg"}
-                    show={this.state.isShowModal}
-                    centered
-                    onHide={this.hideModal}
-                >
-                    <Modal.Header
-                        closeButton
-                    >
-                        <div className={"modalHeader"}>
-                         Don't forget to select tech type.
-                        </div>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <ReactQuill theme={this.state.theme}
-                                      modules={Write.modules}
-                                      formats={Write.formats}
-                                      placeholder={this.state.placeholder}
-                                      className={'ql-editor'}
-                                      value={this.state.editorHtml}
-                                      onChange={this.handleEditorChange.bind(this)}
+                <div className="writeArticleDiv">
+                    <div className={"modalHeader"}>
+                        Don't forget to select tech type.
+                    </div>
+                    <ReactQuill theme={this.state.theme}
+                                modules={Write.modules}
+                                formats={Write.formats}
+                                placeholder={this.state.placeholder}
+                                className='ql-editor editorCSS'
+                                value={this.state.editorHtml}
+                                onChange={this.handleEditorChange.bind(this)}
 
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <div className="themeChanger">
-                            <label>Change a theme </label>
-                            <select onChange={(e) =>
-                                this.handleThemeChange(e.target.value)}>
-                                <option value="snow">Snow</option>
-                                <option value="bubble">Bubble</option>
-                            </select>
-                        </div>
+                    />
+                    <div className="typeSelect">
+                        <label>Change a theme </label>
+                        <select onChange={(e) =>
+                            this.handleThemeChange(e.target.value)}>
+                            <option value="snow">Snow</option>
+                            <option value="bubble">Bubble</option>
+                        </select>
 
-                        <div className="breifOrDetail">
+
+                        <div>
                             <label>Select Article Type</label>
                             <select onChange={(e) =>
                                 this.handleArticleTypeChange(e.target.value)}>
@@ -128,7 +122,7 @@ class Write extends Component {
                                 <option value="detail">detail</option>
                             </select>
                         </div>
-                        <div className="typeSelect">
+                        <div>
                             <label>Select Tech Type</label>
                             <select onChange={(e) =>
                                 this.handleTypeChange(e.target.value)}>
@@ -138,14 +132,14 @@ class Write extends Component {
                                 <option value="architecture">architecture</option>
                             </select>
                         </div>
-                        <Button onClick={this.handleSave.bind(this)}>
+                        <Button className="editorButton1" onClick={this.handleSave.bind(this)}>
                             Save To Session
                         </Button>
-                        <Button onClick={this.handleSubmit.bind(this)}>
+                        <Button className="editorButton2" onClick={this.handleSubmit.bind(this)}>
                             Submit
                         </Button>
-                    </Modal.Footer>
-                </Modal>
+                    </div>
+                </div>
             );
         } else {
             if (this.props.redirectPath !== '/write') {
@@ -184,7 +178,8 @@ const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
-        redirectPath: state.getIn(['login', 'previousPath'])
+        redirectPath: state.getIn(['login', 'previousPath']),
+        noFooter: state.getIn(['content', 'noFooter'])
     }
 };
 
@@ -197,6 +192,16 @@ const mapDispatchToProps = (dispatch) => {
             };
             sessionStorage.setItem('redirectPath', '/write');
             dispatch(setCurrentPathToLogin);
+        },
+        setNoFooter(noFooter) {
+            console.log('axios called in article!');
+
+            const setNoFooterAction = {
+                type: 'setNoFooter',
+                noFooter: noFooter
+            };
+            sessionStorage.setItem("noFooter", noFooter);
+            dispatch(setNoFooterAction);
         }
     }
 };
