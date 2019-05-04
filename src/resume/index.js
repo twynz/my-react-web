@@ -46,8 +46,8 @@ class Resume extends Component {
                         </p>
                         <p>
                             Well, I am also very good at self-learning&driven and do innovations. One proof is that I had
-                            3 US patents filed at United Trademark and Patents Office. All of these patnets I invented during
-                            my daily work and as first inventor for 2 of them. I am currently a pgd student at Massey University,
+                            2 US patents filed at United Trademark and Patents Office and 1 China patent. All of these patents I invented during
+                            my daily work. I am currently a pgd student at Massey University,
                             will graduate at October 2019. Hope to find a job here and welcome any internship opportunity
                             before I graduate.
                         </p>

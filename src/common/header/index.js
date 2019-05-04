@@ -56,20 +56,20 @@ class Header extends Component {
 
     //todo will add register function
     render() {
-        const {focused, username, frontEndArticleNames} = this.props;
+        const {username} = this.props;
         console.log('username is from props ' + username + "  " + username === "null");
         const LOGIN_URL = '/Login';
         return (
             <div className="div-header">
                 <Navbar collapseOnSelect bg="dark" variant="dark" className="nav-bar-customize">
-                    <Navbar.Brand href="#" className="navbrand">Wenyu In NZ</Navbar.Brand>
+                    <Navbar.Brand href="/" className="navbrand">Wenyu In NZ</Navbar.Brand>
                     <Nav>
                         <Nav.Link href="/">
                             <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#f4f142"
                                           icon="home"/>
                             Home
                         </Nav.Link>
-                        <Nav.Link href="#pricing">
+                        <Nav.Link href="/aboutMe">
                             <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="white" icon="user"/>
                             About Me
                         </Nav.Link>
@@ -105,6 +105,12 @@ class Header extends Component {
                             <NavDropdown.Item href={'/content/' + 'devops'}>
                                     DevOps
                             </NavDropdown.Item>
+
+                            <NavDropdown.Divider/>
+                            <NavDropdown.Item href={'/content/' + 'patents'}>
+                                    My US patents
+                            </NavDropdown.Item>
+
                         </DropdownButton>
                     </Nav>
                     <Nav className="ml-auto">
