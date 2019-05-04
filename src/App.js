@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import Header from './common/header';
-import {connect, Provider} from 'react-redux';
+import {Provider} from 'react-redux';
 import store from './store';
-import {BrowserRouter, Route, Switch, withRouter} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import './statics/iconfont/iconfont';
 import Login from './common/login';
 import Write from './write';
@@ -12,16 +12,10 @@ import './style.css';
 import Footer from "./common/footer";
 import Content from "./contentHome/Content.js";
 import ArticleModal from "./contentHome/ArticleModal.js";
-import Wwrite from "./resume/index.js";
+import Resume from "./resume/index.js";
+import AboutMe from "./aboutMe/index.js";
 
 class App extends Component {
-
-    // whetherRenderFooter() {
-    //     if(this.props.NoResume === 'false') {
-    //         return <Footer/>
-    //     }
-    //     return  null;
-    // }
 
     render() {
         return (
@@ -32,8 +26,9 @@ class App extends Component {
                         <Header/>
                         <Switch>
                             <Route path='/Login' exact component={Login}></Route>
+                            <Route path='/aboutMe' exact component={AboutMe}></Route>
                             <Route path='/write' exact component={Write}></Route>
-                            <Route path='/resume' exact component={Wwrite}></Route>
+                            <Route path='/resume' exact component={Resume}></Route>
                             <Route path='/content/:type' exact component={Content}></Route>
                             <Route path='/content/:type/article/:id' exact component={ArticleModal}></Route>
                         </Switch>
