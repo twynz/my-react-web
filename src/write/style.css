@@ -10,11 +10,11 @@
 
 .writeArticleDiv {
     background-image: url('../statics/noise.jpg') !important;
-
+    min-height: 100vh;
 }
 
 .typeSelect {
-    margin-left:20px;
+    margin-left: 20px;
 }
 
 .editorButton1 {
