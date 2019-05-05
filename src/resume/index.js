@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import './style.css';
-
+import {Row, Col, Container} from 'react-bootstrap';
 class Resume extends Component {
 
     componentDidMount() {
@@ -19,7 +19,6 @@ class Resume extends Component {
             <div className="resumeFragment">
                 <div id="page-wrap">
 
-                    <img src={require("../statics/avatar.png")} id="pic"/>
 
                     <div id="contact-info" className="vcard">
 
@@ -32,11 +31,12 @@ class Resume extends Component {
                         </p>
                     </div>
 
-                    <div id="objective">
-                        <p>
+                    <div className="objective">
+                        <p className='descP'>
                             Before I came here in New Zealand,
                             Worked as a software engineer for nearly 3 years and have experiences in top company(DELL EMC)
-                            and famous startup(Tradeshift).</p>
+                            and famous startup(Tradeshift).
+                        </p>
 
                         <p>    Having skills mainly on Java, I am pretty good at web backend programming. Such as micro services
                             and relating architecture stuffs such as message-queue, cache, cloud framework for building
@@ -55,11 +55,12 @@ class Resume extends Component {
 
                     <div className="clear"/>
 
-                    <dl>
-                        <dd className="clear"/>
+                    <div>
 
-                        <dt>Education</dt>
-                        <dd>
+
+                        <div>Education</div>
+
+                            <div style={{margin:'5px'}}>
                             <h2>Massey University (Postgraduate Diploma)</h2>
                             <p>
                                 <p>
@@ -67,20 +68,23 @@ class Resume extends Component {
                                     <strong>Start from:</strong>2019.02 <b>to</b> now
                                 </p>
                             </p>
-                        </dd>
+                            </div>
 
-                        <dd>
+                        <div>
                             <h2>Nanjing University (Master Degree)</h2>
                             <p>
                                 <strong>Major: </strong>Software Engineering<br/>
                                 <strong>Start from: </strong>2014.09 <b>to</b> 2016.06
                             </p>
-                        </dd>
+                        </div>
+                    </div>
 
-                        <dd className="clear"/>
 
-                        <dt>Skills</dt>
-                        <dd>
+
+
+<div className="skillDiv">
+                        <div>Skills</div>
+                        <div>
                             <div className="skills">
                                Java
                             </div>
@@ -135,12 +139,13 @@ class Resume extends Component {
                             <div className="skills">
                                 Css
                             </div>
-                        </dd>
-
+                        </div>
+</div>
                         <dd className="clear"/>
 
-                        <dt>Experience</dt>
-                        <dd>
+                        <div>Experience</div>
+                        <div>
+
                             <h2>DELL EMC <span>Software Engineer 2/Vxrail CPD Team</span></h2>
                             <ul>
                                 <li>Develop features for leading HCI storage system Vxrail including Service mangement,
@@ -162,21 +167,20 @@ class Resume extends Component {
                                 <li>Front end development using bootstrap</li>
                                 <li>Fix products bugs.</li>
                             </ul>
-                        </dd>
+                        </div>
 
                         <dd className="clear"/>
 
                         <dd className="clear"/>
 
-                        <dt>Recommend Letters </dt>
-                        <dd><a href="https://www.linkedin.com/in/wenyu-tang-827854126/">View my linkedin recommendations.</a></dd>
+                        <div>Recommend Letters </div>
+                        <div><a href="https://www.linkedin.com/in/wenyu-tang-827854126/">View my linkedin recommendations.</a></div>
 
                         <dd className="clear"/>
-                    </dl>
+                    </div>
 
                     <div className="clear"/>
                 </div>
-            </div>
 
         );
     }

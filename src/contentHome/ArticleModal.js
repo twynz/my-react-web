@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Row, Col, Container,Button, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
     'HYPER-CONVERGED INFRASTRUCTURE (HCI) DISTRIBUTED MONITORING SYSTEM'];
@@ -47,7 +47,7 @@ class ArticleModal extends Component {
                               style={{textDecoration: 'none'}}
                         >
                             <ListGroupItem className="title-item">
-                                {item.title}
+                                <span>{item.title}</span>
                             </ListGroupItem>
                         </Link>)
                 })
@@ -100,24 +100,38 @@ class ArticleModal extends Component {
         let parentPath = this.props.match.params.type;
         return (
             <div className="detailDiv">
+<Container>
                 <div className='ml-auto articleContentTitle'>
                     <h1 className="articleHeader">{this.props.currentArticleTitle}</h1>
                 </div>
-                <div>
+
+<Row>
+    <Col xs={12} sm={12} md={2} lg={2} xl={2}>
                     <ListGroup className="articleTitleDiv mr-auto">
+
                         <div className="articleTitle">
                             <h3>{parentPath.toUpperCase() + " ARTICLE:"}</h3>
                         </div>
+
                         {this.renderTitleList(result)}
+
                     </ListGroup>
+    </Col>
+    <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+
                     {this.renderContent()}
-                </div>
-                <div>
+    </Col>
+
+</Row>
+
+
+                <div className="contentFooter">
                     <div className="goPreviousButton">
                         <Link to={parentPath}>
                             <Button
-                                size={"lg"}
-                                variant={"dark mr-auto"}
+                                className='m-auto'
+                                size={'lg'}
+                                variant={"dark"}
                                 onClick={() => this.redirectToParent('/content/' + parentPath)}
                             >
                                 Back To Previous
@@ -125,6 +139,8 @@ class ArticleModal extends Component {
                         </Link>
                     </div>
                 </div>
+
+</Container>
             </div>
 
         );

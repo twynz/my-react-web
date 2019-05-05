@@ -8,6 +8,8 @@
 
 .write-button{
     margin-right:10px;
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 /*.nav-bar-customize{*/
@@ -34,6 +36,7 @@
 
 .div-header {
     margin-bottom: 0px;
+    z-index: 1040;
 }
 
 .title {
@@ -46,4 +49,10 @@
     font-size:16px;
     text-shadow: 1px 0px lightgray;
 
+}
+
+.loginButton {
+    margin-right:10px;
+    margin-top:10px;
+    margin-bottom:10px;
 }

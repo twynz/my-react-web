@@ -24,9 +24,11 @@ class Header extends Component {
         console.log('getLogin status username is ' + username + (username != null));
         if (username === null && typeof username === "object") {
             return (
-                <Button className="mr-auto" onClick={this.redirectToLogin.bind(this, LOGIN_URL)}>
+                <Button onClick={this.redirectToLogin.bind(this, LOGIN_URL)} className="loginButton">
                     Sign In
-                </Button>);
+                </Button>
+            );
+
         } else {
             return (
                 <div>
@@ -61,8 +63,10 @@ class Header extends Component {
         const LOGIN_URL = '/Login';
         return (
             <div className="div-header">
-                <Navbar collapseOnSelect bg="dark" variant="dark" className="nav-bar-customize">
+                <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="nav-bar-customize" style={{backgroundSize:"cover",zIndex:1040}}>
                     <Navbar.Brand href="/" className="navbrand">Wenyu In NZ</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav>
                         <Nav.Link href="/">
                             <IcomoonReact className="icon-cust" iconSet={iconSet} size={20} color="#f4f142"
@@ -113,14 +117,16 @@ class Header extends Component {
 
                         </DropdownButton>
                     </Nav>
-                    <Nav className="ml-auto">
+                        <Nav className="ml-auto">
 
-                        <Button href="/write" variant="danger" className="write-button">
-                            <i className="iconfont">&#xe615;</i>
-                            Write Article
-                        </Button>
-                        {this.getLoginState(username, LOGIN_URL)}
-                    </Nav>
+                            <Button href="/write" variant="danger" className="write-button">
+                                <i className="iconfont">&#xe615;</i>
+                                Write Article
+                            </Button>
+                            {this.getLoginState(username, LOGIN_URL)}
+                        </Nav>
+                    </Navbar.Collapse>
+
                 </Navbar>
             </div>
         );

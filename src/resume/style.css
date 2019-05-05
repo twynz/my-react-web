@@ -12,7 +12,7 @@
 }
 
 #page-wrap {
-    width: 800px;
+    width: 100%;
     margin: 40px auto 60px;
 
 }
@@ -69,15 +69,22 @@ ul {
     margin: 0 0 32px 17px;
 }
 
-#objective {
-    width: 500px;
+.objective {
     float: left;
+    margin:5px;
+
 }
 
-#objective p {
+.objective p {
+    letter-spacing: 1px;
     font-family: Georgia, Serif;
     font-style: italic;
     color: #666;
+}
+
+
+.descP {
+    width:100%;
 }
 
 dt {
@@ -112,5 +119,22 @@ dd.clear {
     margin-right: 3px;
     margin-bottom: 3px;
     opacity: 0.5;
+}
+
+.skillDiv{
+    word-break:break-all;
+}
+
+
+@media only screen and (max-width: 500px) {
+    .masthead {
+        padding: 3em 0;
+    }
+    .masthead-heading {
+        font-size: 3em;
+    }
+    .content-footer {
+        /*padding: 2em 2.5em;*/
+    }
 }
 

@@ -35,8 +35,9 @@ a.linkedin-href:hover {
 }
 
 .footer {
-    position: fixed;
     bottom: 1px;
+    overflow: auto;
+    position: fixed;
 }
 
 .footer-in-document-flow {
