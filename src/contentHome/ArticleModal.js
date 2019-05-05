@@ -117,8 +117,7 @@ class ArticleModal extends Component {
                         <Link to={parentPath}>
                             <Button
                                 size={"lg"}
-                                active={true}
-                                variant={"outline-dark mr-auto"}
+                                variant={"dark mr-auto"}
                                 onClick={() => this.redirectToParent('/content/' + parentPath)}
                             >
                                 Back To Previous

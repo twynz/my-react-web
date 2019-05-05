@@ -71,6 +71,7 @@
     font-family: Georgia, Serif;
     margin-bottom: 10px;
     text-align: center;
+    text-shadow: 3px 3px gainsboro;
 }
 
 .modalHeaderTitle {
@@ -93,6 +94,7 @@
     text-align: center;
     padding: 10px;
     font-family: Georgia, Serif;
+    text-shadow: 2px 2px gainsboro;
 }
 
 .goPreviousButton {

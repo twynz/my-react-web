@@ -91,23 +91,23 @@ class Header extends Component {
                             className="drop-down-button"
                         >
 
-                            <NavDropdown.Item href={'/content/' + 'architecture'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'architecture'}>
                                     Architecture
                             </NavDropdown.Item>
 
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href={'/content/' + 'frontEnd'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'frontEnd'}>
                                     Front End
                             </NavDropdown.Item>
-                            <NavDropdown.Item href={'/content/' + 'backEnd'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'backEnd'}>
                                     Back End
                             </NavDropdown.Item>
-                            <NavDropdown.Item href={'/content/' + 'devops'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'devops'}>
                                     DevOps
                             </NavDropdown.Item>
 
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item href={'/content/' + 'patents'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'patents'}>
                                     My US patents
                             </NavDropdown.Item>
 
