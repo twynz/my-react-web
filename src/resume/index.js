@@ -65,23 +65,22 @@ class Resume extends Component {
                     <div className='skillDiv'>
 
 
-                        <div className='skillTitle'><h3 style={{marginTop: "20px"}}>Education</h3></div>
-
+                        <div className='skillTitle'><h3 style={{marginTop: "20px"}} className='companyName'>Education</h3></div>
+<br/>
                         <div style={{margin: '5px'}}>
-                            <h2>Massey University (Postgraduate Diploma)</h2>
-                            <p>
-                                <p>
-                                    <strong>Major:</strong>Information Technology<br/>
-                                    <strong>Start from:</strong>2019.02 <b>to</b> now
+                            <h2 className='companyName'>Massey University (Postgraduate Diploma)</h2>
+                                <p className='educationP'>
+                                    <strong>- Major:</strong>Information Technology<br/>
+                                    <strong>- Start from:</strong>2019.02 <b>to</b> now
                                 </p>
-                            </p>
                         </div>
 
                         <div style={{margin: '5px'}}>
-                            <h2>Nanjing University (Master Degree)</h2>
+                            <h2 className='companyName'>Nanjing University (Master Degree)</h2>
+                            <br/>
                             <p>
-                                <strong>Major: </strong>Software Engineering<br/>
-                                <strong>Start from: </strong>2014.09 <b>to</b> 2016.06
+                                <strong>- Major: </strong>Software Engineering<br/>
+                                <strong>- Start from: </strong>2014.09 <b>to</b> 2016.06
                             </p>
                         </div>
                     </div>
@@ -153,7 +152,10 @@ class Resume extends Component {
                     <div className='skillDiv'><h3 className='skillTitle'>Experience</h3></div>
                     <div className='skillDiv'>
 
-                        <h2>DELL EMC <span>Software Engineer 2/Vxrail CPD Team</span></h2>
+                        <h2 className='companyName'>DELL EMC</h2>
+                            <div className='companyTitle'>
+                                Software Engineer 2/Vxrail CPD Team
+                            </div>
                         <ul>
                             <li>Develop features for leading HCI storage system Vxrail including Service mangement,
                                 lifecycle control, components configuration and service monitoring
@@ -162,7 +164,8 @@ class Resume extends Component {
                             <li>Participate in internal tech prototype developments.</li>
                         </ul>
 
-                        <h2>TradeShift <span>Software Engineer/Foundation Team</span></h2>
+                        <h2 className='companyName'>TradeShift</h2>
+                        <div className='companyTitle'>Software Engineer/Foundation Team</div>
                         <ul>
                             <li>Worked for localization e-invoice projects</li>
                             <li>Help to build architecture and common structure framework and tools to support customer
@@ -171,7 +174,8 @@ class Resume extends Component {
                             <li>Back end micro services design, development and code optimization.</li>
                         </ul>
 
-                        <h2>DELL EMC <span>Software Engineer Intern/Data Domain CTD Team</span></h2>
+                        <h2 className='companyName'>DELL EMC</h2>
+                        <div className='companyTitle'>Software Engineer Intern/Data Domain CTD Team</div>
                         <ul>
                             <li>Take part in back end services design and development.</li>
                             <li>Front end development using bootstrap</li>

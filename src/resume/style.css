@@ -136,4 +136,17 @@ dd.clear {
     margin:20px;
 }
 
+.companyTitle {
+    font-family: 'Merienda One';
+    color:#626468;
+    font-size: 12px;
+    text-shadow: 1px 1px 1px lightgray;
+    margin-left: 20px;
+}
+
+.companyName {
+    text-shadow: 1px 1px 0px #ededed;
+    font-family: 'Gentium Book Basic';
+}
+
 
