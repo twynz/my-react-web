@@ -71,7 +71,7 @@ ul {
 
 .objective {
     float: left;
-    margin:5px;
+    margin:20px;
 
 }
 
@@ -123,18 +123,17 @@ dd.clear {
 
 .skillDiv{
     word-break:break-all;
+    margin: 20px;
 }
 
-
-@media only screen and (max-width: 500px) {
-    .masthead {
-        padding: 3em 0;
-    }
-    .masthead-heading {
-        font-size: 3em;
-    }
-    .content-footer {
-        /*padding: 2em 2.5em;*/
-    }
+.skillTitle {
+    font-family: "Bangla MN";
+    margin-bottom: 20px;
+    margin-top:50px;
 }
+
+.vcard {
+    margin:20px;
+}
+
 

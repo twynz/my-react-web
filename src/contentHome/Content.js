@@ -46,7 +46,6 @@ class Content extends Component {
     }
 
     renderImg(itemImage) {
-        console.log('!!!!!!!!!!!!!!!!!itemImage is '+itemImage);
         if(itemImage != null) {
             return <img alt='' className='pic' src={itemImage}/>
         }
@@ -59,7 +58,6 @@ class Content extends Component {
         let itemList = [];
         if (result !== null) {
             result.map((item, index) => {
-                console.log('!!!!!!!!!!!!!!!!!itemImage is '+item.img);
                 itemList.push(
                     <Link to={'/content/'+contentType+'/article/' + item.id}
                           style={{textDecoration: 'none'}}
