@@ -5,6 +5,8 @@ import {Alert, Button, Modal, Form, FormGroup, FormControl} from 'react-bootstra
 import {withRouter} from "react-router";
 import './style.css';
 import {Md5} from 'ts-md5';
+import {GET_TOKEN} from "../../constant/urlConstant";
+import qs from 'qs'
 
 class Login extends Component {
 
@@ -54,10 +56,11 @@ class Login extends Component {
     }
 
     onChangePassword(event) {
-        const md5 = new Md5();
-        let encryptPassword = md5.appendStr(event.target.value).end();
-        console.log("Encrypt md5 value" + encryptPassword);
-        this.setState({password: encryptPassword});
+       // const md5 = new Md5();
+       // let encryptPassword = md5.appendStr(event.target.value).end();
+       // console.log("Encrypt md5 value" + encryptPassword);
+       // this.setState({password: encryptPassword});
+        this.setState({password: event.target.value});
     }
 
     render() {
@@ -137,9 +140,10 @@ const mapStateToProps = (state) => {
         redirectPath: state.getIn(['login', 'previousPath']),
         errorMsg: state.getIn(['login', 'errorMsg'])
     }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
+
     return {
         userLogin(username, password) {
             console.log('!!!!!' + username + '!!!' + password);
@@ -147,38 +151,67 @@ const mapDispatchToProps = (dispatch) => {
 
             let keyUsername = 'username';
             let keyPassword = 'password';
+            let grantType = 'grant_type';
 
-            const formData = new FormData();
-            formData.set(keyUsername, username.value);
-            formData.set(keyPassword, password.value);
-            console.log('axios called!');
-            axios({
-                method: 'post',
-                url: '/api/userLogin',
-                data: formData,
-                config: {headers: {'Content-Type': 'multipart/form-data'}}
+            let clientAuthorization = btoa('test:test');
+            clientAuthorization = 'Basic '+clientAuthorization;
+            //
+            // var body = {
+            //     grant_type: 'password',
+            //     username: username,
+            //     password: password
+            // };
+            console.log('client aut'+clientAuthorization);
+
+
+            const requestBody = {
+                username: username,
+                password: password,
+                grant_type: 'password'
+            };
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': clientAuthorization
+                }
+            };
+
+            axios.post(GET_TOKEN, qs.stringify({
+                grant_type: 'password',
+                username: 'twy',
+                password: 'twy'
+            }), {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': clientAuthorization
+                }
             }).then((res) => {
-                let originAxiosRes = res.data;
+                    console.log('return res'+res);
+                    let originAxiosRes = res.data;
+                console.log(originAxiosRes['access_token']);
+                    const userLoginAction = {
+                        type: 'userLoginAction',
+                        username: originAxiosRes.username,
+                        isLogined: originAxiosRes.isLogined,
+                        data: originAxiosRes
+                    };
 
-                const userLoginAction = {
-                    type: 'userLoginAction',
-                    username: originAxiosRes.username,
-                    isLogined: originAxiosRes.isLogined,
-                    data: originAxiosRes
-                };
+                    // setValueByKeyToSessionStorage('username', originAxiosRes.username);
+                    // setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
+                    // setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
+                    //
+                    // console.log('dispatch user login action');
+                    // dispatch(userLoginAction);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
 
-                setValueByKeyToSessionStorage('username', originAxiosRes.username);
-                setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
-                setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
 
-                console.log('dispatch user login action');
-                dispatch(userLoginAction);
-            }).catch((e) => {
-                console.log(e);
-                // this.props.errorMsg = e.toString();
-            });
+            console.log('axios called!');
         }
     }
-}
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
