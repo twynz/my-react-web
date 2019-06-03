@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router";
 import {Redirect} from 'react-router-dom';
 import ReactQuill, {Quill} from 'react-quill';
-import {Modal, Button} from 'react-bootstrap';
+import {FormControl, Button} from 'react-bootstrap';
 import {ImageResize} from 'quill-image-resize-module';
 import './style.css';
 
@@ -31,16 +31,14 @@ class Write extends Component {
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
             type: null,
-            articleType: null
-        };
-        this.hideModal = () => {
-            this.setState({isShowModal: false});
-            this.redirectToHome(HOME_URL);
+            articleType: null,
+            articleTitle: null
         };
         this.redirectToHome = () => {
             this.props.history.push(HOME_URL);
         };
     }
+
 
     handleThemeChange(item) {
         console.log('set theme to ' + item);
@@ -63,12 +61,23 @@ class Write extends Component {
 
     handleSubmit() {
         let content = this.state.editorHtml;
-        if (content === '' || content === null) {
+        let title = this.state.articleTitle;
+        if (content === '' || content === null || title === '' || title === null) {
             alert("Empty content not allowed!");
             return;
         }
+        let contentType = this.state.type;
+        let postObj = {};
+        postObj[contentType]= contentType;
+        postObj[title] = title;
+        postObj[content] = content;
         console.log("内容是" + content);
     }
+
+    handleArticleNameChange(value) {
+        this.setState({articleName: value})
+    }
+
 
     handleSave() {
         let content = this.state.editorHtml;
@@ -95,6 +104,16 @@ class Write extends Component {
                 <div className="writeArticleDiv">
                     <div className={"modalHeader"}>
                         Don't forget to select tech type.
+                    </div>
+
+                    <div className ='titleInput'>
+                        <FormControl
+
+                            placeholder="articleTitle"
+                            aria-label="articleTitle"
+                            aria-describedby="basic-addon1"
+                            onChange={this.handleArticleNameChange.bind(this)}
+                        />
                     </div>
                     <ReactQuill theme={this.state.theme}
                                 modules={Write.modules}
