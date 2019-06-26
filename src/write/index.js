@@ -6,6 +6,9 @@ import ReactQuill, {Quill} from 'react-quill';
 import {FormControl, Button} from 'react-bootstrap';
 import {ImageResize} from 'quill-image-resize-module';
 import './style.css';
+import axios from "axios";
+import qs from "qs";
+import {ADD_ARTICLE} from "../constant/urlConstant";
 
 const HOME_URL = '/';
 
@@ -24,15 +27,16 @@ class Write extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             editorHtml: loadDarftContent(),
             theme: 'snow',
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
-            type: null,
-            articleType: null,
-            articleTitle: null
+            articleType: 'brief',
+            articleName:null,
+            articleAuthor:'Wenyu Tang',
+            category:'frontend',
+            body:null
         };
         this.redirectToHome = () => {
             this.props.history.push(HOME_URL);
@@ -61,21 +65,39 @@ class Write extends Component {
 
     handleSubmit() {
         let content = this.state.editorHtml;
-        let title = this.state.articleTitle;
+        let title = this.state.articleName;
         if (content === '' || content === null || title === '' || title === null) {
             alert("Empty content not allowed!");
             return;
         }
-        let contentType = this.state.type;
+        let contentType = this.state.articleType;
+        let category = this.state.category;
         let postObj = {};
-        postObj[contentType]= contentType;
+        postObj[contentType] = contentType;
         postObj[title] = title;
+        postObj[category] = category;
         postObj[content] = content;
-        console.log("内容是" + content);
+        console.log("内容是" + content+' title'+title+' category'+category+' type'+contentType);
+
+
+        // let clientAuthorization = btoa('test:test');
+        // clientAuthorization = 'Basic ' + clientAuthorization;
+        //
+        // axios.post(ADD_ARTICLE, postObj), {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Authorization': clientAuthorization,
+        //         'token': this.props.access_token,
+        //     }
+        // }).then((res) => {
+        //     console.log('return res' + res);
+        // }).catch((e) => {
+        //     console.log(e);
+        // });
     }
 
-    handleArticleNameChange(value) {
-        this.setState({articleName: value})
+    handleArticleNameChange(event) {
+        this.setState({articleName: event.target.value})
     }
 
 
@@ -106,7 +128,7 @@ class Write extends Component {
                         Don't forget to select tech type.
                     </div>
 
-                    <div className ='titleInput'>
+                    <div className='titleInput'>
                         <FormControl
 
                             placeholder="articleTitle"
@@ -198,6 +220,7 @@ const mapStateToProps = (state) => {
         isLogined: state.getIn(['login', 'isLogined']),
         username: state.getIn(['login', 'username']),
         redirectPath: state.getIn(['login', 'previousPath']),
+        access_token: state.getIn(['login', 'access_token']),
         noFooter: state.getIn(['content', 'noFooter'])
     }
 };
