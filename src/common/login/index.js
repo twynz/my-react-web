@@ -4,7 +4,6 @@ import axios from "axios";
 import {Alert, Button, Modal, Form, FormGroup, FormControl} from 'react-bootstrap';
 import {withRouter} from "react-router";
 import './style.css';
-import {Md5} from 'ts-md5';
 import {GET_TOKEN} from "../../constant/urlConstant";
 import qs from 'qs'
 
@@ -17,6 +16,7 @@ class Login extends Component {
             username: '',
             password: '',
             isShowModal: true,
+            errorMsg: null
         };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -56,10 +56,10 @@ class Login extends Component {
     }
 
     onChangePassword(event) {
-       // const md5 = new Md5();
-       // let encryptPassword = md5.appendStr(event.target.value).end();
-       // console.log("Encrypt md5 value" + encryptPassword);
-       // this.setState({password: encryptPassword});
+        // const md5 = new Md5();
+        // let encryptPassword = md5.appendStr(event.target.value).end();
+        // console.log("Encrypt md5 value" + encryptPassword);
+        // this.setState({password: encryptPassword});
         this.setState({password: event.target.value});
     }
 
@@ -147,66 +147,55 @@ const mapDispatchToProps = (dispatch) => {
     return {
         userLogin(username, password) {
             console.log('!!!!!' + username + '!!!' + password);
-
-
-            let keyUsername = 'username';
-            let keyPassword = 'password';
-            let grantType = 'grant_type';
-
+            const errorMsg = 'Error Username or Password!';
             let clientAuthorization = btoa('test:test');
-            clientAuthorization = 'Basic '+clientAuthorization;
-            //
-            // var body = {
-            //     grant_type: 'password',
-            //     username: username,
-            //     password: password
-            // };
-            console.log('client aut'+clientAuthorization);
+            clientAuthorization = 'Basic ' + clientAuthorization;
 
-
-            const requestBody = {
-                username: username,
-                password: password,
-                grant_type: 'password'
-            };
-
-            const config = {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': clientAuthorization
-                }
-            };
 
             axios.post(GET_TOKEN, qs.stringify({
                 grant_type: 'password',
-                username: 'twy',
-                password: 'twy'
+                username: username,
+                password: password
             }), {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Authorization': clientAuthorization
                 }
             }).then((res) => {
-                    console.log('return res'+res);
-                    let originAxiosRes = res.data;
-                console.log(originAxiosRes['access_token']);
+                console.log('return res' + res);
+                //parse vars
+                let originAxiosRes = res.data;
+                if (originAxiosRes['access_token'] != null) {
                     const userLoginAction = {
                         type: 'userLoginAction',
-                        username: originAxiosRes.username,
-                        isLogined: originAxiosRes.isLogined,
-                        data: originAxiosRes
+                        access_token: originAxiosRes['access_token'],
+                        isLogined: true,
+                        username: username
                     };
+                    dispatch(userLoginAction);
+                } else {
+                    const errorMsgAction = {
+                        type: 'errorMsgAction',
+                        errorMsg: errorMsg
+                    };
+                    dispatch(errorMsgAction);
+                }
 
-                    // setValueByKeyToSessionStorage('username', originAxiosRes.username);
-                    // setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
-                    // setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
-                    //
-                    // console.log('dispatch user login action');
-                    // dispatch(userLoginAction);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+
+                // setValueByKeyToSessionStorage('username', originAxiosRes.username);
+                // setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
+                // setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
+                //
+                // console.log('dispatch user login action');
+
+            }).catch((e) => {
+                console.log(e);
+                const errorMsgAction = {
+                    type: 'errorMsgAction',
+                    errorMsg: errorMsg
+                };
+                dispatch(errorMsgAction);
+            });
 
 
             console.log('axios called!');
