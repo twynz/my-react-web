@@ -36,7 +36,11 @@ class Login extends Component {
     //current direct to home page
     redirectToHome(HOME_URL) {
         console.log('home url is' + HOME_URL);
-        this.props.history.push(HOME_URL);
+        if (HOME_URL === null) {
+            this.props.history.push('/');
+        } else {
+            this.props.history.push(HOME_URL)
+        }
     }
 
     isShowAlert() {
