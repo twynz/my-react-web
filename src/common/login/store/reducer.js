@@ -37,6 +37,7 @@ function checkLoginFieldByKey(key) {
             case 'authorities':
                 return ['visitor'];
             case 'previousPath':
+                console.log("previous path is /");
                 return '/';
             case 'username':
                 return null;

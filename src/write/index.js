@@ -33,10 +33,10 @@ class Write extends Component {
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
             articleType: 'brief',
-            articleName:null,
-            articleAuthor:'Wenyu Tang',
-            category:'frontend',
-            body:null
+            articleName: null,
+            articleAuthor: 'Wenyu Tang',
+            category: 'frontend',
+            body: null
         };
         this.redirectToHome = () => {
             this.props.history.push(HOME_URL);
@@ -64,36 +64,37 @@ class Write extends Component {
     }
 
     handleSubmit() {
-        let content = this.state.editorHtml;
-        let title = this.state.articleName;
-        if (content === '' || content === null || title === '' || title === null) {
+        let body = this.state.editorHtml;
+        let articleName = this.state.articleName;
+        if (body === '' || body === null || articleName === '' || articleName === null) {
             alert("Empty content not allowed!");
             return;
         }
-        let contentType = this.state.articleType;
+        let articleType = this.state.articleType;
         let category = this.state.category;
         let postObj = {};
-        postObj[contentType] = contentType;
-        postObj[title] = title;
-        postObj[category] = category;
-        postObj[content] = content;
-        console.log("内容是" + content+' title'+title+' category'+category+' type'+contentType);
-
+        postObj['articleType'] = articleType;
+        postObj['articleName'] = articleName;
+        postObj['category'] = category;
+        postObj['body'] = body;
+        // console.log("内容是" + content+' title'+title+' category'+category+' type'+contentType);
+        console.log('category is' + category);
 
         // let clientAuthorization = btoa('test:test');
         // clientAuthorization = 'Basic ' + clientAuthorization;
-        //
-        // axios.post(ADD_ARTICLE, postObj), {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Authorization': clientAuthorization,
-        //         'token': this.props.access_token,
-        //     }
-        // }).then((res) => {
-        //     console.log('return res' + res);
-        // }).catch((e) => {
-        //     console.log(e);
-        // });
+        // //
+       // data.append('ch','001');
+        axios.post(ADD_ARTICLE, postObj, {
+            headers: {
+                'Content-Type': 'application/json',
+                'token': 'eab44f49-c73c-46f8-b29f-332eb3bcb4d3'
+            }
+        }).then((res) => {
+            console.log('return res' + res);
+            alert("Successfully add article!");
+        }).catch((e) => {
+            console.log(e);
+        });
     }
 
     handleArticleNameChange(event) {
