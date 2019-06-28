@@ -42,15 +42,17 @@ function checkContentFieldByKey(key){
 
 export default (state = s , action) => {
 
-    if (action.type === 'getContentByType') {
-        console.log('getContentByType called');
+    if (action.type === 'getSummaryByType') {
+        console.log('getSummaryByType called');
 
         sessionStorage.setItem("currentContentType",action.contentType);
         sessionStorage.setItem("result",JSON.stringify(action.data));
 
+        console.log('in reducer, result is'+action.data+'result is '+JSON.stringify(action.data));
+
         return state.merge({
             result: JSON.parse(JSON.stringify(action.data)),
-            currentContentType: action.contentType
+            currentContentType: action.contentType,
         });
     }
 

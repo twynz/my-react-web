@@ -100,10 +100,10 @@ class Header extends Component {
                             </NavDropdown.Item>
 
                             <NavDropdown.Divider/>
-                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'frontEnd'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'frontend'}>
                                     Front End
                             </NavDropdown.Item>
-                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'backEnd'}>
+                            <NavDropdown.Item className="dropdownItem" href={'/content/' + 'backend'}>
                                     Back End
                             </NavDropdown.Item>
                             <NavDropdown.Item className="dropdownItem" href={'/content/' + 'devops'}>

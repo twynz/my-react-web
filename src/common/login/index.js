@@ -169,6 +169,7 @@ const mapDispatchToProps = (dispatch) => {
                 console.log('return res' + res);
                 //parse vars
                 let originAxiosRes = res.data;
+                console.log('current token in login is '+originAxiosRes['access_token']);
                 if (originAxiosRes['access_token'] != null) {
                     const userLoginAction = {
                         type: 'userLoginAction',

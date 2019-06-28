@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Row, Col, Container,Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Row, Col, Container, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
     'HYPER-CONVERGED INFRASTRUCTURE (HCI) DISTRIBUTED MONITORING SYSTEM'];
@@ -87,9 +87,9 @@ class ArticleModal extends Component {
         } else {
             return (
                 <div className="contentArticleDiv">
-                <div className="contentArticleDetail"
-                     dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
-                </div>
+                    <div className="contentArticleDetail"
+                         dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
+                    </div>
                 </div>);
         }
     }
@@ -100,47 +100,47 @@ class ArticleModal extends Component {
         let parentPath = this.props.match.params.type;
         return (
             <div className="detailDiv">
-<Container>
-                <div className='ml-auto articleContentTitle'>
-                    <h1 className="articleHeader">{this.props.currentArticleTitle}</h1>
-                </div>
-
-<Row>
-    <Col xs={12} sm={12} md={2} lg={2} xl={2}>
-                    <ListGroup className="articleTitleDiv mr-auto">
-
-                        <div className="articleTitle">
-                            <h3>{parentPath.toUpperCase() + " ARTICLE:"}</h3>
-                        </div>
-
-                        {this.renderTitleList(result)}
-
-                    </ListGroup>
-    </Col>
-    <Col xs={12} sm={12} md={10} lg={10} xl={10}>
-
-                    {this.renderContent()}
-    </Col>
-
-</Row>
-
-
-                <div className="contentFooter">
-                    <div className="goPreviousButton">
-                        <Link to={parentPath}>
-                            <Button
-                                className='m-auto'
-                                size={'lg'}
-                                variant={"dark"}
-                                onClick={() => this.redirectToParent('/content/' + parentPath)}
-                            >
-                                Back To Previous
-                            </Button>
-                        </Link>
+                <Container>
+                    <div className='ml-auto articleContentTitle'>
+                        <h1 className="articleHeader">{this.props.currentArticleTitle}</h1>
                     </div>
-                </div>
 
-</Container>
+                    <Row>
+                        <Col xs={12} sm={12} md={2} lg={2} xl={2}>
+                            <ListGroup className="articleTitleDiv mr-auto">
+
+                                <div className="articleTitle">
+                                    <h3>{parentPath.toUpperCase() + " ARTICLE:"}</h3>
+                                </div>
+
+                                {this.renderTitleList(result)}
+
+                            </ListGroup>
+                        </Col>
+                        <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+
+                            {this.renderContent()}
+                        </Col>
+
+                    </Row>
+
+
+                    <div className="contentFooter">
+                        <div className="goPreviousButton">
+                            <Link to={parentPath}>
+                                <Button
+                                    className='m-auto'
+                                    size={'lg'}
+                                    variant={"dark"}
+                                    onClick={() => this.redirectToParent('/content/' + parentPath)}
+                                >
+                                    Back To Previous
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+
+                </Container>
             </div>
 
         );

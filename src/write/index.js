@@ -32,7 +32,7 @@ class Write extends Component {
             theme: 'snow',
             placeholder: 'Never be afraid of your enemy and have a nice day!',
             isShowModal: true,
-            articleType: 'brief',
+            articleType: 'SUMMARY',
             articleName: null,
             articleAuthor: 'Wenyu Tang',
             category: 'frontend',
@@ -80,14 +80,11 @@ class Write extends Component {
         // console.log("内容是" + content+' title'+title+' category'+category+' type'+contentType);
         console.log('category is' + category);
 
-        // let clientAuthorization = btoa('test:test');
-        // clientAuthorization = 'Basic ' + clientAuthorization;
-        // //
-       // data.append('ch','001');
+        console.log('current token is '+this.props.access_token)
         axios.post(ADD_ARTICLE, postObj, {
             headers: {
                 'Content-Type': 'application/json',
-                'token': 'eab44f49-c73c-46f8-b29f-332eb3bcb4d3'
+                'token': this.props.access_token
             }
         }).then((res) => {
             console.log('return res' + res);
@@ -160,8 +157,8 @@ class Write extends Component {
                             <label>Select Article Type</label>
                             <select onChange={(e) =>
                                 this.handleArticleTypeChange(e.target.value)}>
-                                <option value="brief">brief</option>
-                                <option value="detail">detail</option>
+                                <option value="SUMMARY">summary</option>
+                                <option value="CONTENT">content</option>
                             </select>
                         </div>
                         <div>
