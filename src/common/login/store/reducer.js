@@ -3,7 +3,7 @@ import {fromJS} from "immutable";
 const s = fromJS({
     isLogined: checkLoginFieldByKey('isLogined'),
     username: checkLoginFieldByKey('username'),
-    access_token: checkLoginFieldByKey('authorities'),
+    access_token: checkLoginFieldByKey('access_token'),
     previousPath: checkLoginFieldByKey('previousPath'),
     errorMsg: null
     //will integrated with OAuth2 futher
@@ -19,8 +19,8 @@ function checkLoginFieldByKey(key) {
         switch (key) {
             case 'isLogined':
                 return (field == 'true');
-            case 'authorities':
-                return JSON.parse(field);
+            case 'access_token':
+                return field;
             case 'previousPath':
                 return field;
             case 'username':
@@ -34,8 +34,8 @@ function checkLoginFieldByKey(key) {
         switch (key) {
             case 'isLogined':
                 return false;
-            case 'authorities':
-                return ['visitor'];
+            case 'access_token':
+                return null;
             case 'previousPath':
                 console.log("previous path is /");
                 return '/';
