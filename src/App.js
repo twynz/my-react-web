@@ -11,7 +11,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './style.css';
 import Footer from "./common/footer";
 import Content from "./contentHome/SummaryModal.js";
-import ArticleModal from "./contentHome/ArticleModal.js";
+import ArticleModal from "./contentHome/ArticlePage.js";
 import Resume from "./resume/index.js";
 import AboutMe from "./aboutMe/index.js";
 

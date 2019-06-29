@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
 import {Row, Col, Container, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {GET_ARTICLE_CONTENT, GET_SUMMARY_LIST_BY_CATEGORY} from "../constant/urlConstant";
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
     'HYPER-CONVERGED INFRASTRUCTURE (HCI) DISTRIBUTED MONITORING SYSTEM'];
 
-class ArticleModal extends Component {
+class ArticlePage extends Component {
 
     constructor(props) {
         super(props);
@@ -40,10 +41,11 @@ class ArticleModal extends Component {
         let titleList = [];
         if (result !== null) {
 
+            //need to force refresh react link here, or it won't update the data.
             if (result.constructor.name === 'Array') {
                 result.map((item, index) => {
                     titleList.push(
-                        <Link to={'/content/' + parentPath + '/article/' + item.id}
+                        <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
                               style={{textDecoration: 'none'}}
                         >
                             <ListGroupItem className="title-item">
@@ -55,7 +57,7 @@ class ArticleModal extends Component {
                 result.map((item) => {
                     console.log('now item is' + item.get('id'));
                     titleList.push(
-                        <Link to={'/content/' + parentPath + '/article/' + item.get('id')}
+                        <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
                               style={{textDecoration: 'none'}}
                         >
                             <ListGroupItem className="title-item">
@@ -161,7 +163,9 @@ const mapDispatchToProps = (dispatch) => ({
             title: null,
             content: null
         };
-        if (parseInt(id) >= 100) {
+        //100 and 101 are for loading local patent img.
+        if (parseInt(id) === 100 || parseInt(id)===101) {
+            console.log('patent current id is'+id);
             switch (id) {
                 case '100':
                     console.log(patentName[0]);
@@ -176,14 +180,21 @@ const mapDispatchToProps = (dispatch) => ({
                     return;
             }
         } else {
-            axios.get("/api/getArticle", {params: {id: id}})
+            console.log('ready to load article! '+id);
+            axios.get(GET_ARTICLE_CONTENT, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: {},
+                params: {articleType: 'content', articleID:id}})
                 .then((res) => {
-                    let originAxiosRes = res.data.data;
+                    let originAxiosRes = res.data;
                     let articleDetail = originAxiosRes;
+                    console.log('content in detail is '+originAxiosRes);
                     const getArticleByIdAction = {
                         type: 'getArticleById',
-                        title: articleDetail.title,
-                        content: articleDetail.content
+                        title: articleDetail.articleName,
+                        content: articleDetail.body
                     };
                     dispatch(getArticleByIdAction);
                 }).catch((e) => {
@@ -204,4 +215,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleModal);
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

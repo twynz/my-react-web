@@ -111,7 +111,7 @@
 }
 
 .contentArticleDiv {
-    float: right;
+    float: left;
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-right: 5%;
@@ -119,6 +119,7 @@
     bottom: 0;
     margin-left: 5%;
     background: white;
+    width: 90%
 }
 
 .contentArticleDetail {

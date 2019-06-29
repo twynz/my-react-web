@@ -61,7 +61,7 @@ export default (state = s , action) => {
 
         sessionStorage.setItem("currentArticleTitle",action.title);
         sessionStorage.setItem("currentArticleContent",action.content);
-        console.log('actio ntotle !!!!!!'+action.title);
+        console.log('action title !!!!!!'+action.title);
         return state.merge({
             currentArticleTitle: action.title,
             currentArticleContent: action.content
