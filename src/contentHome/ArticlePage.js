@@ -100,6 +100,10 @@ class ArticlePage extends Component {
     render() {
         const {result} = this.props;
         let parentPath = this.props.match.params.type;
+        let id = this.props.match.params.id;
+        if (result === null || result.size === 0) {
+            this.props.loadArticleTitleByParent(parentPath, id);
+        }
         return (
             <div className="detailDiv">
                 <Container>
@@ -157,6 +161,49 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    loadArticleTitleByParent(parentPath, id) {
+        if (parentPath === 'patents') {
+            //for loading patent summary
+            let result = [];
+            for (let i = 0; i < 2; i++) {
+                let currentBrf = {};
+                currentBrf.id = 100 + i + '';
+                currentBrf.title = patentName[i];
+                result.push(currentBrf);
+            }
+            const getSummaryByTypeAction = {
+                type: 'getSummaryByType',
+                data: result,
+                contentType: parentPath
+            };
+            dispatch(getSummaryByTypeAction);
+        } else {
+            axios.get(GET_SUMMARY_LIST_BY_CATEGORY, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: {},
+                params: {'articleCategory': parentPath}
+            }).then((res) => {
+                let originAxiosRes = res.data.articleList;
+                let result = [];
+                console.log('!!!!!!!!!!' + originAxiosRes);
+                console.log("originAxiosRes length is" + originAxiosRes.length);
+                for (let i = 0; i < originAxiosRes.length; i++) {
+                    result.push(processEachArticleBrief(originAxiosRes[i]));
+                }
+                const getSummaryByTypeAction = {
+                    type: 'getSummaryByType',
+                    data: result,
+                    contentType: parentPath
+                };
+                dispatch(getSummaryByTypeAction);
+            }).catch((e) => {
+                console.log('error' + e);
+            });
+        }
+
+    },
     loadArticleById(id) {
         const getArticleByIdAction = {
             type: 'getArticleById',
@@ -164,8 +211,8 @@ const mapDispatchToProps = (dispatch) => ({
             content: null
         };
         //100 and 101 are for loading local patent img.
-        if (parseInt(id) === 100 || parseInt(id)===101) {
-            console.log('patent current id is'+id);
+        if (parseInt(id) === 100 || parseInt(id) === 101) {
+            console.log('patent current id is' + id);
             switch (id) {
                 case '100':
                     console.log(patentName[0]);
@@ -180,17 +227,18 @@ const mapDispatchToProps = (dispatch) => ({
                     return;
             }
         } else {
-            console.log('ready to load article! '+id);
+            console.log('ready to load article! ' + id);
             axios.get(GET_ARTICLE_CONTENT, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 data: {},
-                params: {articleType: 'content', articleID:id}})
+                params: {articleType: 'content', articleID: id}
+            })
                 .then((res) => {
                     let originAxiosRes = res.data;
                     let articleDetail = originAxiosRes;
-                    console.log('content in detail is '+originAxiosRes);
+                    console.log('content in detail is ' + originAxiosRes);
                     const getArticleByIdAction = {
                         type: 'getArticleById',
                         title: articleDetail.articleName,
@@ -214,5 +262,18 @@ const mapDispatchToProps = (dispatch) => ({
 
     }
 });
+
+function processEachArticleBrief(articleBrf) {
+    console.log("processEachArticleBrief called");
+    let currentBrf = {};
+    currentBrf.id = articleBrf.articleId;
+    currentBrf.desc = articleBrf.body;
+    currentBrf.title = articleBrf.articleName;
+    if (articleBrf.img != null) {
+        currentBrf.img = articleBrf.img;
+    }
+    return currentBrf;
+}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);
