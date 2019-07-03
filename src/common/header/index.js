@@ -31,10 +31,9 @@ class Header extends Component {
 
         } else {
             return (
-                <div>
+                <div style={{marginTop:"10px"}}>
                     <Dropdown as={ButtonGroup}>
                         <Button variant="outline-warning">
-                            <link rel="icon" href="../../../public/favicon.ico"/>
                             Welcome, {username}
                         </Button>
                         <Dropdown.Toggle split id="dropdown-custom-2" variant="outline-warning"/>
