@@ -23,9 +23,9 @@ class Footer extends Component {
                                     About This Web:
                                 </h4>
                                 <p className="aboutp">
-                                    This web is used for learning react and front end knowledge in NZ.
-                                    You can check the Tech Details button in Navigation to check the
-                                    tech I used to creat the website.
+                                    This web is used for practicing my front&back end skills in NZ.
+                                    You can click the Tech Details button in Navigation to check the
+                                    tech I use to creat the website.
                                 </p>
                             </div>
                         </Nav>
