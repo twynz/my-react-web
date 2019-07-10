@@ -46,7 +46,7 @@ class ArticlePage extends Component {
                 result.map((item, index) => {
                     titleList.push(
                         <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
-                              style={{textDecoration: 'none'}}
+                              style={{textDecoration: 'none',marginLeft:'5%',marginRight:'3%'}}
                         >
                             <ListGroupItem className="title-item">
                                 <span>{item.title}</span>
@@ -58,7 +58,7 @@ class ArticlePage extends Component {
                     console.log('now item is' + item.get('id'));
                     titleList.push(
                         <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
-                              style={{textDecoration: 'none'}}
+                              style={{textDecoration: 'none',marginLeft:'5%',marginRight:'3%'}}
                         >
                             <ListGroupItem className="title-item">
                                 {item.get('title')}

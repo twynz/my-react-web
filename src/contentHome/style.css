@@ -127,6 +127,7 @@
 .contentArticleDetail {
     margin: 10px 2% 10px 2%;
     width: 95%;
+    overflow: scroll;
 }
 
 .contentFooter {
