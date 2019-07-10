@@ -3,12 +3,13 @@ import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router-dom';
 import axios from "axios";
 import './style.css';
-import {Modal, Button} from 'react-bootstrap';
+import {Modal, Button, Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import {ADD_ARTICLE, GET_SUMMARY_LIST_BY_CATEGORY} from "../constant/urlConstant";
 
 const HOME_URL = '/';
+const WARNNING = 'If you see empty content, please make sure you don\'t block port 10001 and 10002 in your network or backend services cannot be visited';
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
     'HYPER-CONVERGED INFRASTRUCTURE (HCI) DISTRIBUTED MONITORING SYSTEM'];
@@ -18,21 +19,29 @@ class SummaryModal extends Component {
     constructor(props) {
         console.log("content construc called");
         super(props);
+        this.isShowAlert = this.isShowAlert.bind(this);
         this.renderListItem = this.renderListItem.bind(this);
         this.redirectToHome = this.redirectToHome.bind(this);
         this.loadArticleModalCss = this.loadArticleModalCss.bind(this);
         this.renderImg = this.renderImg.bind(this);
-        this.hideModal = () => {
-            this.setState({isShowModal: false});
-            this.redirectToHome(HOME_URL);
-        };
+        this.hideModal = this.hideModal.bind(this);
         this.state = {
             isShowModal: true,
             articleModal: false
         }
     }
 
+    hideModal() {
+        console.log('on hide called');
+        this.props.clearTitle();
+        this.setState({isShowModal: false});
+        this.redirectToHome(HOME_URL);
+    }
+
+
     componentDidMount() {
+        //clear previous data
+        this.props.clearTitle();
         let contentType = this.props.match.params.type;
         this.props.loadContentByType(contentType);
     }
@@ -51,6 +60,19 @@ class SummaryModal extends Component {
             return <img alt='' className='pic' src={itemImage}/>
         }
         return null;
+    }
+
+    isShowAlert() {
+        let result = this.props.result;
+        console.log('!!!!!!!!!!!!!'+this.props.result);
+        if (result != null || result) {
+            return null;
+        } else {
+            return (
+                <Alert variant="warning">
+                    {WARNNING}
+                </Alert>);
+        }
     }
 
     renderListItem(result) {
@@ -72,12 +94,12 @@ class SummaryModal extends Component {
                         </div>
                     </Link>)
             })
-        }
-        ;
+        };
         return itemList;
     }
 
     render() {
+
         const {result} = this.props;
         console.log("data in content render is " + result);
         return (
@@ -94,8 +116,9 @@ class SummaryModal extends Component {
                         You are viewing {this.props.match.params.type} content:
                     </div>
                 </Modal.Header>
-                <Modal.Body
-                    style={{backgroundColor: '#373b3f'}}>
+                <Modal.Body style={{backgroundColor: '#373b3f'}}>
+
+                    {this.isShowAlert()}
                     {this.renderListItem(result)}
                 </Modal.Body>
                 <Modal.Footer
@@ -114,6 +137,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return ({
+        clearTitle() {
+            const clearPreviousTitleAction = {
+                type: 'clearPreviousTitleAction',
+                result: null
+            };
+            dispatch(clearPreviousTitleAction);
+        },
         loadContentByType(contentType) {
             if (contentType === 'patents') {
                 //for loading patent summary

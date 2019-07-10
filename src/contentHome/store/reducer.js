@@ -42,6 +42,12 @@ function checkContentFieldByKey(key){
 
 export default (state = s , action) => {
 
+    if (action.type === 'clearPreviousTitleAction') {
+        return state.merge({
+            result: null
+        });
+    }
+
     if (action.type === 'getSummaryByType') {
         console.log('getSummaryByType called');
 
