@@ -96,6 +96,8 @@
     padding: 10px;
     font-family: Georgia, Serif;
     text-shadow: 2px 2px gainsboro;
+    /*add word-wrap break down to prevent text overflow*/
+    word-wrap: break-word;
 }
 
 .patentImg {
