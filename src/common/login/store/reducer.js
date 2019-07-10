@@ -51,6 +51,11 @@ function checkLoginFieldByKey(key) {
 
 
     export default (state = s, action) => {
+        if (action.type === 'clearErrorMsgAction') {
+            return state.merge({
+                errorMsg: action.errorMsg
+            });
+        }
 
         if (action.type === 'userLoginAction') {
             console.log('userLoginAction called');

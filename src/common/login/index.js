@@ -29,6 +29,7 @@ class Login extends Component {
     hideModal() {
         let HOME_URL = '/';
         this.setState({isShowModal: false});
+        this.props.clearErrorMsg();
         this.redirectToHome(HOME_URL);
     }
 
@@ -149,6 +150,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
+        clearErrorMsg() {
+            const clearErrorMsgAction = {
+                type: 'clearErrorMsgAction',
+                errorMsg: null
+            };
+            dispatch(clearErrorMsgAction);
+        },
         userLogin(username, password) {
             console.log('!!!!!' + username + '!!!' + password);
             const errorMsg = 'Error Username or Password!';
