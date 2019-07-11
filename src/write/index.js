@@ -65,10 +65,9 @@ class Write extends Component {
     }
 
     regexReplace(inputString) {
-        inputString = inputString.replace("\<img", '<img style="max-width:100%"');
-        inputString = inputString.replace("\<p", '<div"');
-        inputString = inputString.replace("\</p", '</div"');
-        console.log("after replacement"+inputString);
+        inputString = inputString.replace(/(<img)/g, '<img style="max-width:100%"');
+        inputString = inputString.replace(/(<p>)/g, "<div>");
+        inputString = inputString.replace(/(<\/p>)/g, '</div>');
         return inputString;
     }
 
