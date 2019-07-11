@@ -51,7 +51,7 @@ class Write extends Component {
 
     handleTypeChange(item) {
         console.log('set type to ' + item);
-        this.setState({type: item});
+        this.setState({category: item});
     }
 
     handleArticleTypeChange(item) {
