@@ -41,6 +41,7 @@ class Write extends Component {
         this.redirectToHome = () => {
             this.props.history.push(HOME_URL);
         };
+        this.regexReplace.bind(this);
     }
 
 
@@ -63,6 +64,14 @@ class Write extends Component {
         this.setState({editorHtml: value})
     }
 
+    regexReplace(inputString) {
+        inputString = inputString.replace("\<img", '<img style="max-width:100%"');
+        inputString = inputString.replace("\<p", '<div"');
+        inputString = inputString.replace("\</p", '</div"');
+        console.log("after replacement"+inputString);
+        return inputString;
+    }
+
     handleSubmit() {
         let body = this.state.editorHtml;
         let articleName = this.state.articleName;
@@ -72,15 +81,17 @@ class Write extends Component {
         }
         let articleType = this.state.articleType;
         let category = this.state.category;
+        //replace string
+        body = this.regexReplace(body);
         let postObj = {};
         postObj['articleType'] = articleType;
         postObj['articleName'] = articleName;
         postObj['category'] = category;
         postObj['body'] = body;
-        // console.log("内容是" + content+' title'+title+' category'+category+' type'+contentType);
+        console.log("内容是" + body);
         console.log('category is' + category);
 
-        console.log('current token is '+this.props.access_token)
+        console.log('current token is '+this.props.access_token);
         axios.post(ADD_ARTICLE, postObj, {
             headers: {
                 'Content-Type': 'application/json',
@@ -92,6 +103,7 @@ class Write extends Component {
         }).catch((e) => {
             console.log(e);
         });
+
     }
 
     handleArticleNameChange(event) {
