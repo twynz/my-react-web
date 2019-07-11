@@ -112,7 +112,7 @@ class ArticlePage extends Component {
                     </div>
 
                     <Row>
-                        <Col xs={12} sm={12} md={2} lg={2} xl={2}>
+                        <Col xs={12} sm={12} md={12} lg={2} xl={2}>
                             <ListGroup className="articleTitleDiv mr-auto">
 
                                 <div className="articleTitle">
@@ -123,7 +123,7 @@ class ArticlePage extends Component {
 
                             </ListGroup>
                         </Col>
-                        <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+                        <Col xs={12} sm={12} md={10} lg={10} xl={10} className={{marginLeft:'1%'}}>
 
                             {this.renderContent()}
                         </Col>
