@@ -89,7 +89,7 @@ class SummaryModal extends Component {
                             <div>
                                 {this.renderImg(item.img)}
                                 <div className='title'>{item.title}</div>
-                                <p className='desc'>{item.desc}</p>
+                                <p className='desc'  dangerouslySetInnerHTML={{__html: item.desc}} />
                             </div>
                         </div>
                     </Link>)
