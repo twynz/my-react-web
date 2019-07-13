@@ -19,7 +19,7 @@ class SummaryModal extends Component {
     constructor(props) {
         console.log("content construc called");
         super(props);
-        this.isShowAlert = this.isShowAlert.bind(this);
+        this.isShowLoading = this.isShowLoading.bind(this);
         this.renderListItem = this.renderListItem.bind(this);
         this.redirectToHome = this.redirectToHome.bind(this);
         this.loadArticleModalCss = this.loadArticleModalCss.bind(this);
@@ -62,15 +62,15 @@ class SummaryModal extends Component {
         return null;
     }
 
-    isShowAlert() {
+    isShowLoading() {
         let result = this.props.result;
         console.log('!!!!!!!!!!!!!'+this.props.result);
         if (result != null || result) {
             return null;
         } else {
             return (
-                <Alert variant="warning">
-                    {WARNNING}
+                <Alert>
+                    <div style={{color:"white",fontFamily:"Andale Mono",fontSize:"15px"}}>Loading...</div>
                 </Alert>);
         }
     }
@@ -118,7 +118,7 @@ class SummaryModal extends Component {
                 </Modal.Header>
                 <Modal.Body style={{backgroundColor: '#373b3f'}}>
 
-                    {this.isShowAlert()}
+                    {this.isShowLoading()}
                     {this.renderListItem(result)}
                 </Modal.Body>
                 <Modal.Footer
