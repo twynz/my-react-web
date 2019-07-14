@@ -39,15 +39,19 @@ class ArticlePage extends Component {
     }
 
     isShowLoading() {
-        let result = this.props.currentArticleContent;
-        let title = this.props.currentArticleTitle;
-        ////console.log('!!!!!!!!!!!! show loading function called');
-        if (result != null || title!=null) {
-            ////console.log('??????????????1 result is'+result);
+        if(this.props.match.params.type != 'patents') {
+            let result = this.props.currentArticleContent;
+            let title = this.props.currentArticleTitle;
+            ////console.log('!!!!!!!!!!!! show loading function called');
+            if (result != null || title != null) {
+                ////console.log('??????????????1 result is'+result);
+                return null;
+            } else {
+                ////console.log('??????????????2 result is'+result);
+                return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
+            }
+        }else {
             return null;
-        } else {
-            ////console.log('??????????????2 result is'+result);
-            return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
         }
     }
 
