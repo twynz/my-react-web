@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from 'react';
 import Header from './common/header';
 import {Provider} from 'react-redux';

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter, Link} from 'react-router-dom';
@@ -17,7 +18,7 @@ const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILI
 class SummaryModal extends Component {
 
     constructor(props) {
-        console.log("content construc called");
+        //console.log("content construc called");
         super(props);
         this.isShowLoading = this.isShowLoading.bind(this);
         this.renderListItem = this.renderListItem.bind(this);
@@ -32,7 +33,7 @@ class SummaryModal extends Component {
     }
 
     hideModal() {
-        console.log('on hide called');
+        //console.log('on hide called');
         this.props.clearTitle();
         this.setState({isShowModal: false});
         this.redirectToHome(HOME_URL);
@@ -47,7 +48,7 @@ class SummaryModal extends Component {
     }
 
     redirectToHome(HOME_URL) {
-        console.log("redirect to home page");
+        //console.log("redirect to home page");
         this.props.history.push(HOME_URL);
     }
 
@@ -64,7 +65,7 @@ class SummaryModal extends Component {
 
     isShowLoading() {
         let result = this.props.result;
-        console.log('!!!!!!!!!!!!!'+this.props.result);
+        //console.log('!!!!!!!!!!!!!'+this.props.result);
         if (result != null || result) {
             return null;
         } else {
@@ -76,13 +77,13 @@ class SummaryModal extends Component {
     }
 
     renderListItem(result) {
-        console.log('result in content is ' + result);
+        //console.log('result in content is ' + result);
         let contentType = this.props.match.params.type;
         let itemList = [];
         if (result !== null) {
             result.map((item, index) => {
                 itemList.push(
-                    <Link key={item.id} to={'/content/' + contentType + '/article/' + item.id}
+                    <Link key={Math.floor((Math.random() * 10) + 1)} to={'/content/' + contentType + '/article/' + item.id}
                           style={{textDecoration: 'none'}}
                     >
                         <div className="contentDiv">
@@ -101,7 +102,7 @@ class SummaryModal extends Component {
     render() {
 
         const {result} = this.props;
-        console.log("data in content render is " + result);
+        //console.log("data in content render is " + result);
         return (
             <Modal
                 show={this.state.isShowModal}
@@ -174,8 +175,8 @@ const mapDispatchToProps = (dispatch) => {
                 }).then((res) => {
                         let originAxiosRes = res.data.articleList;
                         let result = [];
-                        console.log('!!!!!!!!!!'+originAxiosRes);
-                        console.log("originAxiosRes length is" + originAxiosRes.length);
+                        //console.log('!!!!!!!!!!'+originAxiosRes);
+                        //console.log("originAxiosRes length is" + originAxiosRes.length);
                         for (let i = 0; i < originAxiosRes.length; i++) {
                             result.push(processEachArticleBrief(originAxiosRes[i]));
                         }
@@ -186,7 +187,7 @@ const mapDispatchToProps = (dispatch) => {
                         };
                         dispatch(getSummaryByTypeAction);
                     }).catch((e) => {
-                    console.log('error' + e);
+                    //console.log('error' + e);
                 });
             }
         }
@@ -194,7 +195,7 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 function processEachArticleBrief(articleBrf) {
-    console.log("processEachArticleBrief called");
+    //console.log("processEachArticleBrief called");
     let currentBrf = {};
     currentBrf.id = articleBrf.articleId;
     currentBrf.desc = articleBrf.body;

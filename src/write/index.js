@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import {withRouter} from "react-router";
@@ -46,17 +47,17 @@ class Write extends Component {
 
 
     handleThemeChange(item) {
-        console.log('set theme to ' + item);
+        //console.log('set theme to ' + item);
         this.setState({theme: item});
     }
 
     handleTypeChange(item) {
-        console.log('set type to ' + item);
+        //console.log('set type to ' + item);
         this.setState({category: item});
     }
 
     handleArticleTypeChange(item) {
-        console.log('set type to ' + item);
+        //console.log('set type to ' + item);
         this.setState({articleType: item});
     }
 
@@ -87,20 +88,20 @@ class Write extends Component {
         postObj['articleName'] = articleName;
         postObj['category'] = category;
         postObj['body'] = body;
-        console.log("内容是" + body);
-        console.log('category is' + category);
+        //console.log("内容是" + body);
+        //console.log('category is' + category);
 
-        console.log('current token is '+this.props.access_token);
+        //console.log('current token is '+this.props.access_token);
         axios.post(ADD_ARTICLE, postObj, {
             headers: {
                 'Content-Type': 'application/json',
                 'token': this.props.access_token
             }
         }).then((res) => {
-            console.log('return res' + res);
+            //console.log('return res' + res);
             alert("Successfully add article!");
         }).catch((e) => {
-            console.log(e);
+            //console.log(e);
         });
 
     }
@@ -129,7 +130,7 @@ class Write extends Component {
 
     render() {
         const {isLogined} = this.props;
-        console.log('is loginin is' + isLogined);
+        //console.log('is loginin is' + isLogined);
         if (isLogined) {
             return (
                 <div className="writeArticleDiv">
@@ -245,7 +246,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setCurrentPathToLogin);
         },
         setNoFooter(noFooter) {
-            console.log('axios called in article!');
+            //console.log('axios called in article!');
 
             const setNoFooterAction = {
                 type: 'setNoFooter',

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import {fromJS} from "immutable";
 
 const s = fromJS({
@@ -12,7 +13,7 @@ const s = fromJS({
 });
 
 function checkLoginFieldByKey(key) {
-    console.log('session storage is ' + sessionStorage);
+    //console.log('session storage is ' + sessionStorage);
     let field = sessionStorage.getItem(key);
 
     if (field) {
@@ -37,7 +38,7 @@ function checkLoginFieldByKey(key) {
             case 'access_token':
                 return null;
             case 'previousPath':
-                console.log("previous path is /");
+                //console.log("previous path is /");
                 return '/';
             case 'username':
                 return null;
@@ -58,8 +59,8 @@ function checkLoginFieldByKey(key) {
         }
 
         if (action.type === 'userLoginAction') {
-            console.log('userLoginAction called');
-            console.log(action.username + 'sd' + action.isLogined);
+            //console.log('userLoginAction called');
+            //console.log(action.username + 'sd' + action.isLogined);
             sessionStorage.setItem('isLogined', action.isLogined);
             sessionStorage.setItem('username', action.username);
             sessionStorage.setItem('access_token', action.access_token);
@@ -73,7 +74,7 @@ function checkLoginFieldByKey(key) {
         }
 
         if (action.type === 'logoutAction') {
-            console.log('logout action triggered!');
+            //console.log('logout action triggered!');
 
             sessionStorage.removeItem('isLogined');
             sessionStorage.removeItem('username');
@@ -89,7 +90,7 @@ function checkLoginFieldByKey(key) {
         }
 
         if (action.type === 'recordPreviousPathAction') {
-            console.log('receive auto redirect path');
+            //console.log('receive auto redirect path');
             sessionStorage.setItem('previousPath', action.redirectPath);
             return state.set('previousPath', action.redirectPath);
         }

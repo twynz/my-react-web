@@ -9,11 +9,11 @@ import "./style.css";
 class Footer extends Component {
 
     render() {
-     console.log('in footer load resume is'+this.props.noFooter);
+     //console.log('in footer load resume is'+this.props.noFooter);
         if (this.props.noFooter === 'true') {
             return null;
         } else {
-            console.log("step in footer");
+            //console.log("step in footer");
             return (
                 <div className="footer">
                     <Navbar bg="transparent" variant="dark" className="col-md-offset-3">

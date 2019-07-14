@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, {Component} from "react";
 import {connect} from 'react-redux';
 import axios from "axios";
@@ -36,7 +38,7 @@ class Login extends Component {
     //todo: will implement forward to page that view previously before login,
     //current direct to home page
     redirectToHome(HOME_URL) {
-        console.log('home url is' + HOME_URL);
+        //console.log('home url is' + HOME_URL);
         if (HOME_URL === null) {
             this.props.history.push('/');
         } else {
@@ -63,7 +65,7 @@ class Login extends Component {
     onChangePassword(event) {
         // const md5 = new Md5();
         // let encryptPassword = md5.appendStr(event.target.value).end();
-        // console.log("Encrypt md5 value" + encryptPassword);
+        // //console.log("Encrypt md5 value" + encryptPassword);
         // this.setState({password: encryptPassword});
         this.setState({password: event.target.value});
     }
@@ -71,10 +73,10 @@ class Login extends Component {
     render() {
 
         const {isLogined} = this.props;
-        console.log("is logined " + !isLogined);
+        //console.log("is logined " + !isLogined);
 
         if (!isLogined) {
-            console.log('>>>>' + isLogined);
+            //console.log('>>>>' + isLogined);
             return (
                 <Modal
                     show={this.state.isShowModal}
@@ -125,7 +127,7 @@ class Login extends Component {
                 </Modal>
             );
         } else {
-            console.log('>>>>' + isLogined + "called!");
+            //console.log('>>>>' + isLogined + "called!");
             this.redirectToHome(this.props.redirectPath);
             return null;
         }
@@ -158,7 +160,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(clearErrorMsgAction);
         },
         userLogin(username, password) {
-            console.log('!!!!!' + username + '!!!' + password);
+            //console.log('!!!!!' + username + '!!!' + password);
             const errorMsg = 'Error Username or Password!';
             let clientAuthorization = btoa('test:test');
             clientAuthorization = 'Basic ' + clientAuthorization;
@@ -174,10 +176,10 @@ const mapDispatchToProps = (dispatch) => {
                     'Authorization': clientAuthorization
                 }
             }).then((res) => {
-                console.log('return res' + res);
+                //console.log('return res' + res);
                 //parse vars
                 let originAxiosRes = res.data;
-                console.log('current token in login is '+originAxiosRes['access_token']);
+                //console.log('current token in login is '+originAxiosRes['access_token']);
                 if (originAxiosRes['access_token'] != null) {
                     const userLoginAction = {
                         type: 'userLoginAction',
@@ -199,10 +201,10 @@ const mapDispatchToProps = (dispatch) => {
                 // setValueByKeyToSessionStorage('isLogined', originAxiosRes.isLogined);
                 // setValueByKeyToSessionStorage('authorities', originAxiosRes.authorities);
                 //
-                // console.log('dispatch user login action');
+                // //console.log('dispatch user login action');
 
             }).catch((e) => {
-                console.log(e);
+                //console.log(e);
                 const errorMsgAction = {
                     type: 'errorMsgAction',
                     errorMsg: errorMsg
@@ -211,7 +213,7 @@ const mapDispatchToProps = (dispatch) => {
             });
 
 
-            console.log('axios called!');
+            //console.log('axios called!');
         }
     }
 };

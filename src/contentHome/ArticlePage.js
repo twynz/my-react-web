@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
@@ -14,11 +15,11 @@ class ArticlePage extends Component {
         super(props);
         this.renderTitleList = this.renderTitleList.bind(this);
         this.hideModal = () => {
-            console.log("hideMoadl called!");
+            ////console.log("hideMoadl called!");
             this.redirectToParent('/content/' + this.props.match.params.type);
         };
         this.redirectToParent = (URL) => {
-            console.log("redirect to parent called!");
+            ////console.log("redirect to parent called!");
             this.props.history.push(URL);
         };
         this.renderContent = this.renderContent.bind(this);
@@ -39,12 +40,12 @@ class ArticlePage extends Component {
 
     isShowLoading() {
         let result = this.props.currentArticleContent;
-        console.log('!!!!!!!!!!!! show loading function called');
+        ////console.log('!!!!!!!!!!!! show loading function called');
         if (result != null || result) {
-            console.log('??????????????1 result is'+result);
+            ////console.log('??????????????1 result is'+result);
             return null;
         } else {
-            console.log('??????????????2 result is'+result);
+            ////console.log('??????????????2 result is'+result);
             return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
         }
     }
@@ -59,7 +60,7 @@ class ArticlePage extends Component {
             if (result.constructor.name === 'Array') {
                 result.map((item, index) => {
                     titleList.push(
-                        <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
+                        <Link key={item.id} onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
                               style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
                         >
                             <ListGroupItem className="title-item">
@@ -69,9 +70,9 @@ class ArticlePage extends Component {
                 })
             } else {
                 result.map((item) => {
-                    console.log('now item is' + item.get('id'));
+                    ////console.log('now item is' + item.get('id'));
                     titleList.push(
-                        <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
+                        <Link  key={item.get('id')} onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
                               style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
                         >
                             <ListGroupItem className="title-item">
@@ -199,8 +200,8 @@ const mapDispatchToProps = (dispatch) => ({
             }).then((res) => {
                 let originAxiosRes = res.data.articleList;
                 let result = [];
-                console.log('!!!!!!!!!!' + originAxiosRes);
-                console.log("originAxiosRes length is" + originAxiosRes.length);
+                ////console.log('!!!!!!!!!!' + originAxiosRes);
+                ////console.log("originAxiosRes length is" + originAxiosRes.length);
                 for (let i = 0; i < originAxiosRes.length; i++) {
                     result.push(processEachArticleBrief(originAxiosRes[i]));
                 }
@@ -211,13 +212,13 @@ const mapDispatchToProps = (dispatch) => ({
                 };
                 dispatch(getSummaryByTypeAction);
             }).catch((e) => {
-                console.log('error' + e);
+                ////console.log('error' + e);
             });
         }
 
     },
     cleanOriginalArticle() {
-        console.log("?????????called clean ");
+        ////console.log("?????????called clean ");
         const cleanOriginalArticleAction = {
             type: 'cleanOriginalArticleAction'
         };
@@ -231,10 +232,10 @@ const mapDispatchToProps = (dispatch) => ({
         };
         //100 and 101 are for loading local patent img.
         if (parseInt(id) === 100 || parseInt(id) === 101) {
-            console.log('patent current id is' + id);
+            ////console.log('patent current id is' + id);
             switch (id) {
                 case '100':
-                    console.log(patentName[0]);
+                    ////console.log(patentName[0]);
                     getArticleByIdAction.title = patentName[0];
                     dispatch(getArticleByIdAction);
                     return;
@@ -246,7 +247,7 @@ const mapDispatchToProps = (dispatch) => ({
                     return;
             }
         } else {
-            console.log('ready to load article! ' + id);
+            ////console.log('ready to load article! ' + id);
             axios.get(GET_ARTICLE_CONTENT, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -257,7 +258,7 @@ const mapDispatchToProps = (dispatch) => ({
                 .then((res) => {
                     let originAxiosRes = res.data;
                     let articleDetail = originAxiosRes;
-                    console.log('content in detail is ' + originAxiosRes);
+                    ////console.log('content in detail is ' + originAxiosRes);
                     const getArticleByIdAction = {
                         type: 'getArticleById',
                         title: articleDetail.articleName,
@@ -265,12 +266,12 @@ const mapDispatchToProps = (dispatch) => ({
                     };
                     dispatch(getArticleByIdAction);
                 }).catch((e) => {
-                console.log('error' + e);
+                ////console.log('error' + e);
             });
         }
     },
     setNoFooter(noFooter) {
-        console.log('axios called in article!');
+        ////console.log('axios called in article!');
 
         const setNoFooterAction = {
             type: 'setNoFooter',
@@ -283,7 +284,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function processEachArticleBrief(articleBrf) {
-    console.log("processEachArticleBrief called");
+    ////console.log("processEachArticleBrief called");
     let currentBrf = {};
     currentBrf.id = articleBrf.articleId;
     currentBrf.desc = articleBrf.body;

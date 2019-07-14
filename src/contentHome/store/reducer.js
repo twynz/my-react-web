@@ -9,13 +9,13 @@ const s = fromJS({
 });
 
 function checkContentFieldByKey(key){
-    console.log('session storage is '+sessionStorage);
+    //console.log('session storage is '+sessionStorage);
 
     let field  = sessionStorage.getItem(key);
-    console.log('key is'+key+' filed is '+field);
+    //console.log('key is'+key+' filed is '+field);
     if(field) {
         if(key === 'result') {
-            console.log('result in reducer now is '+ JSON.stringify(field));
+            //console.log('result in reducer now is '+ JSON.stringify(field));
             let list = JSON.parse(field);
             let resultList = [];
             for(let i=0;i<list.length;i++) {
@@ -25,11 +25,11 @@ function checkContentFieldByKey(key){
                 tmpObj.title = currentMap['title'];
                 tmpObj.desc = currentMap['desc'];
                 tmpObj.img = currentMap['img'];
-                console.log('tmpobj now is '+tmpObj);
+                //console.log('tmpobj now is '+tmpObj);
                 resultList.push(tmpObj);
 
             }
-            console.log('resultlist now is '+resultList);
+            //console.log('resultlist now is '+resultList);
             return resultList;
         }
 
@@ -55,12 +55,12 @@ export default (state = s , action) => {
     }
 
     if (action.type === 'getSummaryByType') {
-        console.log('getSummaryByType called');
+        //console.log('getSummaryByType called');
 
         sessionStorage.setItem("currentContentType",action.contentType);
         sessionStorage.setItem("result",JSON.stringify(action.data));
 
-        console.log('in reducer, result is'+action.data+'result is '+JSON.stringify(action.data));
+        //console.log('in reducer, result is'+action.data+'result is '+JSON.stringify(action.data));
 
         return state.merge({
             result: JSON.parse(JSON.stringify(action.data)),
@@ -69,11 +69,11 @@ export default (state = s , action) => {
     }
 
     if(action.type === 'getArticleById') {
-        console.log('getArticleById called');
+        //console.log('getArticleById called');
 
         sessionStorage.setItem("currentArticleTitle",action.title);
         sessionStorage.setItem("currentArticleContent",action.content);
-        console.log('action title !!!!!!'+action.title);
+        //console.log('action title !!!!!!'+action.title);
         return state.merge({
             currentArticleTitle: action.title,
             currentArticleContent: action.content
@@ -81,7 +81,7 @@ export default (state = s , action) => {
     }
 
     if(action.type === 'setNoFooter') {
-        console.log('set nofooter status is '+action.noFooter);
+        //console.log('set nofooter status is '+action.noFooter);
         return state.merge({
             noFooter: action.noFooter
         });

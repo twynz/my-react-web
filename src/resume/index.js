@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from "react";
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
@@ -207,7 +208,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setNoResume(noFooter) {
-        console.log('axios called in article!');
+        //console.log('axios called in article!');
 
         const setNoFooterAction = {
             type: 'setNoFooter',

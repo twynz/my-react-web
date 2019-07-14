@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from 'react-redux';
@@ -16,12 +17,12 @@ class Header extends Component {
     }
 
     redirectToLogin(LOGIN_URL) {
-        console.log("redirect to login page");
+        //console.log("redirect to login page");
         this.props.history.push(LOGIN_URL);
     }
 
     getLoginState(username, LOGIN_URL) {
-        console.log('getLogin status username is ' + username + (username != null));
+        //console.log('getLogin status username is ' + username + (username != null));
         if (username === null && typeof username === "object") {
             return (
                 <Button onClick={this.redirectToLogin.bind(this, LOGIN_URL)} className="loginButton">
@@ -51,14 +52,14 @@ class Header extends Component {
     }
 
     redirectToHome(HOME_URL) {
-        console.log("redirect to home page");
+        //console.log("redirect to home page");
         this.props.history.push(HOME_URL);
     }
 
     //todo will add register function
     render() {
         const {username} = this.props;
-        console.log('username is from props ' + username + "  " + username === "null");
+        //console.log('username is from props ' + username + "  " + username === "null");
         const LOGIN_URL = '/Login';
         return (
             <div className="div-header">
@@ -133,7 +134,7 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('mapToState called');
+    //console.log('mapToState called');
     return {
         focused: state.getIn(['header', 'focused']),
         list: state.getIn(['header', 'list']),
@@ -145,7 +146,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getArticleNames(category) {
-            console.log('axios called!');
+            //console.log('axios called!');
             axios.get("/api/getArticleNames", {params: {type: category}}).then((res) => {
                 let originAxiosRes = res.data.data;
                 let result = [];
@@ -160,11 +161,11 @@ const mapDispatchToProps = (dispatch) => {
                 };
                 dispatch(getArticleNamesByType);
             }).catch((e) => {
-                console.log('error' + e);
+                //console.log('error' + e);
             });
         },
         getSearchInfoListAction() {
-            console.log('axios called!');
+            //console.log('axios called!');
             axios.get("/api/getSearchInfoList").then((res) => {
                 let originAxiosRes = res.data.data;
                 let result = [];
@@ -178,7 +179,7 @@ const mapDispatchToProps = (dispatch) => {
                 };
                 dispatch(getInfoListAction);
             }).catch((e) => {
-                console.log('error' + e);
+                //console.log('error' + e);
             });
         },
         changeFocusedState(focused) {
