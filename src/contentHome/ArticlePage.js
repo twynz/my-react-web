@@ -28,9 +28,9 @@ class ArticlePage extends Component {
 
     componentDidMount() {
         let currentArticleId = this.props.match.params.id;
-        this.props.loadArticleById(currentArticleId);
         this.props.setNoFooter("true");
         this.props.cleanOriginalArticle();
+        this.props.loadArticleById(currentArticleId);
     }
 
     componentWillUnmount() {
@@ -39,15 +39,19 @@ class ArticlePage extends Component {
     }
 
     isShowLoading() {
-        let result = this.props.currentArticleContent;
-        let title = this.props.currentArticleTitle;
-        ////console.log('!!!!!!!!!!!! show loading function called');
-        if (result != null || title!=null) {
-            ////console.log('??????????????1 result is'+result);
+        if(this.props.match.params.type != 'patents') {
+            let result = this.props.currentArticleContent;
+            let title = this.props.currentArticleTitle;
+            ////console.log('!!!!!!!!!!!! show loading function called');
+            if (result != null || title != null) {
+                ////console.log('??????????????1 result is'+result);
+                return null;
+            } else {
+                ////console.log('??????????????2 result is'+result);
+                return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
+            }
+        }else {
             return null;
-        } else {
-            ////console.log('??????????????2 result is'+result);
-            return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
         }
     }
 
@@ -234,7 +238,7 @@ const mapDispatchToProps = (dispatch) => ({
         };
         //100 and 101 are for loading local patent img.
         if (parseInt(id) === 100 || parseInt(id) === 101) {
-            ////console.log('patent current id is' + id);
+            //console.log('patent current id is' + id);
             switch (id) {
                 case '100':
                     ////console.log(patentName[0]);
@@ -242,6 +246,7 @@ const mapDispatchToProps = (dispatch) => ({
                     dispatch(getArticleByIdAction);
                     return;
                 case '101':
+                    //console.log(patentName[1]);
                     getArticleByIdAction.title = patentName[1];
                     dispatch(getArticleByIdAction);
                     return;
