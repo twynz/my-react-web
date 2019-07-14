@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Row, Col, Container, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Row, Col, Container, Button, ListGroup, ListGroupItem, Alert} from 'react-bootstrap';
 import {GET_ARTICLE_CONTENT, GET_SUMMARY_LIST_BY_CATEGORY} from "../constant/urlConstant";
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
@@ -22,18 +22,32 @@ class ArticlePage extends Component {
             this.props.history.push(URL);
         };
         this.renderContent = this.renderContent.bind(this);
+        this.isShowLoading = this.isShowLoading.bind(this);
     }
 
     componentDidMount() {
         let currentArticleId = this.props.match.params.id;
         this.props.loadArticleById(currentArticleId);
         this.props.setNoFooter("true");
+        this.props.cleanOriginalArticle();
     }
 
     componentWillUnmount() {
         this.props.setNoFooter("false");
+        this.props.cleanOriginalArticle();
     }
 
+    isShowLoading() {
+        let result = this.props.currentArticleContent;
+        console.log('!!!!!!!!!!!! show loading function called');
+        if (result != null || result) {
+            console.log('??????????????1 result is'+result);
+            return null;
+        } else {
+            console.log('??????????????2 result is'+result);
+            return (<div style={{color: "Black", fontFamily: "Andale Mono", fontSize: "15px"}}>Loading...</div>);
+        }
+    }
 
     //todo need to figure out sessionstorage value store array
     renderTitleList(result) {
@@ -46,7 +60,7 @@ class ArticlePage extends Component {
                 result.map((item, index) => {
                     titleList.push(
                         <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
-                              style={{textDecoration: 'none',marginLeft:'5%',marginRight:'3%'}}
+                              style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
                         >
                             <ListGroupItem className="title-item">
                                 <span>{item.title}</span>
@@ -58,7 +72,7 @@ class ArticlePage extends Component {
                     console.log('now item is' + item.get('id'));
                     titleList.push(
                         <Link onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
-                              style={{textDecoration: 'none',marginLeft:'5%',marginRight:'3%'}}
+                              style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
                         >
                             <ListGroupItem className="title-item">
                                 {item.get('title')}
@@ -66,8 +80,7 @@ class ArticlePage extends Component {
                         </Link>)
                 })
             }
-        }
-        ;
+        };
         return titleList;
     }
 
@@ -89,13 +102,13 @@ class ArticlePage extends Component {
         } else {
             return (
                 <div className="contentArticleDiv">
+                    {this.isShowLoading()}
                     <div className="contentArticleDetail"
                          dangerouslySetInnerHTML={{__html: this.props.currentArticleContent}}>
                     </div>
                 </div>);
         }
     }
-
 
     render() {
         const {result} = this.props;
@@ -123,7 +136,7 @@ class ArticlePage extends Component {
 
                             </ListGroup>
                         </Col>
-                        <Col xs={12} sm={12} md={10} lg={10} xl={10} className={{marginLeft:'1%'}}>
+                        <Col xs={12} sm={12} md={10} lg={10} xl={10} className={{marginLeft: '1%'}}>
 
                             {this.renderContent()}
                         </Col>
@@ -145,7 +158,6 @@ class ArticlePage extends Component {
                             </Link>
                         </div>
                     </div>
-
                 </Container>
             </div>
 
@@ -203,6 +215,13 @@ const mapDispatchToProps = (dispatch) => ({
             });
         }
 
+    },
+    cleanOriginalArticle() {
+        console.log("?????????called clean ");
+        const cleanOriginalArticleAction = {
+            type: 'cleanOriginalArticleAction'
+        };
+        dispatch(cleanOriginalArticleAction);
     },
     loadArticleById(id) {
         const getArticleByIdAction = {
