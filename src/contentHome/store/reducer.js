@@ -48,6 +48,12 @@ export default (state = s , action) => {
         });
     }
 
+    if (action.type === 'cleanOriginalArticleAction') {
+        return state.merge({
+            currentArticleContent: null
+        });
+    }
+
     if (action.type === 'getSummaryByType') {
         console.log('getSummaryByType called');
 
