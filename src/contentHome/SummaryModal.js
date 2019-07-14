@@ -83,7 +83,7 @@ class SummaryModal extends Component {
         if (result !== null) {
             result.map((item, index) => {
                 itemList.push(
-                    <Link key={Math.floor((Math.random() * 10) + 1)} to={'/content/' + contentType + '/article/' + item.id}
+                    <Link key={Math.floor((Math.random() * 1000) + 1)} to={'/content/' + contentType + '/article/' + item.id}
                           style={{textDecoration: 'none'}}
                     >
                         <div className="contentDiv">

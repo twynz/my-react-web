@@ -50,7 +50,8 @@ export default (state = s , action) => {
 
     if (action.type === 'cleanOriginalArticleAction') {
         return state.merge({
-            currentArticleContent: null
+            currentArticleContent: null,
+            currentArticleTitle: null
         });
     }
 

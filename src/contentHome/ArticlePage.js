@@ -40,8 +40,9 @@ class ArticlePage extends Component {
 
     isShowLoading() {
         let result = this.props.currentArticleContent;
+        let title = this.props.currentArticleTitle;
         ////console.log('!!!!!!!!!!!! show loading function called');
-        if (result != null || result) {
+        if (result != null || title!=null) {
             ////console.log('??????????????1 result is'+result);
             return null;
         } else {
@@ -122,6 +123,7 @@ class ArticlePage extends Component {
             <div className="detailDiv">
                 <Container>
                     <div className='ml-auto articleContentTitle'>
+                        {this.isShowLoading()}
                         <h1 className="articleHeader">{this.props.currentArticleTitle}</h1>
                     </div>
 
