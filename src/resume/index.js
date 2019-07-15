@@ -27,7 +27,7 @@ class Resume extends Component {
                         <h1 className="fn">Wenyu Tang</h1>
 
                         <p>
-                            <b>Cell:</b> <span className="tel"> 029 1275010</span><br/>
+                            <b>Call:</b> <span className="tel"> (+64)0291275010</span><br/>
                             <b>Email:</b> <a className="email"
                                       href="mailto:wenyuforwes@163.com"> wenyuforwes@163.com</a>
                         </p>
@@ -97,6 +97,9 @@ class Resume extends Component {
                             </div>
                             <div className="skills">
                                 Spring
+                            </div>
+                            <div className="skills">
+                                Spring Boot
                             </div>
                             <div className="skills">
                                 Spring Security
@@ -176,7 +179,7 @@ class Resume extends Component {
                         </ul>
 
                         <h2 className='companyName'>DELL EMC</h2>
-                        <div className='companyTitle'>Software Engineer Intern/Data Domain CTD Team</div>
+                        <div className='companyTitle'>Software Engineer Intern/Data Domain CTO Team</div>
                         <ul>
                             <li>Take part in back end services design and development.</li>
                             <li>Front end development using bootstrap</li>
