@@ -3,7 +3,6 @@ import React, {Component} from "react";
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import './style.css';
-import {Row, Col, Container} from 'react-bootstrap';
 
 class Resume extends Component {
 
@@ -36,18 +35,15 @@ class Resume extends Component {
                     <div className="objective">
                         <p className='descP'>
                             Before I came here in New Zealand,
-                            Worked as a software engineer for nearly 3 years and have experiences in top company(DELL
-                            EMC)
-                            and famous startup(Tradeshift).
+                            Worked as a software engineer for 3 years in some famous company(like DELL
+                            EMC).
                         </p>
 
-                        <p> Having skills mainly on Java, I am pretty good at web backend programming. Such as micro
-                            services
-                            and relating architecture stuffs such as message-queue, cache, cloud framework for building
+                        <p> I am a full stack developer. My backend skills(mainly java) are better than my frontend skills(react js).
+                            Also good at relating architecture stuffs such as message-queue, cache, cloud framework for building
                             services(If you were interested, you can view tech details in navbar to view some cool
                             things
-                            I used to build this web). I also know some front-end and devops knowledge just like I use
-                            react to build this web's interfaces.
+                            I used to build this web). I also know some devops knowledge just like I run this web using docker on aws.
                         </p>
                         <p>
                             Well, I am also very good at self-learning&driven and do innovations. One proof is that I
@@ -55,7 +51,7 @@ class Resume extends Component {
                             2 US patents filed at United Trademark and Patents Office and 1 China patent. All of these
                             patents I invented during
                             my daily work. I am currently a pgd student at Massey University,
-                            will graduate at October 2019. Hope to find a job here and welcome any internship
+                            will graduate at December 2019. Hope to find a job here and welcome any internship
                             opportunity
                             before I graduate.
                         </p>
