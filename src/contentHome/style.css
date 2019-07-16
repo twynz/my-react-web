@@ -73,6 +73,7 @@
     text-align: center;
     text-shadow: 3px 3px gainsboro;
     width: 100%;
+    word-break: break-word;
     margin-right:1px;
 }
 
