@@ -161,7 +161,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         userLogin(username, password) {
             //console.log('!!!!!' + username + '!!!' + password);
-            const errorMsg = 'Error Username or Password!';
+            const errorMsg = 'Error Username or Password, only support admin to login!';
             let clientAuthorization = btoa('test:test');
             clientAuthorization = 'Basic ' + clientAuthorization;
 
