@@ -3,7 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import axios from "axios";
-import {Row, Col, Container, Button, ListGroup, ListGroupItem, Alert} from 'react-bootstrap';
+import {Row, Col, Container, Button, ListGroup, ListGroupItem} from 'react-bootstrap';
 import {GET_ARTICLE_CONTENT, GET_SUMMARY_LIST_BY_CATEGORY} from "../constant/urlConstant";
 
 const patentName = ['APPARATUS AND METHOD FOR IMPROVING MESSAGE SYSTEM RELIABILITY',
@@ -66,7 +66,7 @@ class ArticlePage extends Component {
                 result.map((item, index) => {
                     titleList.push(
                         <Link key={item.id} onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.id}
-                              style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
+                              style={{textDecoration: 'none'}}
                         >
                             <ListGroupItem className="title-item">
                                 <span>{item.title}</span>
@@ -78,7 +78,7 @@ class ArticlePage extends Component {
                     ////console.log('now item is' + item.get('id'));
                     titleList.push(
                         <Link  key={item.get('id')} onClick={this.forceUpdate} to={'/content/' + parentPath + '/article/' + item.get('id')}
-                              style={{textDecoration: 'none', marginLeft: '5%', marginRight: '3%'}}
+
                         >
                             <ListGroupItem className="title-item">
                                 {item.get('title')}
