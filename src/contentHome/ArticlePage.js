@@ -135,8 +135,8 @@ class ArticlePage extends Component {
                         <Col xs={12} sm={12} md={12} lg={2} xl={2}>
                             <ListGroup className="articleTitleDiv mr-auto">
 
-                                <div className="articleTitle">
-                                    <h3>{parentPath.toUpperCase() + " ARTICLE:"}</h3>
+                                <div className="articleTitle" style={{wordBreak:'breakWord'}}>
+                                    <h4>{parentPath.toUpperCase() + " ARTICLE:"}</h4>
                                 </div>
 
                                 {this.renderTitleList(result)}
