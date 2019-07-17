@@ -61,7 +61,7 @@ class AboutMe extends Component {
                     <h2>
                         Why do you want to be a web developer?
                     </h2>
-                    <p className='aboutMeP'> Because programming a kind of thing that you can see the progress really happening and
+                    <p className='aboutMeP'> Because programming is a kind of thing that you can see the progress really happening and
                     give me encourage. When you see your logic&design works, that's really awesome!
                     </p>
                 </section>
