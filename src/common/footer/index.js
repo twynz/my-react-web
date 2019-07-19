@@ -46,7 +46,7 @@ class Footer extends Component {
                                     <IcomoonReact className="icon-cust" color="#429ef4" iconSet={iconSet} size={20}
                                                   icon="linkedin-square"/>
                                     : <a className="linkedin-href customize-li"
-                                         href="https://www.linkedin.com/in/wenyu-tang-827854126/">My Profile</a>
+                                         href="https://www.linkedin.com/in/wenyu-vincent-tang-827854126/">My Profile</a>
                                 </li>
                                 <li className="customize-li">
                                     <IcomoonReact className="icon-cust" color="#eaecef" iconSet={iconSet} size={20}
