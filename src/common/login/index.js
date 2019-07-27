@@ -6,7 +6,7 @@ import axios from "axios";
 import {Alert, Button, Modal, Form, FormGroup, FormControl} from 'react-bootstrap';
 import {withRouter} from "react-router";
 import './style.css';
-import {GET_TOKEN} from "../../constant/urlConstant";
+import {GET_TOKEN, GET_CAPTCHA_CODE_PIC, POST_CAPTCHA_CODE} from "../../constant/urlConstant";
 import qs from 'qs'
 
 class Login extends Component {
@@ -18,7 +18,8 @@ class Login extends Component {
             username: '',
             password: '',
             isShowModal: true,
-            errorMsg: null
+            errorMsg: null,
+            captchaInput: null
         };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -26,6 +27,13 @@ class Login extends Component {
         this.redirectToHome = this.redirectToHome.bind(this);
         this.isShowAlert = this.isShowAlert.bind(this);
         this.hideModal = this.hideModal.bind(this);
+        this.showCaptchaCode = this.showCaptchaCode.bind(this);
+        this.clickLogin = this.clickLogin.bind(this);
+        this.handleCaptchaChange = this.handleCaptchaChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.getCaptchaCode();
     }
 
     hideModal() {
@@ -70,6 +78,38 @@ class Login extends Component {
         this.setState({password: event.target.value});
     }
 
+    handleCaptchaChange(e) {
+        this.setState({captchaInput: e.target.value});
+    }
+
+    showCaptchaCode() {
+        return (
+            <div>
+                <img src={`data:image/jpeg;base64,${this.props.captchaPic}`} style={{height: 40, width: 110}}/>
+
+                <input type="text" name="captcha" placeholder="Please input captcha..."
+                       onChange={this.handleCaptchaChange}
+                />
+            </div>
+        );
+    }
+
+
+    clickLogin(username, password) {
+        console.log('input is '+this.state.captchaInput);
+        this.props.checkCaptcha(this.props.captchaId,this.state.captchaInput);
+        if(this.props.isValid) {
+            console.log('login');
+            this.props.userLogin(username, password);
+        }else {
+            console.log('captcha error ,input again');
+        }
+
+    }
+
+
+
+
     render() {
 
         const {isLogined} = this.props;
@@ -113,9 +153,10 @@ class Login extends Component {
                     <Modal.Footer
                         className="login-moda-footer"
                     >
+                        {this.showCaptchaCode()}
                         <Button
                             type="submit" variant="outline-primary"
-                            onClick={() => this.props.userLogin(this.state.username, this.state.password)}
+                            onClick={() => this.clickLogin(this.state.username, this.state.password)}
                             className="ml-auto sign-in-button">
                             Sign In
                         </Button>
@@ -134,7 +175,6 @@ class Login extends Component {
     }
 }
 
-
 function setValueByKeyToSessionStorage(key, value) {
     sessionStorage.setItem(key, value);
 }
@@ -145,13 +185,40 @@ const mapStateToProps = (state) => {
         username: state.getIn(['login', 'username']),
         authorities: state.getIn(['login', 'authorities']),
         redirectPath: state.getIn(['login', 'previousPath']),
-        errorMsg: state.getIn(['login', 'errorMsg'])
+        errorMsg: state.getIn(['login', 'errorMsg']),
+        captchaId: state.getIn(['login', 'captchaId']),
+        captchaPic: state.getIn(['login', 'captchaPic']),
+        isValid:state.getIn(['login', 'isValid'])
     }
 };
 
 const mapDispatchToProps = (dispatch) => {
 
     return {
+        checkCaptcha(imageId, inputCode) {
+            console.log('input code is'+inputCode);
+
+            //check captcha code
+            axios.post(POST_CAPTCHA_CODE, qs.stringify({
+
+            }), {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                params: {
+                    imageId: imageId,
+                    code: inputCode
+                }
+            }).then((res) => {
+                console.log("res data is" + res.data);
+                const captchaValidAction = {
+                    type: 'captchaValidAction',
+                    isValid: res.data
+                };
+                dispatch(captchaValidAction);
+            });
+
+        },
         clearErrorMsg() {
             const clearErrorMsgAction = {
                 type: 'clearErrorMsgAction',
@@ -159,12 +226,31 @@ const mapDispatchToProps = (dispatch) => {
             };
             dispatch(clearErrorMsgAction);
         },
+        getCaptchaCode() {
+            axios.get(GET_CAPTCHA_CODE_PIC, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: {}, params: {}
+            }).then((res) => {
+                let captchaId = res.data.imageId;
+                let captchaPic = res.data.imageCode;
+                const captchaAction = {
+                    type: 'captchaAction',
+                    captchaId: captchaId,
+                    captchaPic: captchaPic
+                };
+                dispatch(captchaAction);
+            }).catch((e) => {
+            });
+
+
+        },
         userLogin(username, password) {
             //console.log('!!!!!' + username + '!!!' + password);
             const errorMsg = 'Error Username or Password, only support admin to login!';
             let clientAuthorization = btoa('test:test');
             clientAuthorization = 'Basic ' + clientAuthorization;
-
 
             axios.post(GET_TOKEN, qs.stringify({
                 grant_type: 'password',
