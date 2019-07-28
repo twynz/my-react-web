@@ -19,7 +19,8 @@ class Login extends Component {
             password: '',
             isShowModal: true,
             errorMsg: null,
-            captchaInput: null
+            captchaInput: null,
+            isValid: false
         };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -28,8 +29,9 @@ class Login extends Component {
         this.isShowAlert = this.isShowAlert.bind(this);
         this.hideModal = this.hideModal.bind(this);
         this.showCaptchaCode = this.showCaptchaCode.bind(this);
-        this.clickLogin = this.clickLogin.bind(this);
+        this.validCaptcha = this.validCaptcha.bind(this);
         this.handleCaptchaChange = this.handleCaptchaChange.bind(this);
+        this.checkCaptcha = this.checkCaptcha.bind(this);
     }
 
     componentDidMount() {
@@ -94,16 +96,35 @@ class Login extends Component {
         );
     }
 
+    checkCaptcha(imageId, inputCode) {
+        console.log('input code is'+inputCode);
 
-    clickLogin(username, password) {
+        //check captcha code
+       return axios.post(POST_CAPTCHA_CODE, qs.stringify({
+
+        }), {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            params: {
+                imageId: imageId,
+                code: inputCode
+            }
+        }).then((res) => {
+           return res.data;
+        });
+
+    }
+
+
+    validCaptcha() {
         console.log('input is '+this.state.captchaInput);
-        this.props.checkCaptcha(this.props.captchaId,this.state.captchaInput);
-        if(this.props.isValid) {
-            console.log('login');
-            this.props.userLogin(username, password);
-        }else {
-            console.log('captcha error ,input again');
-        }
+        this.checkCaptcha(this.props.captchaId,this.state.captchaInput).then(
+            data => {
+                console.log('set state '+data);
+                this.setState({isValid:data});
+            }
+        );
 
     }
 
@@ -156,7 +177,7 @@ class Login extends Component {
                         {this.showCaptchaCode()}
                         <Button
                             type="submit" variant="outline-primary"
-                            onClick={() => this.clickLogin(this.state.username, this.state.password)}
+                            onClick={this.state.isValid?this.props.userLogin(this.state.username, this.state.password):() => this.validCaptcha()}
                             className="ml-auto sign-in-button">
                             Sign In
                         </Button>
@@ -195,30 +216,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 
     return {
-        checkCaptcha(imageId, inputCode) {
-            console.log('input code is'+inputCode);
-
-            //check captcha code
-            axios.post(POST_CAPTCHA_CODE, qs.stringify({
-
-            }), {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: {
-                    imageId: imageId,
-                    code: inputCode
-                }
-            }).then((res) => {
-                console.log("res data is" + res.data);
-                const captchaValidAction = {
-                    type: 'captchaValidAction',
-                    isValid: res.data
-                };
-                dispatch(captchaValidAction);
-            });
-
-        },
         clearErrorMsg() {
             const clearErrorMsgAction = {
                 type: 'clearErrorMsgAction',
