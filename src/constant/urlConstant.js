@@ -1,4 +1,4 @@
-const AUTH_SERVICE = "http://localhost:10001";
+const AUTH_SERVICE = "http://13.237.125.223:10001";
 const CONTENT_SERVICE = "http://13.236.52.147:80";
 
 export const GET_TOKEN = AUTH_SERVICE+'/oauth/token';
