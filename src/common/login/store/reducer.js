@@ -6,7 +6,10 @@ const s = fromJS({
     username: checkLoginFieldByKey('username'),
     access_token: checkLoginFieldByKey('access_token'),
     previousPath: checkLoginFieldByKey('previousPath'),
-    errorMsg: null
+    errorMsg: null,
+    captchaId: checkLoginFieldByKey('captchaId'),
+    captchaPic:checkLoginFieldByKey('captchaPic'),
+    isValid:false
     //will integrated with OAuth2 futher
     // token: null,
     // refreshToken:null
@@ -28,6 +31,10 @@ function checkLoginFieldByKey(key) {
                 return field;
             case 'errorMsg':
                 return field;
+            case 'captchaId':
+                return field;
+            case 'captchaPic':
+                return field;
             default:
                 return field;
         }
@@ -44,6 +51,10 @@ function checkLoginFieldByKey(key) {
                 return null;
             case 'errorMsg':
                 return null;
+            case 'captchaId':
+                return null;
+            case 'captchaPic':
+                return null;
             default:
                 return null;
         }
@@ -52,9 +63,24 @@ function checkLoginFieldByKey(key) {
 
 
     export default (state = s, action) => {
+
+        if (action.type === 'captchaValidAction') {
+            console.log('in reducer'+action.isValid);
+            return state.merge({
+                isValid: action.isValid
+            });
+        }
+
         if (action.type === 'clearErrorMsgAction') {
             return state.merge({
                 errorMsg: action.errorMsg
+            });
+        }
+
+        if (action.type === 'captchaAction') {
+            return state.merge({
+                captchaId: action.captchaId,
+                captchaPic:action.captchaPic
             });
         }
 
