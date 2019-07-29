@@ -20,7 +20,8 @@ class Login extends Component {
             isShowModal: true,
             errorMsg: null,
             captchaInput: null,
-            isValid: false
+            isValid: false,
+            captchaValid: true
         };
 
         this.onChangeUsername = this.onChangeUsername.bind(this);
@@ -32,6 +33,8 @@ class Login extends Component {
         this.validCaptcha = this.validCaptcha.bind(this);
         this.handleCaptchaChange = this.handleCaptchaChange.bind(this);
         this.checkCaptcha = this.checkCaptcha.bind(this);
+        this.isShowCaptchaError = this.isShowCaptchaError.bind(this);
+        this.loginAction = this.loginAction.bind(this);
     }
 
     componentDidMount() {
@@ -68,6 +71,17 @@ class Login extends Component {
         }
     }
 
+    isShowCaptchaError() {
+        let captchaValid = this.state.captchaValid;
+        if(captchaValid) {
+            return null;
+        }else {
+            return (<Alert variant="danger">
+                "Input invalid captcha code, please try again!"
+            </Alert>);
+        }
+    }
+
     onChangeUsername(event) {
         this.setState({username: event.target.value});
     }
@@ -86,10 +100,12 @@ class Login extends Component {
 
     showCaptchaCode() {
         return (
-            <div>
-                <img src={`data:image/jpeg;base64,${this.props.captchaPic}`} style={{height: 40, width: 110}}/>
+            <div style={{float: "right"}}>
+                <span style={{marginRight:"10px"}}>Please input captcha code:</span>
+                <img style={{padding:"15px"}} src={`data:image/jpeg;base64,${this.props.captchaPic}`} style={{height: 40, width: 110}}/>
 
-                <input type="text" name="captcha" placeholder="Please input captcha..."
+                <input type="text" name="captcha"
+                       style={{marginLeft:"10px",width:"100px"}}
                        onChange={this.handleCaptchaChange}
                 />
             </div>
@@ -97,12 +113,10 @@ class Login extends Component {
     }
 
     checkCaptcha(imageId, inputCode) {
-        console.log('input code is'+inputCode);
+        console.log('input code is' + inputCode);
 
         //check captcha code
-       return axios.post(POST_CAPTCHA_CODE, qs.stringify({
-
-        }), {
+        return axios.post(POST_CAPTCHA_CODE, qs.stringify({}), {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -111,24 +125,27 @@ class Login extends Component {
                 code: inputCode
             }
         }).then((res) => {
-           return res.data;
+            return res.data;
         });
 
     }
 
 
     validCaptcha() {
-        console.log('input is '+this.state.captchaInput);
-        this.checkCaptcha(this.props.captchaId,this.state.captchaInput).then(
+        console.log('input is ' + this.state.captchaInput);
+        this.checkCaptcha(this.props.captchaId, this.state.captchaInput).then(
             data => {
-                console.log('set state '+data);
-                this.setState({isValid:data});
+                console.log('set state ' + data);
+                this.setState({isValid: data,captchaValid: data});
             }
         );
 
     }
 
-
+    loginAction(username, password) {
+        this.setState({isValid: false});
+        this.props.userLogin(username, password);
+    }
 
 
     render() {
@@ -158,11 +175,13 @@ class Login extends Component {
                         className="login-moda-body"
                     >
                         {this.isShowAlert()}
+                        {this.isShowCaptchaError()}
                         <form>
                             <FormGroup controlId="form-username">
                                 <Form.Label>Username</Form.Label>
                                 <FormControl
-                                    type="username" placeholder="Enter Username" onChange={this.onChangeUsername}/>
+                                    type="username" placeholder="Enter Username"
+                                    onChange={this.onChangeUsername}/>
                             </FormGroup>
                             <FormGroup controlId="form-password">
                                 <Form.Label>Password</Form.Label>
@@ -170,21 +189,21 @@ class Login extends Component {
                                              onChange={this.onChangePassword}/>
                             </FormGroup>
                         </form>
+                        {this.showCaptchaCode()}
                     </Modal.Body>
                     <Modal.Footer
                         className="login-moda-footer"
                     >
-                        {this.showCaptchaCode()}
-                        <Button
-                            type="submit" variant="outline-primary"
-                            onClick={this.state.isValid?this.props.userLogin(this.state.username, this.state.password):() => this.validCaptcha()}
-                            className="ml-auto sign-in-button">
-                            Sign In
-                        </Button>
-                        <Button variant="outline-danger" onClick={() => this.hideModal()}
-                                className="mr-auto sign-out-button">
-                            Close
-                        </Button>
+                            <Button
+                                type="submit" variant="outline-primary"
+                                onClick={this.state.isValid ? this.loginAction(this.state.username, this.state.password) : () => this.validCaptcha()}
+                                className="ml-auto sign-in-button">
+                                Sign In
+                            </Button>
+                            <Button variant="outline-danger" onClick={() => this.hideModal()}
+                                    className="mr-auto sign-out-button">
+                                Close
+                            </Button>
                     </Modal.Footer>
                 </Modal>
             );
@@ -196,10 +215,6 @@ class Login extends Component {
     }
 }
 
-function setValueByKeyToSessionStorage(key, value) {
-    sessionStorage.setItem(key, value);
-}
-
 const mapStateToProps = (state) => {
     return {
         isLogined: state.getIn(['login', 'isLogined']),
@@ -209,7 +224,7 @@ const mapStateToProps = (state) => {
         errorMsg: state.getIn(['login', 'errorMsg']),
         captchaId: state.getIn(['login', 'captchaId']),
         captchaPic: state.getIn(['login', 'captchaPic']),
-        isValid:state.getIn(['login', 'isValid'])
+        isValid: state.getIn(['login', 'isValid'])
     }
 };
 
@@ -248,7 +263,6 @@ const mapDispatchToProps = (dispatch) => {
             const errorMsg = 'Error Username or Password, only support admin to login!';
             let clientAuthorization = btoa('test:test');
             clientAuthorization = 'Basic ' + clientAuthorization;
-
             axios.post(GET_TOKEN, qs.stringify({
                 grant_type: 'password',
                 username: username,
