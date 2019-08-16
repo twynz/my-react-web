@@ -1,5 +1,5 @@
 const AUTH_SERVICE = "http://13.237.125.223:10001";
-const CONTENT_SERVICE = "http://13.236.52.147:80";
+const CONTENT_SERVICE = "http://3.104.223.160:80";
 
 export const GET_TOKEN = AUTH_SERVICE+'/oauth/token';
 export const ADD_ARTICLE = CONTENT_SERVICE+'/api/article';
